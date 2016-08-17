@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+/* div.box {
+	border: 5px solid powderblue;
+	margin: 0 auto;
+	width: 600px;
+	text-align: center;
+}
+ */
+table#member_list {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table#member_list td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+table#member_list tr:nth-child(even) {
+	background-color: #dddddd;
+}

@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+#container{
+	width: 100%;
+}
+
+.formbox{
+	padding: 20px;
+	margin: 0 auto;
+    border: 1px solid #999999; 
+    display: block
+}
+
+#databox{
+	float: left;
+	width: 400px;
+	margin-left: 20px;
+	padding: 20px;
+	border: 1px solid #999999;
+}
+
+#name, #height, #weight{
+	width: 200px;
+}
+
+#databox > div{
+	padding: 5px;
+	border-bottom: 1px soild #999999;
+}
