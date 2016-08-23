@@ -5,8 +5,8 @@ package com.hanbit.web.member;
 
 import java.util.List;
 
-import com.hanbit.web.global.CommonService;
 import com.hanbit.web.subject.SubjectMember;
+import com.hanbit.web.util.CommonService;
 
 /**
  * @date   :2016. 6. 17.

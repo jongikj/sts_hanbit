@@ -4,8 +4,6 @@
 	span.meta{width: 200px;background-color:yellow;float: left;text-align: left}
 	div.joinDiv{border:1px dotted gray;width: 80%;margin:10px 50px 10px 50px}	
 </style>
-<jsp:include page="../global/top.jsp"/>
-<jsp:include page="../global/header.jsp"/>
 	<div class="box">
 		<form action="${context}/member.do" method="post">
 			<span class="meta">이름</span><input type="text" name="name"	/><br/>
@@ -34,5 +32,3 @@
 			<input type="reset" value="취소"/>
 		</form>
 	</div>
-<jsp:include page="../global/footer.jsp"/>
-<jsp:include page="../global/end.jsp"/>

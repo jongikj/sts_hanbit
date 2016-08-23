@@ -2,7 +2,7 @@ package com.hanbit.web.bank;
 
 import java.io.Serializable;
 
-import com.hanbit.web.global.Constants;
+import com.hanbit.web.util.Constants;
 
 /**
  * @date   :2016. 6. 16.

@@ -1,4 +1,4 @@
-var grade = (function(){ //함수표현식 !() 과 ()()는 동일하다
+/*var grade = (function(){ //함수표현식 !() 과 ()()는 동일하다
 	return {
 		init : function(){
 			$('#grade_content').addClass('box');
@@ -7,7 +7,7 @@ var grade = (function(){ //함수표현식 !() 과 ()()는 동일하다
 			    .css('width', '300px')
 			    .css('margin', '0 auto')
 			    .css('text-align', 'left');
-			$('#title').css('font-size', '40px');
+			$('#title').css('font-size', '30px');
 			$('#a_regist').click(function(){
 				location.href = "${context}/grade.do?page=regist";
 			});
@@ -33,4 +33,4 @@ var grade = (function(){ //함수표현식 !() 과 ()()는 동일하다
 			});
 		} 
 	};
-})();
+})();*/

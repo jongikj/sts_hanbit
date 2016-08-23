@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hanbit.web.global.Constants;
+import com.hanbit.web.util.Constants;
 
 /**
  * @date   :2016. 7. 1.

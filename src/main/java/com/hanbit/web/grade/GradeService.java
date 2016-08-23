@@ -1,6 +1,6 @@
 package com.hanbit.web.grade;
 
-import com.hanbit.web.global.CommonService;
+import com.hanbit.web.util.CommonService;
 
 public interface GradeService extends CommonService{
 	// 총 7개의 기본패턴

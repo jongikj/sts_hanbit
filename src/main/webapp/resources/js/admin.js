@@ -6,7 +6,7 @@ var admin = (function() {
 		getPass : getPass,
 	    setPass : setPass,
 	    init : function() {
-			document.querySelector('#a_admin').addEventListener('click', this.checkAdmin, false);
+			$('#a_admin').click(function(){});
 		},
 	    checkAdmin : function(){
 	    	setPass(1);

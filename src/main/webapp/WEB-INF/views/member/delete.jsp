@@ -1,13 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<title>탈퇴하기</title>
-	<link rel="stylesheet" href="${css}/global.css" />
-</head>
-<body>
 	<div class="box">
 		<embed src="${img}/banana.gif">
 		<h2>탈퇴하려면 비밀번호를 입력해주세요</h2>
@@ -24,5 +16,3 @@
 			<img src="${img}/home.png" alt="home" style="width: 50px"/>
 		</a>
 	</div>
-</body>
-</html>
