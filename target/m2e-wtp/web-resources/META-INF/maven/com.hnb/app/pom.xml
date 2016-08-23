@@ -35,7 +35,7 @@
 		<mybatis-spring-version>1.1.1</mybatis-spring-version>
 		<commons-fileupload-version>1.2.1</commons-fileupload-version>
 		<commons-io-version>2.4</commons-io-version>
-		<tiles-version>2.2.2</tiles-version>
+		<tiles-version>3.0.5</tiles-version>
 		<commons-el-version>1.0</commons-el-version>
 	</properties>
 	<dependencies>
@@ -269,7 +269,7 @@
 		<!-- tiles -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-core</artifactId>
+			<artifactId>tiles-extras</artifactId>
 			<version>${tiles-version}</version>
 		</dependency>
 		<dependency>
@@ -306,18 +306,18 @@
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>${jdk-version}</source>
-					<target>${jdk-version}</target>
-					<compilerArgument>-Xlint:all</compilerArgument>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-				</configuration>
-			</plugin>
+			 <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>${jdk-version}</source>
+                    <target>${jdk-version}</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
