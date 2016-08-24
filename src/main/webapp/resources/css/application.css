@@ -72,3 +72,73 @@
 .font_bold{font-weight: bold;}
 
 .bg_color_yellow{background-color: yellow}
+
+.center{margin: 0 auto;}
+
+.text_left{text-align: left;}
+
+.remove_underline{text-decoration: none}
+
+.cursor{cursor:pointer}
+
+header{width:100%; height:90px;}
+
+nav{width:100%; height:70px;}
+
+section{width:100%; height:540px;}
+
+footer{width:100%; height:50px;}
+
+.border_red{border:1px solid red}
+
+ #container{
+	width: 100%;
+}
+
+.formbox{
+	padding: 20px;
+	margin: 0 auto;
+    border: 1px solid #999999; 
+    display: block
+}
+
+#databox{
+	float: left;
+	width: 400px;
+	margin-left: 20px;
+	padding: 20px;
+	border: 1px solid #999999;
+}
+
+#name, #height, #weight{
+	width: 200px;
+}
+
+#databox > div{
+	padding: 5px;
+	border-bottom: 1px soild #999999;
+}   
+
+/* div.box {
+	border: 5px solid powderblue;
+	margin: 0 auto;
+	width: 600px;
+	text-align: center;
+}
+ */
+table#member_list {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table#member_list td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+table#member_list tr:nth-child(even) {
+	background-color: #dddddd;
+}
+	

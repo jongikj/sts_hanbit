@@ -1,24 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<style>
-	div.memberClass{font-size: x-large;}
-</style>
-<div id="" class="memberClass box">
-	<h2>회원관리</h2>
-	<div style="width: 300px; margin: 0 auto; text-align: left;">
-		<ol>
-			<li><a id="regist" href="#">회원가입</a></li>
-			<li><a id="detail" href="#">내정보보기</a></li>
-			<li><a id="update" href="#">내정보수정</a></li>
-			<li><a id="delete" href="#">탈퇴</a></li>
-			<li><a id="login" href="#">로그인</a></li>
-			<li><a id="logout" href="#">로그아웃</a></li>
-			<li><a id="list" href="#">리스트</a></li>
-			<li><a id="find_by" href="#">검색</a></li>
-			<li><a id="count" href="#">회원수</a></li>
+<section id="member_content">
+	<h1></h1>
+	<article>
+		<ol id="member_content_ol">
+			<li><a id="regist"></a></li>
+			<li><a id="detail"></a></li>
+			<li><a id="update"></a></li>
+			<li><a id="delete"></a></li>
+			<li><a id="login"></a></li>
+			<li><a id="logout"></a></li>
+			<li><a id="list"></a></li>
+			<li><a id="find_by"></a></li>
+			<li><a id="count"></a></li>
 		</ol>
-	</div>
-
-	<a href="${context}/home.do"> 
-		<img alt="home" src="${img}/home.png" style="width: 30px">
+	</article>
+	<a id="member_content_a_home"> 
+		<img id="member_content_img_home">
 	</a>
-</div>
+</section>
