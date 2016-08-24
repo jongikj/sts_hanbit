@@ -26,10 +26,7 @@
           <tiles:insertAttribute name="header" />
         </div>
       </header>
-        <nav>
-          <tiles:insertAttribute name="menu" />
-        </nav>
-        <section>
+      <section>
         <article>
           <tiles:insertAttribute name="body" />
           </article>
@@ -39,16 +36,7 @@
       </footer>
   </body>
   <script src="${js}/application.js"></script>
-  <script src="${js}/douglas.js"></script>
-  <script src="${js}/resig.js"></script>
-  <script src="${js}/member.js"></script>
-  <script src="${js}/grade.js"></script>
-  <script src="${js}/account.js"></script>
   <script>
   app.init('${context}');
-  member.init();
-  douglas.init();
-  grade.init();
-  account.init();
   </script>
 </html>
