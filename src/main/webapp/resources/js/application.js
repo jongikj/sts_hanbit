@@ -1,58 +1,41 @@
 //var application (function(){})(); IIFE 패턴 
 var app = (function(){
 	var init = function(context) {
-		sessionStorage.setItem('context', context);
-		sessionStorage.setItem('js', context + '/resources/js');
-		sessionStorage.setItem('css', context + '/resources/css');
-		sessionStorage.setItem('img', context + '/resources/img');
-		move();
+		onCreate();
+		session.init(context);
+		member.init();
+		user.init();
+		account.init();
+		kaup.init();
+		grade.init();
+	};
+	var context = function(){return session.getContextPath();};
+	var js = function(){return session.getJavascriptPath('js');};
+	var css = function(){return session.getCssPath('css');};
+	var img = function(){return session.getImagePath('img');};
+	var setContentView = function(){
+		$('footer').addClass('bottom');
 		$('#global_content').addClass('box');
 		$('#global_content a').addClass('cursor');
-		$('#global_content h2').text('서비스를 이용하시려면 회원가입을 하셔야 합니다');
-		$('#global_content_a_regist')
-		.text('SIGN UP')
-		.click(function(){util.move('member', 'regist');});
-		$('#global_content_a_login')
-		.text('LOGIN')
-		.click(function(){util.move('member', 'login');});
-		$('#global_content_a_admin')
-		.text('ADMIN MODE')
-		.click(function(){admin.check()});
+		$('#global_content_a_regist').text('SIGN UP').click(function(){controller.move('member', 'regist');});
+		$('#global_content_a_login').text('LOGIN').click(function(){controller.move('member', 'login');});
+		$('#global_content_a_admin').text('ADMIN MODE').click(function(){admin.check()});
 	};
-	var context = function() {
-		return sessionStorage.getItem('context');
-	};
-	var js = function() {
-		return sessionStorage.getItem('js');
-	};
-	var css = function() {
-		return sessionStorage.getItem('css');
-	};
-	var img = function(){
-		return sessionStorage.getItem('img');
-	};
-	var move = function() {
-		$('#title').click(function(){
-			util.home();
-		});
-		$('#a_member').click(function(){// document.querySelector(#a_member).addEventListener('click', function(){}, false)와 동일
-			util.move('member', 'main');
-		}); 
-		$('#a_grade').click(function(){
-			util.move('grade', 'main');
-		});
-		$('#a_account').click(function(){
-			util.move('account', 'main');
-		});
-		$('#a_school').click(function(){
-			util.move('global', 'school_info');
-		});
+	var onCreate = function() {
+		setContentView();
+		// document.querySelector(#a_member).addEventListener('click', function(){}, false)와 동일
+		$('#title').click(function(){controller.home();});
+		$('#a_member').click(function(){controller.move('member', 'main');}); 
+		$('#a_grade').click(function(){controller.move('grade', 'main');});
+		$('#a_account').click(function(){controller.move('account', 'main');});
+		$('#a_school').click(function(){controller.move('global', 'school_info');});
 	};
 	
 	return {
 		init : init,
 		context : context,
-		move : move,
+		onCreate : onCreate,
+		setContentView : setContentView,
 		img : img,
 		js : js,
 		css : css
@@ -74,7 +57,7 @@ var admin = (function() {
 	    	} else { 
 	    		var password = prompt('관리자 비번을 입력바랍니다.');
 	    		if(password == getPass()){
-	    			location.href = app.context() + '/admin/main';
+	    			controller.move('admin', 'main');
 	    		} else {
 	    			alert('관리자 비번이 틀립니다.');
 	    		}
@@ -83,51 +66,33 @@ var admin = (function() {
 	};
 })();
 
-var util = (function() {
-	var _page, _directory;
-	var setPage = function(page){this._page=page;};
-	var setDirectory = function(directory){this._directory = directory;};
-	var getPage = function(){return this._page;};
-	var getDirectory = function(){return this._directory;};
-	return {
-		setPage : setPage,
-		getPage : getPage,
-		setDirectory : setDirectory,
-		getDirectory : getDirectory,
-		move : function(directory, page){
-			setDirectory(directory);
-			setPage(page);
-			location.href = app.context() + '/' +getDirectory() + '/' + getPage();
-		},
-		isNumber : function(value){
-			return typeof value === 'number' && isFinite(value);
-		},
-		home : function(){location.href = app.context() + '/'}
-	};
-})();
 
-var user = (function(){
-	var context = sessionStorage.getItem('context');
+
+
+var user = (function() {
+	var init = function(){onCreate();};
+	var setContentView = function(){
+		$('#account_content_img_home').attr('src', app.img() + '/home.png').css('width', '50px');
+		$('#account_content').addClass('box').addClass('font_size_20');
+		$('#account_content_a_home').click(function(){controller.home();});
+	};
+	var onCreate = function(){
+		setContentView();
+		$('#bt_bom').click(function() {controller.move('', 'bom');}),  //콜백 함수
+		$('#bt_dom').click(function() {controller.move('', 'dom');}),
+		$('#bt_kaup').click(function() {controller.move('', 'kaup');}),
+		$('#bt_account').click(function() {controller.move('', 'account');})
+		$('#acc_regist').click(function(){controller.move('account', 'regist');});
+		$('#acc_deposit').click(function(){controller.move('account', 'deposit');});
+		$('#acc_withdraw').click(function(){controller.move('account', 'withdraw');});
+		$('#acc_update').click(function(){controller.move('account', 'update');});
+		$('#acc_delete').click(function(){controller.move('account', 'delete');});
+		$('#acc_list').click(function(){controller.move('account', 'list');});
+		$('#acc_search').click(function(){controller.move('account', 'search');});
+		$('#acc_count').click(function(){controller.move('account', 'count');});
+	};
 	return{
-		init : function() {
-		    $('#bt_bom').click(function() {move(context, 'bom');}),  //콜백 함수
-			$('#bt_dom').click(function() {move(context, 'dom');}),
-			$('#bt_kaup').click(function() {move(context, 'kaup');}),
-			$('#bt_account').click(function() {move(context, 'account');})
-		},
-		account : function(){
-			$('#acc_regist').click(function(){location.href = app.context() + "/account/regist"});
-			$('#acc_deposit').click(function(){location.href = app.context() + "/account/deposit"});
-			$('#acc_withdraw').click(function(){location.href = app.context() + "/account/withdraw"});
-			$('#acc_update').click(function(){location.href = app.context() + "/account/update"});
-			$('#acc_delete').click(function(){location.href = app.context() + "/account/delete"});
-			$('#acc_list').click(function(){location.href = app.context() + "/account/list"});
-			$('#acc_search').click(function(){location.href = app.context() + "/account/search"});
-			$('#acc_count').click(function(){location.href = app.context() + "/account/count"});
-			$('#account_content_img_home').attr('src', app.img() + '/home.png').css('width', '50px');
-			$('#account_content_a_home').click(function(){location.href = app.context() + "/"});
-			$('#account_content').addClass('box').addClass('font_size_20');
-		}
+		init : init
 	};
 })();
 
@@ -137,17 +102,21 @@ var account = (function(){
 	var getAccountNo = function(){return this._account_no;};
 	var setMoney = function(money){this._money=money;};
 	var getMoney = function(){return this._money;};
+	var init = function(){onCreate();};
+	var setContentView = function(){};
+	var onCreate = function(){
+		setContentView()
+		$('#bt_spec_show').click(member.spec());
+		$('#bt_make_account').click(this.spec());
+		$('#bt_deposit').click(this.deposit());
+		$('#bt_withdraw').click(this.withdraw());
+	};
 	return {
 		setAccountNo : setAccountNo,
 		getAccountNo : getAccountNo,
 		setMoney : setMoney,
 		getMoney : getMoney,
-		init : function() {
-			$('#bt_spec_show').click(member.spec());
-			$('#bt_make_account').click(this.spec());
-			$('#bt_deposit').click(this.deposit());
-			$('#bt_withdraw').click(this.withdraw());
-		},
+		init : init,
 		spec : function (){ 
             setAccountNo(Math.floor(Math.random() * 899999) + 100000);
 			setMoney(0);
@@ -203,6 +172,48 @@ var member = (function() {
 	var getGender = function(){return this._gender;}
 	var getName = function(){return this._name;}
 	var getSsn = function(){return this._ssn;}
+	var init = function(){onCreate();};
+	var setContentView = function(){
+		$('#member_content_img_home').attr('alt', 'home').attr('src', app.img() + '/home.png').css('width', '50px');
+		$('#member_content_a_home').click(function(){controller.home();});
+		$('#member_content').addClass('box').css('font-size', '20px');
+		$('#member_content > article').css('width', '300px').addClass('center').addClass('text_left');
+		$('#member_content  a').css('font-size', '17px').addClass('cursor');
+		$('#member_content > h1').text('MEMBER MGMT');
+		$('#member_content_ol > li > a').addClass('remove_underline');
+		$('#member_content_ol > li:first > a').text('SIGN UP');
+		$('#member_content_ol > li:nth(1) > a').text('내정보보기');
+		$('#member_content_ol > li:nth(2) > a').text('내정보수정');
+		$('#member_content_ol > li:nth(3) > a').text('탈퇴');
+		$('#member_content_ol > li:nth(4) > a').text('로그인');
+		$('#member_content_ol > li:nth(5) > a').text('로그아웃');
+		$('#member_content_ol > li:nth(6) > a').text('리스트');
+		$('#member_content_ol > li:nth(7) > a').text('검색');
+		$('#member_content_ol > li:nth(8) > a').text('회원수');
+		$('#member_regist').addClass('box');
+		$('#member_regist #bt_join').addClass('btn').addClass('btn-primary');
+		$('#member_regist #bt_cancel').addClass('btn').addClass('btn-danger');
+		$('#member_regist_form').addClass('form-horizontal');
+		$('#member_regist_form > div').addClass('form-group').addClass('form-group-lg');
+		$('#member_regist_form > div > label').addClass('col-sm-2').addClass('control-label');
+		$('#member_regist_form > div > div').addClass('col-sm-10');
+		$('#member_regist_form > div > div > input').addClass('form-control');
+		$('#member_regist #rd_major > label:gt(2)').addClass('radio-inline');
+		$('#member_regist #ck_subject').addClass('checkbox');
+		$('#member_regist #ck_subject > label').addClass('checkbox-inline');
+	};
+	var onCreate = function(){
+		setContentView();
+		$('#regist').click(function(){controller.move('member', 'regist');});
+		$('#detail').click(function(){controller.move('member', 'detail');});
+		$('#update').click(function(){controller.move('member', 'update');});
+		$('#delete').click(function(){controller.move('member', 'delete');});
+		$('#login').click(function(){controller.move('member', 'login');});
+		$('#logout').click(function(){controller.move('member', 'logout');});
+		$('#list').click(function(){controller.move('member', 'list');});
+		$('#find_by').click(function(){controller.move('member', 'find_by');});
+		$('#count').click(function(){controller.move('member', 'count');});
+	};
 	return {
 		setSSN : setSsn,
 		setName : setName,
@@ -212,6 +223,7 @@ var member = (function() {
 		getAge : getAge,
 		getSSN : getSsn,
 		getGender : getGender,
+		init : init,
 		spec : function() {
 			setName(document.querySelector('#name').value);
 			setSsn(document.querySelector('#ssn').value);
@@ -253,10 +265,14 @@ var member = (function() {
 })();
 
 var kaup = (function() {
+	var init = function(){onCreate();};
+	var setContentView = function(){};
+	var onCreate = function(){
+		setContentView();
+		document.querySelector('#kaup_calc').addEventListener('click', this.calc, false);
+	};
 	return {
-		init : function() {
-		    document.querySelector('#kaup_calc').addEventListener('click', this.calc, false);
-		},
+		init : init,
 		go : function() {
 			location.href = getContext() + '/douglas.do?page=kaup';
 		},
@@ -290,82 +306,80 @@ var kaup = (function() {
 })();
 
 var grade = (function(){
+	var init = function(){onCreate();};
+	var setContentView = function(){
+		$('#grade_content_img_home').attr('src', app.img() + '/home.png').css('width', '50px');
+		$('#grade_content_a_home').click(function(){controller.home();});
+		$('#grade_content').addClass('box').addClass('font_size_20');
+		$('#grade_content').addClass('box');
+		$('#img_home').css('width', '40px');
+		$('#grade_content > article').css('width', '300px').css('margin', '0 auto').css('text-align', 'left');
+		$('#title').css('font-size', '30px');
+	};
+	var onCreate = function(){
+		setContentView();
+		$('#grade_count').click(function(){controller.move('grade', 'count');});
+		$('#grade_delete').click(function(){controller.move('grade', 'delete');});
+		$('#grade_list').click(function(){controller.move('grade', 'list');});
+		$('#grade_regist').click(function(){controller.move('grade', 'regist');});
+		$('#grade_search').click(function(){controller.move('grade', 'search');});
+		$('#grade_update').click(function(){controller.move('grade', 'update');});
+		$('#a_regist').click(function(){location.href = "${context}/grade.do?page=regist";});
+		$('#a_update').click(function() {location.href = "${context}/grade.do?page=update";});
+		$('#a_delete').click(function() {location.href = "${context}/grade.do?page=delete";});
+		$('#a_list').click(function() {location.href = "${context}/grade.do?page=list";});
+		$('#a_count').click(function() {location.href = "${context}/grade.do?page=count";});
+		$('#a_find').click(function() {location.href = "${context}/grade.do?page=search";});
+	};
 	return {
-		init : function(){
-			$('#grade_count').click(function(){location.href = app.context() + "/grade/count"});
-			$('#grade_delete').click(function(){location.href = app.context() + "/grade/delete"});
-			$('#grade_list').click(function(){location.href = app.context() + "/grade/list"});
-			$('#grade_regist').click(function(){location.href = app.context() + "/grade/regist"});
-			$('#grade_search').click(function(){location.href = app.context() + "/grade/search"});
-			$('#grade_update').click(function(){location.href = app.context() + "/grade/update"});
-			$('#grade_content_img_home').attr('src', app.img() + '/home.png').css('width', '50px');
-			$('#grade_content_a_home').click(function(){location.href = app.context() + "/"});
-			$('#grade_content').addClass('box').addClass('font_size_20');
+		init : init,
+	};
+})();
+
+var session = (function() {
+	var init = function(context){
+		sessionStorage.setItem('context', context);
+		sessionStorage.setItem('js', context + '/resources/js');
+		sessionStorage.setItem('css', context + '/resources/css');
+		sessionStorage.setItem('img', context + '/resources/img');
+	};
+	var getContextPath = function(){return sessionStorage.getItem('context');};
+	var getJavascriptPath = function(){return sessionStorage.getItem('js');};
+	var getCssPath = function(){return sessionStorage.getItem('js');};
+	var getImagePath = function(){return sessionStorage.getItem('img');};
+	return {
+		init : init,
+		getContextPath : getContextPath,
+		getJavascriptPath : getJavascriptPath,
+		getCssPath : getCssPath,
+		getImagePath : getImagePath
+	};
+})();
+
+var util = (function(){
+	return {
+		isNumber : function(value){
+			return typeof value === 'number' && isFinite(value);
+		}		
+	};
+})();
+
+var controller = (function() {
+	var _page, _directory;
+	var setPage = function(page){this._page=page;};
+	var setDirectory = function(directory){this._directory = directory;};
+	var getPage = function(){return this._page;};
+	var getDirectory = function(){return this._directory;};
+	return {
+		setPage : setPage,
+		getPage : getPage,
+		setDirectory : setDirectory,
+		getDirectory : getDirectory,
+		move : function(directory, page){
+			setDirectory(directory);
+			setPage(page);
+			location.href = app.context() + '/' +getDirectory() + '/' + getPage();
 		},
-		init2 : function(){
-			$('#grade_content').addClass('box');
-			$('#img_home').css('width', '40px');
-			$('#grade_content > article')
-			    .css('width', '300px')
-			    .css('margin', '0 auto')
-			    .css('text-align', 'left');
-			$('#title').css('font-size', '30px');
-			$('#a_regist').click(function(){
-				location.href = "${context}/grade.do?page=regist";
-			});
-			
-			$('#a_update').click(function() {
-				location.href = "${context}/grade.do?page=update";
-			});
-			
-			$('#a_delete').click(function() {
-				location.href = "${context}/grade.do?page=delete";
-			});
-			
-			$('#a_list').click(function() {
-				location.href = "${context}/grade.do?page=list";
-			});
-			
-			$('#a_count').click(function() {
-				location.href = "${context}/grade.do?page=count";
-			});
-			
-			$('#a_find').click(function() {
-				location.href = "${context}/grade.do?page=search";
-			});
-		} 
+		home : function(){location.href = app.context() + '/'}
 	};
 })();
-
-var member = (function(){
-	return {
-		init : function(){
-			$('#regist').click(function(){location.href = app.context() + "/member/regist"});
-			$('#detail').click(function(){location.href = app.context() + "/member/detail"});
-			$('#update').click(function(){location.href = app.context() + "/member/update"});
-			$('#delete').click(function(){location.href = app.context() + "/member/delete"});
-			$('#login').click(function(){location.href = app.context() + "/member/login"});
-			$('#logout').click(function(){location.href = app.context() + "/member/logout"});
-			$('#list').click(function(){location.href = app.context() + "/member/list"});
-			$('#find_by').click(function(){location.href = app.context() + "/member/find_by"});
-			$('#count').click(function(){location.href = app.context() + "/member/count"});
-			$('#member_content_img_home').attr('alt', 'home').attr('src', app.img() + '/home.png').css('width', '50px');
-			$('#member_content_a_home').click(function(){location.href = app.context() + "/"});
-			$('#member_content').addClass('box').css('font-size', '20px');
-			$('#member_content > article').css('width', '300px').addClass('center').addClass('text_left');
-			$('#member_content  a').css('font-size', '17px').addClass('cursor');
-			$('#member_content > h1').text('MEMBER MGMT');
-			$('#member_content_ol > li > a').addClass('remove_underline');
-			$('#member_content_ol > li:first > a').text('SIGN UP');
-			$('#member_content_ol > li:nth(1) > a').text('내정보보기');
-			$('#member_content_ol > li:nth(2) > a').text('내정보수정');
-			$('#member_content_ol > li:nth(3) > a').text('탈퇴');
-			$('#member_content_ol > li:nth(4) > a').text('로그인');
-			$('#member_content_ol > li:nth(5) > a').text('로그아웃');
-			$('#member_content_ol > li:nth(6) > a').text('리스트');
-			$('#member_content_ol > li:nth(7) > a').text('검색');
-			$('#member_content_ol > li:nth(8) > a').text('회원수');
-		}
-	};
-})();
-
