@@ -5,8 +5,9 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Document</title>
+	<link rel="stylesheet" href="${css}/global.css" />
 </head>
 <body>
-	
+	<img src="${img}/images.jpg" alt="" />
 </body>
 </html>

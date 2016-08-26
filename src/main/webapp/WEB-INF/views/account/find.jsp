@@ -5,8 +5,8 @@
 		<div class="col-lg-6" style="width: 100%">
 		<select style='width:100px;height:30px'>
   			<option value="id">ID</option>
+  			<option value="account_no">ACCOUNT NO</option>
   			<option value="name">NAME</option>
-  			<option value="gender">GENDER</option>
 		</select>
      	<input type="text" class="form-control" placeholder="Search"/>
     	<input type="hidden" name="action" value="find_by_id" />

@@ -13,7 +13,7 @@ public class GradeController {
 	@RequestMapping("/main")
 	public String moveMain() {
 		logger.info("GradeController! moveMain()..");
-		return "grade/content.tiles";
+		return "admin:grade/content.tiles";
 	}
 	
 	@RequestMapping("/count")

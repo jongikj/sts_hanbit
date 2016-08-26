@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="box">
-	<form action="${context}/member.do" method="post">
-		<span class="meta">ID</span><input type="text" name="id" /><br /> 
-		<span class="meta">비밀번호</span><input type="password" name="pw" /><br /> <br />
-		<br /><br />
-		<input type="hidden" name="action" value="login"/>
-		<input type="submit" value="로그인" /> 
-		<input type="reset" value="취소" />
-	</form>
+<form class="form-signin">
+  <h2 class="form-signin-heading">Please sign in</h2>
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input type="email" id="inputEmail" class="form-control" placeholder="User ID" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+</form>
 </div>

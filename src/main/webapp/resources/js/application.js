@@ -1,20 +1,23 @@
 //var application (function(){})(); IIFE 패턴 
 var app = (function(){
 	var init = function(context) {
-		onCreate();
 		session.init(context);
+		onCreate();
 		member.init();
 		user.init();
+		admin.init();
 		account.init();
 		kaup.init();
 		grade.init();
+		nav.init();
 	};
 	var context = function(){return session.getContextPath();};
 	var js = function(){return session.getJavascriptPath('js');};
 	var css = function(){return session.getCssPath('css');};
 	var img = function(){return session.getImagePath('img');};
 	var setContentView = function(){
-		$('footer').addClass('bottom');
+		$('#footer').addClass('bottom').addClass('footer');
+		$('#header_brand').attr('src', app.img() + '/water_moon.jpg').css('width', '80').css('height', '49');
 		$('#global_content').addClass('box');
 		$('#global_content a').addClass('cursor');
 		$('#global_content_a_regist').text('SIGN UP').click(function(){controller.move('member', 'regist');});
@@ -43,10 +46,31 @@ var app = (function(){
 })();
 
 var admin = (function() {
+	var init = function(){onCreate();};
+	var setContentView = function(){
+		$('#admin_content #member_img').attr('src', app.img() + '/member_mgmt.png').css('width', '420').css('height', '370');
+		$('#admin_content #grade_img').attr('src', app.img() + '/grade_mgmt.jpg').css('width', '420').css('height', '370');
+		$('#admin_content #acc_img').attr('src', app.img() + '/acc_mgmt.jpg').css('width', '420').css('height', '370');
+		$('#admin_content h3').addClass('text_center');
+	};
+	var onCreate = function(){
+		setContentView();
+		$('#admin_nav #member_mgmt #list').click(function(){controller.move('member', 'list');});
+		$('#admin_nav #member_mgmt #find_by').click(function(){controller.move('member', 'find_by');});
+		$('#admin_nav #member_mgmt #count').click(function(){controller.move('member', 'count');});
+		$('#admin_nav #acc_mgmt #list').click(function(){controller.move('account', 'list');});
+		$('#admin_nav #acc_mgmt #open').click(function(){controller.move('account', 'open');});
+		$('#admin_nav #acc_mgmt #delete').click(function(){controller.move('account', 'delete');});
+		$('#admin_nav #acc_mgmt #find').click(function(){controller.move('account', 'find');});
+		$('#admin_nav #acc_mgmt #count').click(function(){controller.move('account', 'count');});
+	};
 	var _pass;
 	var getPass = function(){return this._pass;};
 	var setPass = function(pass){this._pass = pass;};
 	return {
+		init : init,
+		setContentView : setContentView,
+		onCreate : onCreate,
 		getPass : getPass,
 	    setPass : setPass,
 	    check : function(){
@@ -65,9 +89,6 @@ var admin = (function() {
 	    }
 	};
 })();
-
-
-
 
 var user = (function() {
 	var init = function(){onCreate();};
@@ -383,3 +404,24 @@ var controller = (function() {
 		home : function(){location.href = app.context() + '/'}
 	};
 })();
+
+var nav = (function(){
+	var init = function(){onCreate();};
+	var setContentView = function(){
+		$('#nav ul').addClass('list_style_none').addClass('over_hidden').addClass('bg_color_black').css('margin', '0').css('padding', '0');
+		$('#nav li').addClass('float_left').addClass('display_inline').css('border-right', '1px').css('solid', '#bbb');
+		$('#nav li:last-child').css('border-right', 'none');
+		$('#nav li a').addClass('display_block').addClass('text_decoration_none').css('color', 'white').css('text-align', 'center').css('padding', '14px').css('padding', '16px');
+		$('#nav li a:hover:not(.active)').addClass('bg_color_black');
+		$('#nav .active').addClass('active');
+	};
+	var onCreate = function(){
+		setContentView();
+	};
+	return {
+		init : init,
+		setContentView : setContentView,
+		onCreate : onCreate
+	};
+})();
+

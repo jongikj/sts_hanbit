@@ -15,7 +15,7 @@ public class MemberController {
 	@RequestMapping("/main")
 	public String moveMain() {
 		logger.info("MemberController! moveMain()..");
-		return "member/content.tiles";
+		return "admin:member/content.tiles";
 	}
 	
 	@RequestMapping("/regist")
@@ -57,18 +57,18 @@ public class MemberController {
 	@RequestMapping("/list")
 	public String moveList() {
 		logger.info("MemberController! moveList()");
-		return "member/list.tiles";
+		return "admin:member/list.tiles";
 	}
 
 	@RequestMapping("/find_by")
 	public String moveFindBy() {
 		logger.info("MemberController! moveFindBy()");
-		return "member/find_by.tiles";
+		return "admin:member/find_by.tiles";
 	}
 
 	@RequestMapping("/count")
 	public String moveCount() {
 		logger.info("MemberController! moveCount()");
-		return "member/count.tiles";
+		return "admin:member/count.tiles";
 	}
 }
