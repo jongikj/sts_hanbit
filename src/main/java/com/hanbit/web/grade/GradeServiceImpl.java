@@ -15,7 +15,7 @@ public class GradeServiceImpl implements GradeService {
 	}
 
 	@Override
-	public String insert(GradeBean bean) {
+	public String insert(GradeVO bean) {
 		String msg = "";
 		if (dao.insert(bean) == 1){
 			msg = "추가성공";
@@ -26,7 +26,7 @@ public class GradeServiceImpl implements GradeService {
 	}
 
 	@Override
-	public String update(String seq, String sub, GradeBean bean) {
+	public String update(String seq, String sub, GradeVO bean) {
 		String msg = "";
 		if (dao.update(seq, sub, bean) == 1) {
 			msg = "수정완료";
@@ -48,7 +48,7 @@ public class GradeServiceImpl implements GradeService {
 	}
 
 	@Override
-	public GradeBean findBySeq(String seq) {
+	public GradeVO findBySeq(String seq) {
 		return dao.findBySeq(seq);
 	}
 	
@@ -60,7 +60,7 @@ public class GradeServiceImpl implements GradeService {
 
 	@Override
 	public List<?> findBy(String id) {
-		List<?> list = new ArrayList<GradeBean>();
+		List<?> list = new ArrayList<GradeVO>();
 		list = dao.findById(id);
 		return list;
 	}

@@ -10,16 +10,16 @@ import java.util.Date;
  * @file   :Student.java
  * @story  :
 */
-public class MemberBean implements Serializable{
+public class MemberVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private String id, pw, name, regDate, gender, ssn, profileImg, email, phone;
 	private int birth;
 	
-	public MemberBean() {
+	public MemberVO() {
 	}
 	
-	public MemberBean(String name, String id, String pw, String ssn) {
+	public MemberVO(String name, String id, String pw, String ssn) {
 		this.name = name;
 		this.id = id;
 		this.pw = pw;

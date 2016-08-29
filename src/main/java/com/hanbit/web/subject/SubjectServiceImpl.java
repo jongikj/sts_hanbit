@@ -8,7 +8,7 @@ package com.hanbit.web.subject;
 */
 public class SubjectServiceImpl implements SubjectService{
 	private static SubjectService instance = new SubjectServiceImpl();
-	SubjectDAO dao = SubjectDAO.getInstance();
+	SubjectVO dao = SubjectVO.getInstance();
 	
 	private SubjectServiceImpl() {}
 	

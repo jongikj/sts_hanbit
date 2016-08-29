@@ -19,11 +19,11 @@ public interface AccountService extends CommonService {
 	// 3.출금
 	public String withdraw(String withdraw);
 	// UPDATE : 4.수정 .. 사용자의 요청에 의해 비번만 전환가능
-	public String updateAccount(AccountBean bean);
+	public String updateAccount(AccountVO bean);
 	// 5.해지
 	public String deleteAccount(int accountNo);
 	// READ : 7.조회 (계좌번호)
-	public AccountBean findByAccountNo(int searchAcc);
+	public AccountVO findByAccountNo(int searchAcc);
 	// 필요에 따라 생성하는 메소드
 	public int restMoney(int accountNo);
 }

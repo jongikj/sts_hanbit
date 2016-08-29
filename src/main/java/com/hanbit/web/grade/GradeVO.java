@@ -2,14 +2,14 @@ package com.hanbit.web.grade;
 
 import java.io.Serializable;
 
-public class GradeBean implements Serializable{
+public class GradeVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String id, grade, seq, examDate, subject, major;
 	private int java, sql, html, javascript, score;
 	
-	public GradeBean() {}
+	public GradeVO() {}
 	
-	public GradeBean(String seq, String grade, int java, int sql, int html, int javascript, String id, String examDate) {
+	public GradeVO(String seq, String grade, int java, int sql, int html, int javascript, String id, String examDate) {
 		this.seq = seq;
 		this.grade = grade;
 		this.java = java;

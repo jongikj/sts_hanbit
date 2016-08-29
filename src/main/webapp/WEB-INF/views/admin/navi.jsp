@@ -15,12 +15,12 @@
       성적관리 <span class="caret"></span>
     </a>
     <ul id="grade_mgmt" class="dropdown-menu">
-		<li><a href="#" id="grade_regist">등록</a></li>
-		<li><a href="#" id="grade_update">수정</a></li>
-		<li><a href="#" id="grade_delete">삭제</a></li>
-		<li><a href="#" id="grade_list">목록</a></li>
-		<li><a href="#" id="grade_count">카운트</a></li>
-		<li><a href="#" id="grade_search">검색</a></li>
+		<li><a href="#" id="grade_regist"><span style="cursor:pointer">등록</span></a></li>
+		<li><a href="#" id="grade_update"><span style="cursor:pointer">수정</span></a></li>
+		<li><a href="#" id="grade_delete"><span style="cursor:pointer">삭제</span></a></li>
+		<li><a href="#" id="grade_list"><span style="cursor:pointer">목록</span></a></li>
+		<li><a href="#" id="grade_count"><span style="cursor:pointer">카운트</span></a></li>
+		<li><a href="#" id="grade_search"><span style="cursor:pointer">검색</span></a></li>
     </ul>
   </li>
   <li role="presentation" class="dropdown">
@@ -28,9 +28,9 @@
       계좌관리 <span class="caret"></span>
     </a>
     <ul id="acc_mgmt" class="dropdown-menu">
-		<li><a id="list">목록</a></li>
-		<li><a id="find">조회</a></li>
-		<li><a id="count">통장수</a></li>
+		<li><a id="list"><span style="cursor:pointer">목록</span></a></li>
+		<li><a id="find"><span style="cursor:pointer">조회</span></a></li>
+		<li><a id="count"><span style="cursor:pointer">통장수</span></a></li>
     </ul>
   </li>
 </ul>

@@ -32,7 +32,7 @@ public class AccountDAO {
 		return instance;
 	}
 
-	public int insertAccount(AccountBean bean) {
+	public int insertAccount(AccountVO bean) {
 		int result = 0;
 		String sql = "insert into account (account_no, id, money) values (?, ?, ?)";
 		
@@ -50,7 +50,7 @@ public class AccountDAO {
 		return result;
 	}
 
-	public void deposit(AccountBean bean) {
+	public void deposit(AccountVO bean) {
 		String sql = "update account set money = ? where account_no = ?";
 		
 		try {
@@ -65,11 +65,11 @@ public class AccountDAO {
 		}
 	}
 	
-	public void withdraw(AccountBean bean) {
+	public void withdraw(AccountVO bean) {
 		this.deposit(bean);
 	}
 
-	public int updateAccount(AccountBean bean) {
+	public int updateAccount(AccountVO bean) {
 		int result = 0;
 		String sql = "update member set pw = ? where id = ?";
 		
@@ -103,7 +103,7 @@ public class AccountDAO {
 	}
 
 	public List<?> selectAll() {
-		List<AccountMemberBean> list = new ArrayList<AccountMemberBean>();
+		List<AccountMemberVO> list = new ArrayList<AccountMemberVO>();
 		String sql = "select "
 				+ "account_no as acc,"
 				+ "id as id,"
@@ -117,7 +117,7 @@ public class AccountDAO {
 			pstmt = con.prepareStatement(sql);
  			rs = pstmt.executeQuery(); 
  			while (rs.next()){
- 				AccountMemberBean bean = new AccountMemberBean();
+ 				AccountMemberVO bean = new AccountMemberVO();
  				bean.setAccountNo(rs.getInt("ACC"));
  				bean.setId(rs.getString("ID"));
  				bean.setName(rs.getString("NAME"));
@@ -132,8 +132,8 @@ public class AccountDAO {
 		return list;
 	}
 	
-	public AccountBean findByAccountNo(int searchAcc) {
-		AccountBean bean = null;
+	public AccountVO findByAccountNo(int searchAcc) {
+		AccountVO bean = null;
 		String sql = "select * from account_member where account_no = ?";
 		
 		try {
@@ -142,7 +142,7 @@ public class AccountDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()){
-				bean = new AccountBean(
+				bean = new AccountVO(
 						rs.getInt("ACCOUNT_NO"),
 						rs.getInt("MONEY"),
 						rs.getString("ID"),
@@ -159,7 +159,7 @@ public class AccountDAO {
 	}
 
 	public List<?> findByName(String name) {
-		List<AccountBean> list = new ArrayList<AccountBean>();
+		List<AccountVO> list = new ArrayList<AccountVO>();
 		String sql = "select * from account_member where name = ?";
 
 		try {
@@ -168,7 +168,7 @@ public class AccountDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				AccountBean bean = new AccountBean();
+				AccountVO bean = new AccountVO();
 				bean.setAccountNo(rs.getInt("ACCOUNT_NO"));
 				bean.setMoney(rs.getInt("MONEY"));
 				bean.setId(rs.getString("ID"));
@@ -224,13 +224,13 @@ public class AccountDAO {
 	}
 
 	public Map<?, ?> selectMap() {
-		Map<String, AccountMemberBean> map = new HashMap<String, AccountMemberBean>();
+		Map<String, AccountMemberVO> map = new HashMap<String, AccountMemberVO>();
 		String sql = "select * from account_member";
 		try {
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
-				AccountMemberBean bean = new AccountMemberBean();
+				AccountMemberVO bean = new AccountMemberVO();
 				bean.setAccountNo(rs.getInt("ACCOUNT_NO"));
 				bean.setId(rs.getString("ID"));
 				bean.setMoney(rs.getInt("MONEY"));

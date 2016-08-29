@@ -31,8 +31,8 @@
 		<oracle-driver-version>12.1.0.1</oracle-driver-version>
 		<mysql-version>5.1.6</mysql-version>
 		<mail-version>1.4</mail-version>
-		<mybatis-version>3.2.7</mybatis-version>
-		<mybatis-spring-version>1.1.1</mybatis-spring-version>
+		<mybatis-version>3.4.1</mybatis-version>
+		<mybatis-spring-version>1.2.2</mybatis-spring-version>
 		<commons-fileupload-version>1.2.1</commons-fileupload-version>
 		<commons-io-version>2.4</commons-io-version>
 		<tiles-version>3.0.5</tiles-version>
@@ -80,6 +80,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
 

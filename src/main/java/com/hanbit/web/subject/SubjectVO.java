@@ -15,14 +15,14 @@ import com.hanbit.web.util.Constants;
  * @file   :SubjectDAO.java
  * @story  :
 */
-public class SubjectDAO {
+public class SubjectVO {
 	Connection con;
 	Statement stmt;
 	PreparedStatement pstmt;
 	ResultSet rs;
-	private static SubjectDAO instance = new SubjectDAO();
+	private static SubjectVO instance = new SubjectVO();
 	
-	private SubjectDAO() {
+	private SubjectVO() {
 		try {
 			Class.forName(Constants.ORACLE_DRIVER);
 			con = DriverManager.getConnection(
@@ -35,7 +35,7 @@ public class SubjectDAO {
 		}
 	}
 
-	public static SubjectDAO getInstance() {
+	public static SubjectVO getInstance() {
 		return instance;
 	}
 	

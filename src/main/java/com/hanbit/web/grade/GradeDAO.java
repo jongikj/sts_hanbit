@@ -37,7 +37,7 @@ public class GradeDAO {
 				Constants.USER_PW).getConnection();
 	}
 	
-	public int insert(GradeBean bean){
+	public int insert(GradeVO bean){
 		int result = 0;
 		String sql = "insert into grade(seq, grade, java, sql, html, javascript, id, exam_date) "
 				+ "values(seq.nextval, ?, ?, ?, ?, ?, ?, ?)"; //첫번째 물음표 인덱스는 1번임 0이 아니라
@@ -59,7 +59,7 @@ public class GradeDAO {
 		return result;
 	}
 
-	public int update(String seq, String sub, GradeBean bean) {
+	public int update(String seq, String sub, GradeVO bean) {
 		int result = 0;
 		String sql = "update grade set java = ?, sql = ?, html = ?, javascript = ? where seq = ?";
 		
@@ -95,7 +95,7 @@ public class GradeDAO {
 	}	
 	
 	public List<?> list(){
-		List<GradeBean> list = new ArrayList<GradeBean>();
+		List<GradeVO> list = new ArrayList<GradeVO>();
 		String sql = "select * from grade";
 		
 		try {
@@ -103,7 +103,7 @@ public class GradeDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
-				GradeBean bean = new GradeBean();
+				GradeVO bean = new GradeVO();
 				bean.setSeq(String.valueOf(rs.getInt("SEQ")));
 				bean.setId(rs.getString("ID"));
 				bean.setExamDate(rs.getString("EXAM_DATE"));
@@ -121,8 +121,8 @@ public class GradeDAO {
 		return list;
 	}
 	
-	public GradeBean findBySeq(String seq){
-		GradeBean bean = null;
+	public GradeVO findBySeq(String seq){
+		GradeVO bean = null;
 		String sql = "select * from grade where seq = ?";
 		
 		try {
@@ -131,7 +131,7 @@ public class GradeDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
-				bean = new GradeBean(
+				bean = new GradeVO(
 						rs.getString("SEQ"),
 						rs.getString("GRADE"),
 						rs.getInt("JAVA"),
@@ -149,7 +149,7 @@ public class GradeDAO {
 	}
 	
 	public List<?> findById(String id){
-		List<GradeBean> list = new ArrayList<GradeBean>();
+		List<GradeVO> list = new ArrayList<GradeVO>();
 		String sql = "select * from grade where id = ?";
 		
 		try {
@@ -158,7 +158,7 @@ public class GradeDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
-				GradeBean bean = new GradeBean(
+				GradeVO bean = new GradeVO(
 						rs.getString("SEQ"),
 						rs.getString("GRADE"),
 						rs.getInt("JAVA"),

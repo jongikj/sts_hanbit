@@ -23,12 +23,12 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	private AccountServiceImpl() {
-		map = new HashMap<String, AccountMemberBean>();
+		map = new HashMap<String, AccountMemberVO>();
 	}
 	
 	@Override
 	public String openAccount(String id) {
-		AccountBean bean = new AccountBean();
+		AccountVO bean = new AccountVO();
 		String msg = "";
 		bean.setAccountNo();
 		bean.setId(id);
@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void deposit(String deposit) {
 		String[] arr = deposit.split(",");
-		AccountBean bean = new AccountBean();
+		AccountVO bean = new AccountVO();
 		bean.setAccountNo(Integer.parseInt(arr[0]));
 		int money = this.restMoney(Integer.parseInt(arr[0])) + Integer.parseInt(arr[1]);
 		bean.setMoney(money);
@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
 	public String withdraw(String withdraw) {
 		String result = "";
 		String[] arr = withdraw.split(",");
-		AccountBean bean = new AccountBean();
+		AccountVO bean = new AccountVO();
 		bean.setAccountNo(Integer.parseInt(arr[0]));
 		int restMoney = this.restMoney(Integer.parseInt(arr[0]));
 		int withdrawMoney = Integer.parseInt(arr[1]);
@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public String updateAccount(AccountBean bean) {
+	public String updateAccount(AccountVO bean) {
 		String msg = "";
 
 		if (dao.updateAccount(bean) == 1) {
@@ -101,7 +101,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public AccountBean findByAccountNo(int searchAcc) {
+	public AccountVO findByAccountNo(int searchAcc) {
 		return dao.findByAccountNo(searchAcc);
 	}
 
@@ -122,7 +122,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Map<?, ?> map() {
-		map = new HashMap<String, AccountMemberBean>();
+		map = new HashMap<String, AccountMemberVO>();
 		map  = dao.selectMap();
 		return map;
 	}

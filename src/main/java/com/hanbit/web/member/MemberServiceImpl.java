@@ -6,8 +6,8 @@ import java.util.Map;
 import com.hanbit.web.bank.AccountService;
 import com.hanbit.web.bank.AccountServiceImpl;
 import com.hanbit.web.subject.SubjectBean;
-import com.hanbit.web.subject.SubjectDAO;
-import com.hanbit.web.subject.SubjectMember;
+import com.hanbit.web.subject.SubjectVO;
+import com.hanbit.web.subject.SubjectMemberVO;
 
 /**
  * @date   :2016. 6. 20.
@@ -16,14 +16,14 @@ import com.hanbit.web.subject.SubjectMember;
  * @story  :
 */
 public class MemberServiceImpl implements MemberService{
-	private MemberBean session;	
-	private MemberDAO dao = MemberDAO.getInstance();	// 4.DAO의 getInstance() 메소드를 호출한다 (싱글톤 패턴)
-	private SubjectDAO subjDao = SubjectDAO.getInstance();
+	private MemberVO session;	
+	private MemberDAOImpl dao = null;	// 4.DAO의 getInstance() 메소드를 호출한다 (싱글톤 패턴)
+	private SubjectVO subjDao = SubjectVO.getInstance();
 	private AccountService accService = AccountServiceImpl.getInstance();
 	private static MemberServiceImpl instance = new MemberServiceImpl();
 	
 	private MemberServiceImpl() {
-		session = new MemberBean();
+		session = new MemberVO();
 	}
 	
 	public static MemberServiceImpl getInstance() {
@@ -31,9 +31,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public String regist(MemberBean bean) {
+	public String regist(MemberVO bean) {
 		String msg = "";
-		MemberBean temp = this.findById(bean.getId());
+		MemberVO temp = this.findById(bean.getId());
 		if (temp == null) {
 			System.out.println(bean.getId() + "가 존재하지 않음, 가입 가능한 ID");
 			int result = dao.insert(bean);
@@ -50,7 +50,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void update(MemberBean bean) {
+	public void update(MemberVO bean) {
 		int result = dao.update(bean);
 		if (result == 1) {
 			System.out.println("서비스 수정 결과 성공");
@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void delete(MemberBean bean) {
+	public void delete(MemberVO bean) {
 		dao.delete(bean);
 	}
 	
@@ -69,17 +69,17 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberBean findById(String findID) {
+	public MemberVO findById(String findID) {
 		return dao.findById(findID);
 	}
 
 	@Override
-	public List<MemberBean> list() {
+	public List<MemberVO> list() {
 		return dao.list();
 	}
 
 	@Override
-	public List<MemberBean> findByName(String findName) {
+	public List<MemberVO> findByName(String findName) {
 		return dao.findByName(findName);
 	}
 
@@ -95,8 +95,8 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	}
 	
-	public SubjectMember login(MemberBean bean) {
-		SubjectMember sm = new SubjectMember();
+	public SubjectMemberVO login(MemberVO bean) {
+		SubjectMemberVO sm = new SubjectMemberVO();
 		SubjectBean sb = new SubjectBean();
 		if (dao.login(bean)) {
 			session = dao.findById(bean.getId());
@@ -125,11 +125,11 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberBean findBy() {
+	public MemberVO findBy() {
 		return session;
 	}
 	
-	public void logout(MemberBean bean){
+	public void logout(MemberVO bean){
 		if(bean.getId().equals(session.getId()) && bean.getPw().equals(session.getPw())){
 			this.session = null;
 		}

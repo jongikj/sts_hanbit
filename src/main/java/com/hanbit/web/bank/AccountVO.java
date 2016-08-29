@@ -10,7 +10,7 @@ import com.hanbit.web.util.Constants;
  * @file   :Account.java
  * @story  :
 */
-public class AccountBean implements Serializable {
+public class AccountVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int accountNo; // 인스턴스 변수는 초기화를 하지 않는다.
 	private int money;
@@ -20,11 +20,11 @@ public class AccountBean implements Serializable {
 	private String regDate;
 	private String ssn;
 	
-	public AccountBean() { // default Constructor
+	public AccountVO() { // default Constructor
 		// 생성자 오버로딩
 	}
 
-	public AccountBean(int accountNo, int money, String id, String pw, String name, String regDate, String ssn){
+	public AccountVO(int accountNo, int money, String id, String pw, String name, String regDate, String ssn){
 		this.accountNo = accountNo;
 		this.money = money;
 		this.id = id;
@@ -34,7 +34,7 @@ public class AccountBean implements Serializable {
 		this.ssn = ssn;
 	}
 	
-	public AccountBean(String name, String id, String pw) {
+	public AccountVO(String name, String id, String pw) {
 		this.accountNo = (int) (Math.random() * 999999) + 100000;
 		this.name = name;
 		this.id = id;
