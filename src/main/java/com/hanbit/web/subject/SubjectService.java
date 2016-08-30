@@ -7,5 +7,5 @@ package com.hanbit.web.subject;
  * @story  :
 */
 public interface SubjectService {
-	public void insert(SubjectBean s);
+	public void insert(SubjectVO s);
 }

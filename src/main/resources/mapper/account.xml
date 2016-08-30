@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.account">
+	<select id="selectAll" resultType="com.hanbit.web.bank.AccountVO">
+		select account_no as acc, id as id, name as name, money as money, ssn as birth from account_member order by name
+	</select>
+	<select id="findByAccountNo" resultType="com.hanbit.web.bank.AccountVO">
+		select * from account_member where account_no = #{accountNo}
+	</select>
+	<select id="findByName" parameterType="string" resultType="com.hanbit.web.bank.AccountVO">
+		select * from account_member where name = #{name}
+	</select>
+	<select id="count" resultType="int">
+		select count(*) as count from account_member
+	</select>
+	<select id="selectMoney" resultType="int">
+		select money from account where account_no = #{accountNo}
+	</select>
+	<select id="selectMap" resultType="com.hanbit.web.bank.AccountVO">
+		select * from account_member
+	</select>
+	<insert id="insertAccount" parameterType="com.hanbit.web.bank.AccountVO">
+		insert into account (account_no, id, money) values (#{accountNo}, #{id}, #{money})
+	</insert>
+	<update id="deposit" parameterType="com.hanbit.web.bank.AccountVO">
+		update account set money = #{money} where account_no = #{accountNo}
+	</update>
+	<update id="updateAccount" parameterType="com.hanbit.web.bank.AccountVO">
+		update member set pw = #{pw} where id = #{id}
+	</update>
+	<delete id="deleteAccount" parameterType="com.hanbit.web.bank.AccountVO">
+		delete from account where account_no = #{accountNo}
+	</delete>
+</mapper>

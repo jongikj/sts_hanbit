@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class GradeServiceImpl implements GradeService {
-	GradeDAO dao = GradeDAO.getInstance();
+	GradeDAOImpl dao = null;
 	private static GradeServiceImpl instance = new GradeServiceImpl();
 	
-	private GradeServiceImpl() {}
+	private GradeServiceImpl() {
+		dao = GradeDAOImpl.getInstance();
+	}
 	
 	public static GradeServiceImpl getInstance() {
 		return instance;
@@ -59,17 +64,10 @@ public class GradeServiceImpl implements GradeService {
 	}
 
 	@Override
-	public List<?> findBy(String id) {
-		List<?> list = new ArrayList<GradeVO>();
-		list = dao.findById(id);
-		return list;
+	public GradeVO findById(String id) {
+		return dao.findById(id);
 	}
 
-	@Override
-	public int count() {
-		return dao.count();
-	}
-	
 	@Override
 	public int count(String examDate) {
 		return dao.count(examDate);
@@ -85,5 +83,17 @@ public class GradeServiceImpl implements GradeService {
 	public void score(String[] arr) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<?> findBy(String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int count() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -3,10 +3,12 @@ package com.hanbit.web.member;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.hanbit.web.bank.AccountService;
 import com.hanbit.web.bank.AccountServiceImpl;
-import com.hanbit.web.subject.SubjectBean;
 import com.hanbit.web.subject.SubjectVO;
+import com.hanbit.web.subject.SubjectDAOImpl;
 import com.hanbit.web.subject.SubjectMemberVO;
 
 /**
@@ -15,15 +17,16 @@ import com.hanbit.web.subject.SubjectMemberVO;
  * @file   :StudentServiceImpl.java
  * @story  :
 */
+@Service
 public class MemberServiceImpl implements MemberService{
 	private MemberVO session;	
-	private MemberDAOImpl dao = null;	// 4.DAO의 getInstance() 메소드를 호출한다 (싱글톤 패턴)
-	private SubjectVO subjDao = SubjectVO.getInstance();
+	private MemberDAOImpl dao = null;
+	private SubjectDAOImpl subjDao = SubjectDAOImpl.getInstance();
 	private AccountService accService = AccountServiceImpl.getInstance();
 	private static MemberServiceImpl instance = new MemberServiceImpl();
 	
 	private MemberServiceImpl() {
-		session = new MemberVO();
+		dao = MemberDAOImpl.getInstance();
 	}
 	
 	public static MemberServiceImpl getInstance() {
@@ -97,7 +100,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	public SubjectMemberVO login(MemberVO bean) {
 		SubjectMemberVO sm = new SubjectMemberVO();
-		SubjectBean sb = new SubjectBean();
+		SubjectVO sb = new SubjectVO();
 		if (dao.login(bean)) {
 			session = dao.findById(bean.getId());
 //			accService.map();

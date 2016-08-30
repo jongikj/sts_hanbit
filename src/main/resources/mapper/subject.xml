@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.subject">
+	<select id="findById" parameterType="string" resultType="com.hanbit.web.subject.SubjectVO">
+		select id as id, major as major, subjects as sub from subject where id = #{id}
+		<!-- select * from subject where id = #{id} -->
+	</select>
+	<insert id="insert" parameterType="com.hanbit.web.subject.SubjectVO">
+		insert into subject(subj_seq,major,subjects,id) values(subj_seq.nextval, #{major}, #{subjects}, #{id})
+	</insert>
+</mapper>

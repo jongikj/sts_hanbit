@@ -12,4 +12,5 @@ public interface GradeService extends CommonService{
 	//exeQ
 	public void score(String[] arr);
 	public int count(String examDate);
+	public GradeVO findById(String id);
 }
