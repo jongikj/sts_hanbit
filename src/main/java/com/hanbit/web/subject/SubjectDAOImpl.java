@@ -15,6 +15,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.hanbit.web.member.MemberDAOImpl;
 import com.hanbit.web.util.Constants;
@@ -25,6 +26,7 @@ import com.hanbit.web.util.Constants;
  * @file   :SubjectDAO.java
  * @story  :
 */
+@Repository
 public class SubjectDAOImpl implements SubjectDAO{
 	private static final Logger logger = LoggerFactory.getLogger(SubjectDAOImpl.class);
 	private SqlSessionFactory sqlSessionFactory = null;

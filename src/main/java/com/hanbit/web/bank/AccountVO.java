@@ -2,6 +2,8 @@ package com.hanbit.web.bank;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 import com.hanbit.web.util.Constants;
 
 /**
@@ -10,6 +12,7 @@ import com.hanbit.web.util.Constants;
  * @file   :Account.java
  * @story  :
 */
+@Component
 public class AccountVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int accountNo; // 인스턴스 변수는 초기화를 하지 않는다.

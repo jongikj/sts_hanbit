@@ -2,12 +2,16 @@ package com.hanbit.web.subject;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 /**
  * @date   :2016. 7. 26.
  * @author :장종익
  * @file   :SubjectMember.java
  * @story  :
 */
+@Component
 public class SubjectMemberVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String id, pw, name, reg, ssn, email, img, phone, major, subjects;

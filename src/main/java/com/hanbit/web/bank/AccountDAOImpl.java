@@ -17,13 +17,14 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.hanbit.web.member.MemberDAOImpl;
 import com.hanbit.web.util.Constants;
 import com.hanbit.web.util.DatabaseFactory;
 import com.hanbit.web.util.Vendor;
 
-
+@Service
 public class AccountDAOImpl implements AccountDAO {
 	private static final Logger logger = LoggerFactory.getLogger(AccountDAOImpl.class);
 	private SqlSessionFactory sqlSessionFactory = null;

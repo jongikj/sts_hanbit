@@ -120,23 +120,27 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public boolean login(MemberVO param) {
 		boolean loginOK = false;
-		if(param.getId() != null && param.getPw() != null && this.existId(param.getId())){
-			MemberVO bean = this.findById(param.getId());
-			if (bean.getPw().equals(param.getPw())){
-				loginOK = true;
+		if (param.getId() != null && param.getPw() != null && this.existId(param.getId())) {
+				MemberVO bean = this.findById(param.getId());
+				if (bean.getPw().equals(param.getPw())) {
+					loginOK = true;
 			}
 		}
 		return loginOK;
 	}
-	
+
 	@Override
 	public boolean existId(String id){
+		boolean flag = false;
 		SqlSession session = sqlSessionFactory.openSession();
 		try{
-			int temp = session.selectOne("", id);
-			return false;
-		}finally {
+			int temp = session.selectOne(NAMESPACE + "existId", id);
+			if(temp == 1){
+				flag = true;
+			}
+		} finally {
 			session.close();
 		}
+		return flag;
 	}
 }

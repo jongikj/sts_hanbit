@@ -4,12 +4,17 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
 /**
  * @date   :2016. 6. 16.
  * @author :장종익
  * @file   :Student.java
  * @story  :
 */
+@Component
 public class MemberVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 

@@ -1,11 +1,14 @@
 package com.hanbit.web.grade;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @date :2016. 7. 6.
  * @author :장종익
  * @file :GradeMemberBean.java
  * @story :Big Bean
  */
+@Component
 public class GradeMemberVO {
 	private String id, grade, seq, examDate, pw, name, regDate, gender, ssn;
 	private int java, sql, html, js, birth;

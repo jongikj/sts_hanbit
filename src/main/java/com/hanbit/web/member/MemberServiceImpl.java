@@ -3,6 +3,7 @@ package com.hanbit.web.member;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hanbit.web.bank.AccountService;
@@ -17,22 +18,21 @@ import com.hanbit.web.subject.SubjectMemberVO;
  * @file   :StudentServiceImpl.java
  * @story  :
 */
+
 @Service
 public class MemberServiceImpl implements MemberService{
-	private MemberVO session;	
-	private MemberDAOImpl dao = null;
-	private SubjectDAOImpl subjDao = SubjectDAOImpl.getInstance();
-	private AccountService accService = AccountServiceImpl.getInstance();
-	private static MemberServiceImpl instance = new MemberServiceImpl();
+	@Autowired private MemberVO member;	
+	@Autowired private SubjectVO sb;
+	@Autowired private SubjectMemberVO sm;
+	@Autowired private AccountServiceImpl accService;
+	private MemberDAOImpl dao;
+	private SubjectDAOImpl subjDao;
 	
-	private MemberServiceImpl() {
+	public MemberServiceImpl() {
 		dao = MemberDAOImpl.getInstance();
+		subjDao = SubjectDAOImpl.getInstance();
 	}
 	
-	public static MemberServiceImpl getInstance() {
-		return instance;
-	}
-
 	@Override
 	public String regist(MemberVO bean) {
 		String msg = "";
@@ -99,21 +99,20 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	public SubjectMemberVO login(MemberVO bean) {
-		SubjectMemberVO sm = new SubjectMemberVO();
-		SubjectVO sb = new SubjectVO();
 		if (dao.login(bean)) {
-			session = dao.findById(bean.getId());
+			member = dao.findById(bean.getId());
+			System.out.println("서비스 로그인 하는중 ... ID : " + member.getId());
 //			accService.map();
 			sb = subjDao.findById(bean.getId());
-			sm.setEmail(session.getEmail());
-			sm.setId(session.getId());
-			sm.setImg(session.getProfileImg());
+			sm.setEmail(member.getEmail());
+			sm.setId(member.getId());
+			sm.setImg(member.getProfileImg());
      		sm.setMajor(sb.getMajor()); 
-			sm.setName(session.getName());
-			sm.setPhone(session.getPhone());
-			sm.setPw(session.getPw());
-			sm.setReg(session.getRegDate());
-			sm.setSsn(session.getSsn());
+			sm.setName(member.getName());
+			sm.setPhone(member.getPhone());
+			sm.setPw(member.getPw());
+			sm.setReg(member.getRegDate());
+			sm.setSsn(member.getSsn());
 			sm.setSubjects(sb.getSubjects()); 
 		} else {
 			sm.setId("fail");
@@ -129,12 +128,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO findBy() {
-		return session;
+		return member;
 	}
 	
 	public void logout(MemberVO bean){
-		if(bean.getId().equals(session.getId()) && bean.getPw().equals(session.getPw())){
-			this.session = null;
+		if(bean.getId().equals(member.getId()) && bean.getPw().equals(member.getPw())){
+			this.member = null;
 		}
 	}
 }

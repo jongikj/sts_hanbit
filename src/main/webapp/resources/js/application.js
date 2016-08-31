@@ -3,13 +3,13 @@ var app = (function(){
 	var init = function(context) {
 		session.init(context);
 		onCreate();
+		nav.init();
 		member.init();
 		user.init();
 		admin.init();
 		account.init();
 		kaup.init();
 		grade.init();
-		nav.init();
 	};
 	var context = function(){return session.getContextPath();};
 	var js = function(){return session.getJavascriptPath('js');};
@@ -415,16 +415,14 @@ var nav = (function(){
 		$('#nav li').addClass('float_left').addClass('display_inline').css('border-right', '1px').css('solid', '#bbb');
 		$('#nav li:last-child').css('border-right', 'none');
 		$('#nav li a').addClass('display_block').addClass('text_decoration_none').css('color', 'white').css('text-align', 'center').css('padding', '14px').css('padding', '16px');
-		$('#nav li a:hover:not(.active)').addClass('bg_color_black');
+		$('#nav li a:hover:not(.active)').addClass('bg_color_green');
 		$('#nav .active').addClass('active');
 	};
 	var onCreate = function(){
 		setContentView();
 	};
 	return {
-		init : init,
-		setContentView : setContentView,
-		onCreate : onCreate
+		init : init
 	};
 })();
 

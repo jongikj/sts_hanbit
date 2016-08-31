@@ -34,3 +34,8 @@
     </ul>
   </li>
 </ul>
+<script type="text/javascript">
+$(function(){
+	$('#admin_nav').css('height','50px');
+});
+</script>
