@@ -17,7 +17,7 @@ var app = (function(){
 	var img = function(){return session.getImagePath('img');};
 	var setContentView = function(){
 		$('#footer').addClass('bottom').addClass('footer');
-		$('#header_brand').attr('src', app.img() + '/water_moon.jpg').css('width', '80').css('height', '49');
+		$('#header_brand').attr('src', app.img() + '/default/water_moon.jpg').css('width', '80').css('height', '49');
 		$('#global_content').addClass('box');
 		$('#global_content a').addClass('cursor');
 		$('#global_content_a_regist').text('SIGN UP').click(function(){controller.move('member', 'regist');});
