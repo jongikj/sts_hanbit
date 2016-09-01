@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="${css }/douglas.css" />
 <div id="container">
 <section id="formbox"> 
-    <p>DOM 학습장</p>
+    <p>로또</p>
 </section>
 <section id="databox">
     결과 : <span id="result"></span>

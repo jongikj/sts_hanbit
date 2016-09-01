@@ -5,19 +5,13 @@
 <link rel="icon" type="image/png" href="${img}/favicons/favicon-16x16.png" sizes="16x16">
 <link rel="manifest" href="${img}/favicons/manifest.json">
 <link rel="shortcut icon" href="${img}/favicons/favicon.ico">
-<!-- Normalize -->
 <link rel="stylesheet" type="text/css" href="${css}/normalize.css">
-<!-- Owl -->
 <link rel="stylesheet" type="text/css" href="${css}/owl.css">
-<!-- Animate.css -->
 <link rel="stylesheet" type="text/css" href="${css}/animate.css">
-<!-- Font Awesome -->
 <link rel="stylesheet" type="text/css" href="${css}/fonts/font-awesome.min.css">
-<!-- Elegant Icons -->
 <link rel="stylesheet" type="text/css" href="${css}/fonts/et-icons.css">
-<!-- Main style -->
 <link rel="stylesheet" type="text/css" href="${css}/cardio.css">
-	<section id="services" class="box section-padded">
+	<section id="user_content_service" class="box section-padded">
 		<div>
 			<div class="row text-center title">
 				<h2>Services</h2>
@@ -25,7 +19,7 @@
 			</div>
 			<div class="row services">
 				<div class="col-md-4">
-					<div class="service">
+					<div id="kaup" class="service">
 						<div class="icon-holder">
 							<img src="${img}/icons/kaup.jpg" alt="" class="icon">
 						</div>
@@ -34,7 +28,7 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="service">
+					<div id="rock_scissor_paper" class="service">
 						<div class="icon-holder">
 							<img src="${img}/icons/RSP.jpg" alt="" class="icon">
 						</div>
@@ -43,7 +37,7 @@
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="service">
+					<div id="lotto" class="service">
 						<div class="icon-holder">
 							<img src="${img}/icons/lotto.jpg" alt="" class="icon">
 						</div>
@@ -55,7 +49,7 @@
 		</div>
 		<div class="cut cut-bottom"></div>
 	</section>
-	<section id="team" class="section gray-bg">
+	<section id="user_content_subject" class="section gray-bg">
 		<div class="container">
 			<div class="row title text-center">
 				<h2 class="margin-top">Major Subject</h2>
@@ -63,51 +57,54 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<div class="team text-center">
+					<div id="major_subject_1" class="team text-center">
 						<div class="cover" style="background:url('${img}/team/java-cover.jpg'); background-size:cover;">
 							<div class="overlay text-center">
-								<h3 class="white">$69.00</h3>
+								<h3 class="white">Java </h3>
 								<h5 class="light light-white">1 - 5 sessions / month</h5>
 							</div>
 						</div>
-						<img src="${img}/team/java.jpg" alt="Java Image" class="avatar" style="width: 120px"; height="120px">
+						<img src="${img}/team/java.jpg" alt="Java Image" class="avatar" style="width: 120px" height="120px">
 						<div class="title">
 							<h4>JAVA</h4>
 							<h5 class="muted regular">Server Program Language</h5>
 						</div>
-						<button data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill">Sign Up Now</button>
+						<input type="hidden" name="major_subject_1" value="java"/>
+						<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="team text-center">
+					<div id="major_subject_2" class="team text-center">
 						<div class="cover" style="background:url('${img}/team/javascript-cover.jpg'); background-size:cover;">
 							<div class="overlay text-center">
-								<h3 class="white">$69.00</h3>
+								<h3 class="white">Javascript</h3>
 								<h5 class="light light-white">1 - 5 sessions / month</h5>
 							</div>
 						</div>
-						<img src="${img}/team/javascript.jpg" alt="Javascript Image" class="avatar" style="width: 120px"; height="120px">
+						<img src="${img}/team/javascript.jpg" alt="Javascript Image" class="avatar" style="width: 120px" height="120px">
 						<div class="title">
 							<h4>Javascript</h4>
 							<h5 class="muted regular">UI Program Language</h5>
 						</div>
-						<a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill ripple">Sign Up Now</a>
+						<input type="hidden" name="major_subject_2"/>
+						<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<div class="team text-center">
+					<div id="major_subject_3" class="team text-center">
 						<div class="cover" style="background:url('${img}/team/sql-cover.jpg'); background-size:cover;">
 							<div class="overlay text-center">
-								<h3 class="white">$69.00</h3>
+								<h3 class="white">SQL</h3>
 								<h5 class="light light-white">1 - 5 sessions / month</h5>
 							</div>
 						</div>
-						<img src="${img}/team/sql.jpg" alt="SQL Image" class="avatar" style="width: 120px"; height="120px">
+						<img src="${img}/team/sql.jpg" alt="SQL Image" class="avatar" style="width: 120px" height="120px">
 						<div class="title">
 							<h4>SQL</h4>
 							<h5 class="muted regular">Database Management Language</h5>
 						</div>
-						<a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill ripple">Sign Up Now</a>
+						<input type="hidden" name="major_subject_3"/>
+						<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/>
 					</div>
 				</div>
 			</div>
@@ -119,3 +116,14 @@
 <script src="${js}/typewriter.js"></script>
 <script src="${js}/jquery.onepagenav.js"></script>
 <script src="${js}/main.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#user_content #kaup').addClass('cursor').click(function(){controller.move("member", "kaup");});	
+	$('#user_content #rock_scissor_paper').addClass('cursor').click(function(){controller.move("member", "rock_scissor_paper");});	
+	$('#user_content #lotto').addClass('cursor').click(function(){controller.move("member", "lotto");});
+	var key = $('#user_content_subject #major_subject_1 input[type="hidden"]').val();
+	$('#user_content_subject #major_subject_1 input[type="button"]').click(function(){controller.moveWithKey('subject', 'detail', key);});
+	$('#user_content #major_subject_2').click(function(){});
+	$('#user_content #major_subject_3').click(function(){});
+});
+</script>

@@ -1,18 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-	<div class="box">
-		<embed src="${img}/banana.gif">
-		<h2>탈퇴하려면 비밀번호를 입력해주세요</h2>
-			<form action="${context}/member.do" method="post">
-				<input type="hidden" name="action" value="delete" />
-         		<input type="hidden" name="directory" value="member" />
-				<span class="meta">비밀번호</span><input type="password" name="pw"/><br/><br/>
-				<input type="submit" value="탈퇴하기"/>
-			</form>
-		<a href="${context}/member/main.do">
-			<img src="${img}/member.png" alt="member" style="width: 50px">
-		</a>
-		<a href="${context}/home.do">
-			<img src="${img}/home.png" alt="home" style="width: 50px"/>
-		</a>
-	</div>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<div class="box">
+	<embed style="width: 15px; height: 15px" src="${img}/default/banana.gif">
+	<h3>탈퇴하려면 비밀번호를 입력해주세요</h3>
+	<div style="padding: 20px"></div>
+	<form id="member_delete_form" class="navbar-form navbar-center" role="search">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="PASSWORD">
+		</div>
+		<input type="submit" class="btn btn-default" value="탈퇴"/>
+	</form>
+</div>

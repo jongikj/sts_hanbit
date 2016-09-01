@@ -389,16 +389,26 @@ var util = (function(){
 })();
 
 var controller = (function() {
-	var _page, _directory;
+	var _page, _directory, _key;
 	var setPage = function(page){this._page=page;};
 	var setDirectory = function(directory){this._directory = directory;};
+	var setKey = function(key){this._key=key;};
 	var getPage = function(){return this._page;};
 	var getDirectory = function(){return this._directory;};
+	var getKey = function(){return this._key;};
 	return {
 		setPage : setPage,
 		getPage : getPage,
+		setKey : setKey,
+		getKey : getKey,
 		setDirectory : setDirectory,
 		getDirectory : getDirectory,
+		moveWithKey : function(directory, page, key){
+			setDirectory(directory);
+			setPage(page);
+			setKey(key);
+			location.href = app.context() + '/' +getDirectory() + '/' + getPage() + '?key=' + getKey();
+		},
 		move : function(directory, page){
 			setDirectory(directory);
 			setPage(page);
