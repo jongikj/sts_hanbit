@@ -17,7 +17,7 @@ var app = (function(){
 	var img = function(){return session.getImagePath('img');};
 	var setContentView = function(){
 		$('#footer').addClass('bottom').addClass('footer');
-		$('#header_brand').attr('src', app.img() + '/default/water_moon.jpg').css('width', '80').css('height', '49');
+		$('#header_brand').attr('src', app.img() + '/default/water_moon.jpg').css('width', '80').css('height', '49').addClass('cursor');
 		$('#global_content').addClass('box');
 		$('#global_content a').addClass('cursor');
 		$('#global_content_a_regist').text('SIGN UP').click(function(){controller.move('member', 'regist');});
@@ -27,11 +27,15 @@ var app = (function(){
 	var onCreate = function() {
 		setContentView();
 		// document.querySelector(#a_member).addEventListener('click', function(){}, false)와 동일
-		$('#title').click(function(){controller.home();});
 		$('#a_member').click(function(){controller.move('member', 'main');}); 
 		$('#a_grade').click(function(){controller.move('grade', 'main');});
 		$('#a_account').click(function(){controller.move('account', 'main');});
 		$('#a_school').click(function(){controller.move('global', 'school_info');});
+		$('#free_board_table .name').click(function(){controller.moveWithKey('member', 'a_detail', 'hong');});
+		$('#go_public_home').click(function(){controller.home();});
+		$('#school_info').click(function(){controller.move('global', 'school_info');});
+		$('#contact').click(function(){controller.move('global', 'contact');});
+		$('#free_board').click(function(){controller.move('global', 'free_board');});
 	};
 	
 	return {
@@ -48,21 +52,40 @@ var app = (function(){
 var admin = (function() {
 	var init = function(){onCreate();};
 	var setContentView = function(){
-		$('#admin_content #member_img').attr('src', app.img() + '/member_mgmt.png').css('width', '420').css('height', '370');
-		$('#admin_content #grade_img').attr('src', app.img() + '/grade_mgmt.jpg').css('width', '420').css('height', '370');
-		$('#admin_content #acc_img').attr('src', app.img() + '/acc_mgmt.jpg').css('width', '420').css('height', '370');
+		$('#admin_content #member_img').attr('src', app.img() + '/default/member_mgmt.png').css('width', '420').css('height', '370');
+		$('#admin_content #grade_img').attr('src', app.img() + '/default/grade_mgmt.jpg').css('width', '420').css('height', '370');
+		$('#admin_content #account_img').attr('src', app.img() + '/default/acc_mgmt.jpg').css('width', '420').css('height', '370');
 		$('#admin_content h3').addClass('text_center');
+		$('#admin_header').css('height','50px');
+		$('.navbar-header').css('height','50px');
+		$('#admin_header #exit').addClass('cursor');
+		$('#admin_nav').css('height','50px');
 	};
 	var onCreate = function(){
 		setContentView();
 		$('#admin_nav #member_mgmt #list').click(function(){controller.move('member', 'list');});
 		$('#admin_nav #member_mgmt #find_by').click(function(){controller.move('member', 'find_by');});
 		$('#admin_nav #member_mgmt #count').click(function(){controller.move('member', 'count');});
-		$('#admin_nav #acc_mgmt #list').click(function(){controller.move('account', 'list');});
-		$('#admin_nav #acc_mgmt #open').click(function(){controller.move('account', 'open');});
-		$('#admin_nav #acc_mgmt #delete').click(function(){controller.move('account', 'delete');});
-		$('#admin_nav #acc_mgmt #find').click(function(){controller.move('account', 'find');});
-		$('#admin_nav #acc_mgmt #count').click(function(){controller.move('account', 'count');});
+		$('#admin_nav #account_mgmt #list').click(function(){controller.move('account', 'list');});
+		$('#admin_nav #account_mgmt #open').click(function(){controller.move('account', 'open');});
+		$('#admin_nav #account_mgmt #delete').click(function(){controller.move('account', 'delete');});
+		$('#admin_nav #account_mgmt #find').click(function(){controller.move('account', 'find');});
+		$('#admin_nav #account_mgmt #count').click(function(){controller.move('account', 'count');});
+		$('#admin_nav #grade_mgmt #regist').click(function(){controller.move('grade', 'regist');});
+		$('#admin_nav #grade_mgmt #update').click(function(){controller.move('grade', 'update');});
+		$('#admin_nav #grade_mgmt #delete').click(function(){controller.move('grade', 'delete');});
+		$('#admin_nav #grade_mgmt #list').click(function(){controller.move('grade', 'list');});
+		$('#admin_nav #grade_mgmt #count').click(function(){controller.move('grade', 'count');});
+		$('#admin_nav #grade_mgmt #find').click(function(){controller.move('grade', 'find');});
+		$('#go_admin_home').click(function(){controller.move('admin', 'main');});
+		$('#admin_header #exit').click(function() {controller.home();});
+		$('#grade_mgmt #regist').click(function(){alert('등록하시려면 회원리스트로 이동해주세요.');controller.move('member', 'list');});
+		$('#grade_mgmt #update').click(function(){alert('수정하시려면 회원리스트로 이동해주세요.');controller.move('member', 'list');});
+		$('#account_mgmt #list').click(function(){controller.move('account', 'list');});
+		$('#account_mgmt #find').click(function(){controller.move('account', 'find');});
+		$('#account_mgmt #count').click(function(){controller.move('account', 'count');});
+		$('#account_list_table .name').click(function(){controller.moveWithKey('member', 'a_detail', 'hong');});
+		$('#grade_list_table .name').click(function(){controller.moveWithKey('member', 'a_detail', 'hong');});
 	};
 	var _pass;
 	var getPass = function(){return this._pass;};
@@ -91,11 +114,17 @@ var admin = (function() {
 })();
 
 var user = (function() {
+	var key = $('#user_content_subject #major_subject_1 input[type="hidden"]').val();
 	var init = function(){onCreate();};
 	var setContentView = function(){
 		$('#account_content_img_home').attr('src', app.img() + '/home.png').css('width', '50px');
 		$('#account_content').addClass('box').addClass('font_size_20');
 		$('#account_content_a_home').click(function(){controller.home();});
+		$('#user_content #kaup').addClass('cursor').click(function(){controller.move("member", "kaup");});	
+		$('#user_content #rock_scissor_paper').addClass('cursor').click(function(){controller.move("member", "rock_scissor_paper");});	
+		$('#user_content #lotto').addClass('cursor').click(function(){controller.move("member", "lotto");});
+		$('#user_header').css('height','50px');
+		$('.navbar-header').css('height','50px');
 	};
 	var onCreate = function(){
 		setContentView();
@@ -111,12 +140,27 @@ var user = (function() {
 		$('#acc_list').click(function(){controller.move('account', 'list');});
 		$('#acc_search').click(function(){controller.move('account', 'search');});
 		$('#acc_count').click(function(){controller.move('account', 'count');});
+		$('#user_content_subject #major_subject_1 input[type="button"]').click(function(){controller.moveWithKey('subject', 'detail', key);});
+		$('#user_content #major_subject_2').click(function(){});
+		$('#user_content #major_subject_3').click(function(){});
+		$('#go_user_home').click(function(){controller.move('member', 'content')});
+		$('#user_header #a_mypage').click(function(){controller.move('member', 'content');});
+		$('#user_header #a_detail').click(function(){controller.move('member', 'detail');});
+		$('#user_header #a_update').click(function(){controller.move('member', 'update');});
+		$('#user_header #a_delete').click(function(){controller.move('member', 'delete');});
+		$('#user_header #logout').click(function(){controller.home();});
+		$("#user_header #account li:eq(0) a").click(function(){controller.move('account', 'detail');});	
+		$("#user_header #account li:eq(1) a").click(function(){controller.move('account', 'open');});
+		$("#user_header #account li:eq(2) a").click(function(){controller.move('account', 'transaction');});	
+		$("#user_header #account li:eq(3) a").click(function(){controller.move('account', 'delete');});	
+		$("#user_header #grade li:eq(0) a").click(function(){controller.move('grade', 'detail');});
+		$("#user_header #grade li:eq(1) a").click(function(){controller.move('grade', 'find');});
+		$('#logined_header_brand').click(function(){controller.move('member', 'content');});
 	};
 	return{
 		init : init
 	};
 })();
-
 var account = (function(){
 	var _account_no, _money;
 	var setAccountNo = function(account_no){this._account_no=account_no;};
@@ -224,6 +268,8 @@ var member = (function() {
 		$('#member_regist #ck_subject > label').addClass('checkbox-inline');
 		$('#member_find_form').attr('action', sessionStorage.getItem('context') + '/member/search');
 		$('#member_find_form input[type="hidden"]').attr('name', 'context').attr('value', app.context());
+		$('#member_login_form').attr('method', 'post').attr('action',sessionStorage.getItem('context')+'/member/login');
+		$('#member_login_form input[type=hidden]').attr('value',app.context());
 	};
 	var onCreate = function(){
 		setContentView();
@@ -237,6 +283,10 @@ var member = (function() {
 		$('#find_by').click(function(){controller.move('member', 'find_by');});
 		$('#count').click(function(){controller.move('member', 'count');});
 		$('#member_find_form input[type="submit"]').click(function(){$('#member_find_form').submit();});
+		$('#member_list_table .name').click(function(){controller.moveWithKey('member', 'a_detail', 'hong');});
+		$('#member_list_table .regist').click(function(){controller.moveWithKey('grade', 'regist', 'hong');});
+		$('#member_list_table .update').click(function(){controller.moveWithKey('grade', 'update', 'hong');});
+		$('#member_login_form input[type=submit]').click(function() {$('#member_login_from').submit();});
 	};
 	return {
 		setSSN : setSsn,
@@ -339,6 +389,24 @@ var grade = (function(){
 		$('#img_home').css('width', '40px');
 		$('#grade_content > article').css('width', '300px').css('margin', '0 auto').css('text-align', 'left');
 		$('#title').css('font-size', '30px');
+		$('#grade_regist').addClass('box').css('padding-top', '0');
+		$('#grade_regist #bt_send').addClass('btn').addClass('btn-primary');
+		$('#grade_regist #bt_cancel').addClass('btn').addClass('btn-danger');
+		$('#grade_regist_form').addClass('form-horizontal');
+		$('#grade_regist_form > div').addClass('form-group').addClass('form-group-lg');
+		$('#grade_regist_form > div > label').addClass('col-sm-2').addClass('control-label');
+		$('#grade_regist_form > div > div').addClass('col-sm-10');
+		$('#grade_regist_form > div > div > input').addClass('form-control');
+		$('#grade_regist #rd_major > label:gt(2)').addClass('radio-inline');
+		$('#grade_update').addClass('box').css('padding-top', '0');
+		$('#grade_update #bt_send').addClass('btn').addClass('btn-primary');
+		$('#grade_update #bt_cancel').addClass('btn').addClass('btn-danger');
+		$('#grade_update_form').addClass('form-horizontal');
+		$('#grade_update_form > div').addClass('form-group').addClass('form-group-lg');
+		$('#grade_update_form > div > label').addClass('col-sm-2').addClass('control-label');
+		$('#grade_update_form > div > div').addClass('col-sm-10');
+		$('#grade_update_form > div > div > input').addClass('form-control');
+		$('#grade_update #rd_major > label:gt(2)').addClass('radio-inline');
 	};
 	var onCreate = function(){
 		setContentView();

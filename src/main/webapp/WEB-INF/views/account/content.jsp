@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<style>
-	div.memberClass{font-size: x-large;}
-</style>
 <section id="account_content" class="memberClass box">
 	<h2>계좌관리</h2>
 	<article style="width: 300px; margin: 0 auto; text-align: left;">
@@ -16,8 +13,4 @@
 			<li><a id="acc_count" href="#">통장수</a></li>
 		</ol>
 	</article>
-
-	<a id="account_content_a_home" href="#"> 
-		<img alt="home" src="${img}/home.png" style="width: 50px">
-	</a>
 </section>

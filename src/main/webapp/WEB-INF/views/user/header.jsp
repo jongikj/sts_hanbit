@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-    <img id="header_brand">
+    <a id="go_user_home"><img id="header_brand"></a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -26,11 +26,11 @@
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">내 성적<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">성적 목록</a></li>
-            <li><a href="#">성적 조회</a></li>
+          <ul id="grade" class="dropdown-menu">
+            <li><a>최근 성적표 보기</a></li>
+            <li><a>지난 성적표 조회</a></li>
           </ul>
-        </li>
+         </li>
       </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group">
@@ -57,18 +57,3 @@
     </div>
   </div>
 </nav>
-<script type="text/javascript">
-$(function(){
-	$('#user_header').css('height','50px');
-	$('#user_header #a_mypage').click(function(){controller.move('member', 'content');});
-	$('#user_header #a_detail').click(function(){controller.move('member', 'detail');});
-	$('#user_header #a_update').click(function(){controller.move('member', 'update');});
-	$('#user_header #a_delete').click(function(){controller.move('member', 'delete');});
-	$('.navbar-header').css('height','50px');
-	$('#user_header #logout').click(function(){controller.move('member', home());});
-	$("#user_header #account li:eq(0) a").click(function(){controller.move('account', 'detail');});	
-	$("#user_header #account li:eq(1) a").click(function(){controller.move('account', 'open');});
-	$("#user_header #account li:eq(2) a").click(function(){controller.move('account', 'transaction');});	
-	$("#user_header #account li:eq(3) a").click(function(){controller.move('account', 'delete');});	
-});
-</script>

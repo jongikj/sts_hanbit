@@ -2,34 +2,34 @@
 <div class ="box" style="padding-top: 0; width: 90%">
 	<section style="height: 150px">
 		<ul class="list-group">
-  			<li class="list-group-item">총 학생수 : 120</li>
+  			<li class="list-group-item">총 게시글 : 120개</li>
 		</ul>
 	<div class="panel panel-success">
-	<div class="panel-heading" style="font-size: 25px;color: black">성적 리스트</div>
-		<table id="grade_list_table">
+	<div class="panel-heading" style="font-size: 25px;color: black">자유게시판</div>
+		<table id="free_board_table">
 		  <tr>
-			<th>ID</th>
-			<th>이 름</th>
-			<th>학년</th>
-			<th>평균학점</th>
+			<th>게시번호</th>
+			<th>제목</th>
+			<th>등록일</th>
+			<th>조회수</th>
 		  </tr>
 		  <tr>
-		    <td>hong</td>
-		    <td><a class="name">홍길동</a></td>
-		    <td>3</td>
-		    <td>4.0</td>
+		    <td>12</td>
+		    <td><a class="name">ㅎㅇ</a></td>
+		    <td>1999년 12월 20일</td>
+		    <td>10000</td>
 		  </tr>
 		  <tr>
-		    <td>hong</td>
-		    <td><a class="name">홍길동</a></td>
-		    <td>3</td>
-		    <td>4.0</td>
+		    <td>12</td>
+		    <td><a class="name">ㅎㅇ</a></td>
+		    <td>1999년 12월 20일</td>
+		    <td>10000</td>
 		  </tr>
 		  <tr>
-		    <td>hong</td>
-		    <td><a class="name">홍길동</a></td>
-		    <td>3</td>
-		    <td>4.0</td>
+		    <td>12</td>
+		    <td><a class="name">ㅎㅇ</a></td>
+		    <td>1999년 12월 20일</td>
+		    <td>10000</td>
 		  </tr>
 		</table>
 		<nav aria-label="Page navigation">

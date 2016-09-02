@@ -6,6 +6,7 @@ section{width:100%; height:100%;}
 footer{width:100%; height:50px;}
 a{cursor:pointer;}
 /* CLASS STYLE */
+.memberClass{font-size: x-large;}
 /* COLOR */
 .bg_color_yellow{background-color: yellow}
 .bg_color_black{background-color: #333}
@@ -33,11 +34,28 @@ a{cursor:pointer;}
 .text_decoration_none{text-decoration: none}
 /* FONT */
 .font_bold{font-weight: bold;}
-
 /* ID STYLE */
-#member_detail{border: 1px solid gray; width:90%; height: 400px; margin:0 auto;border-collapse: collapse;}
+/* #member_detail{border: 1px solid gray; width:90%; height: 400px; margin:0 auto;border-collapse: collapse;}
 #member_detail tr{border: 1px solid gray;height: 20%}
-#member_detail tr td{border: 1px solid gray;}
+#member_detail tr td{border: 1px solid gray;} */
 #member_list {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
 #member_list td, th {border: 1px solid #dddddd; text-align: left; padding: 8px;}
 #member_list tr:nth-child(even) {background-color: #dddddd;}
+#member_list_table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+#member_list_table td, th {border: 1px solid #dddddd; text-align: center; padding: 8px;}
+#member_list_table tr:nth-child(even) {background-color: #efeff5;}
+#account_detail_table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+#account_detail_table td, th {border: 1px solid #dddddd; text-align: center; padding: 8px;}
+#account_detail_table tr:nth-child(even) {background-color: #efeff5;}
+#account_list_table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+#account_list_table td, th {border: 1px solid #dddddd; text-align: center; padding: 8px;}
+#account_list_table tr:nth-child(even) {background-color: #efeff5;}
+#free_board_table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+#free_board_table td, th {border: 1px solid #dddddd; text-align: center; padding: 8px;}
+#free_board_table tr:nth-child(even) {background-color: #efeff5;}
+#grade_detail_table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+#grade_detail_table td, th {border: 1px solid #dddddd; text-align: center; padding: 8px;}
+#grade_detail_table tr:nth-child(even) {background-color: #efeff5;}
+#grade_list_table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
+#grade_list_table td, th {border: 1px solid #dddddd; text-align: center; padding: 8px;}
+#grade_list_table tr:nth-child(even) {background-color: #efeff5;}

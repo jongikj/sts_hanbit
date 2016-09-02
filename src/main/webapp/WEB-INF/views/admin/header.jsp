@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-    <img id="header_brand">
+    <a id="go_admin_home"><img id="header_brand"></a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -25,11 +25,3 @@
     </div>
   </div>
 </nav>
-<script>
-$(function(){
-	$('#admin_header').css('height','50px');
-	$('.navbar-header').css('height','50px');
-	$('#admin_header #exit').addClass('cursor');
-	$('#admin_header #exit').click(function() {controller.home();});
-});
-</script>

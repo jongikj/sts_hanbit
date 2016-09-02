@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -27,6 +28,16 @@ public class HomeController {
 	
 	@RequestMapping("/global/school_info")
 	public String schoolInfo(){
-		return "global/school_info.tiles";
+		return "public:global/school_info.tiles";
+	}
+	
+	@RequestMapping("/global/free_board")
+	public String freeBoard(){
+		return "public:global/free_board.tiles";
+	}
+	
+	@RequestMapping("/global/contact")
+	public String contact(){
+		return "public:global/contact.tiles";
 	}
 }

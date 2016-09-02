@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<style>
-table {font-family: arial, sans-serif; border-collapse: collapse; width: 100%;}
-td, th {border: 1px solid #dddddd; text-align: center; padding: 8px;}
-tr:nth-child(even) {background-color: #efeff5;}
-</style>
-<div class ="box">
+<div class ="box" style="padding-top: 0">
 	<section style="height: 150px">
     	<div class="panel panel-default">
   			<ul class="list-group">
@@ -16,7 +11,7 @@ tr:nth-child(even) {background-color: #efeff5;}
 		</div>
 	<div class="panel panel-success">
 	<div class="panel-heading" style="font-size: 25px;color: black">계좌 내역</div>
-		<table class="table">
+		<table id="account_detail_table" class="table">
 		  <tr>
 		    <th>날짜</th>
 		    <th>입금</th>

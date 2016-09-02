@@ -116,14 +116,3 @@
 <script src="${js}/typewriter.js"></script>
 <script src="${js}/jquery.onepagenav.js"></script>
 <script src="${js}/main.js"></script>
-<script type="text/javascript">
-$(function(){
-	$('#user_content #kaup').addClass('cursor').click(function(){controller.move("member", "kaup");});	
-	$('#user_content #rock_scissor_paper').addClass('cursor').click(function(){controller.move("member", "rock_scissor_paper");});	
-	$('#user_content #lotto').addClass('cursor').click(function(){controller.move("member", "lotto");});
-	var key = $('#user_content_subject #major_subject_1 input[type="hidden"]').val();
-	$('#user_content_subject #major_subject_1 input[type="button"]').click(function(){controller.moveWithKey('subject', 'detail', key);});
-	$('#user_content #major_subject_2').click(function(){});
-	$('#user_content #major_subject_3').click(function(){});
-});
-</script>

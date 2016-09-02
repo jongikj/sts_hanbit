@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<style>
-	div.memberClass{font-size: x-large;}
-</style>
 <section id="grade_content" class="memberClass box">
 	<h2 id="title">성적관리</h2>
 		<article style="width: 300px; margin: 0 auto; text-align: left;">
@@ -14,7 +11,4 @@
 			<li><a href="#" id="grade_search">검색</a></li>
 			</ol>
 		</article>
-	<a href="${context}/index.jsp">
-		<img id="img_home" alt="home" src="${img}/home.png">
-	</a>
 </section>

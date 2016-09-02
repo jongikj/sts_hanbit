@@ -15,12 +15,3 @@
   <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in"/>
 </form>
 </div>
-<script type="text/javascript">
-$(function(){
-	 $('#member_login_form').attr('method', 'post').attr('action',sessionStorage.getItem('context')+'/member/login');
-	 $('#member_login_form input[type=hidden]').attr('value',app.context());
-	 $('#member_login_form input[type=submit]').click(function() {
-	 $('#member_login_from').submit();
-	});
-});
-</script>
