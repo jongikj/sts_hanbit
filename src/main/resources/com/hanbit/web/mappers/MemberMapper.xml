@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanbit.web.mappers.MemberMapper">
+	<select id="list" resultType="com.hanbit.web.domains.MemberDTO">
+		select * from member
+	</select>
+	<select id="findById" parameterType="string" resultType="com.hanbit.web.domains.MemberDTO">
+		select 
+			mem_id as id, 
+			pw as pw, 
+			name as name, 
+			reg_date as regDate, 
+			email as email, 
+			profile_img as profileImg, 
+			ssn as ssn,
+			phone as phone,
+			role as role,
+			major_seq as major_seq,
+			gender as gender
+		from member where mem_id = #{id}
+	</select>
+	<select id="findByName" parameterType="string" resultType="com.hanbit.web.domains.MemberDTO">
+		select * from member where name = #{name}
+	</select>
+	<select id="count" resultType="int">
+		select count(*) as count from member
+	</select>
+	<select id="existId" parameterType="string" resultType="int">
+		select count(*) as count from member where id = #{id}
+	</select>
+	<insert id="insert" parameterType="com.hanbit.web.domains.MemberDTO">
+		insert into member(id, pw, name, reg_date, ssn, email, profile_img, phone) 
+		 values(#{id}, #{pw}, #{name}, #{regDate}, #{ssn}, #{email}, #{profileImg}, #{phone})
+	</insert>
+	<update id="update" parameterType="com.hanbit.web.domains.MemberDTO">
+		update member set pw = #{pw}, email = #{email} where id = #{id}
+	</update>
+	<delete id="delete" parameterType="com.hanbit.web.domains.MemberDTO">
+		delete from member where id = #{id} and pw = #{pw}
+	</delete>
+</mapper>
