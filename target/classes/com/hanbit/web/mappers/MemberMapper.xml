@@ -17,7 +17,7 @@
 			ssn as ssn,
 			phone as phone,
 			role as role,
-			major_seq as major_seq,
+			major_seq as majorSeq,
 			gender as gender
 		from member where mem_id = #{id}
 	</select>

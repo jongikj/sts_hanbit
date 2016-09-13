@@ -21,10 +21,10 @@
 		<slf4j-version>1.7.7</slf4j-version>
 		<cglib-version>2.2.2</cglib-version>
 		<javax.inject-version>1</javax.inject-version>
-		<servlet-version>2.5</servlet-version>
+		<servlet-version>3.1</servlet-version>
 		<jsp-version>2.1</jsp-version>
 		<jstl-version>1.2</jstl-version>
-		<junit-version>4.7</junit-version>
+		<junit-version>4.12</junit-version>
 		<mockito-version>1.10.19</mockito-version>
 		<jaxb-version>2.2.11</jaxb-version>
 		<jackson-mapper-version>1.9.13</jackson-mapper-version>
@@ -167,10 +167,9 @@
 
 		<!-- Servlet -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>${servlet-version}</version>
-			<scope>provided</scope>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>

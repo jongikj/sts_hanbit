@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.hanbit.web.domains.MemberDTO;
@@ -22,9 +23,11 @@ import com.hanbit.web.services.MemberService;
 */
 
 @Service
+@Qualifier("memberService")
 public class MemberServiceImpl implements MemberService{
 	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	@Autowired private SqlSession sqlSession;
+	@Autowired private MemberDTO member;
 
 	public String regist(MemberDTO mem) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
@@ -99,7 +102,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberDTO login(MemberDTO member) {
-		logger.info("MemberService login =  {}", member.getId());
+		logger.info("MemberService login =  {}", member.toString());
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		MemberDTO mem = mapper.findById(member.getId());
 		if(mem.getPw().equals(member.getPw())){
