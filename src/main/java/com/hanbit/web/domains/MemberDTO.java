@@ -1,7 +1,5 @@
 package com.hanbit.web.domains;
 
-import java.io.Serializable;
-
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
@@ -15,8 +13,8 @@ import lombok.Setter;
  * @story  :
 */
 @Component
-public class MemberDTO implements Serializable{
-	private static final long serialVersionUID = 1L;
+@Data
+public class MemberDTO {
 	@Getter @Setter private String id;
 	@Getter @Setter private String pw;
 	@Getter @Setter private String name;
@@ -26,6 +24,6 @@ public class MemberDTO implements Serializable{
 	@Getter @Setter private String profileImg;
 	@Getter @Setter private String email;
 	@Getter @Setter private String phone;
+	@Getter @Setter private String role;
 	@Getter @Setter private int birth;
-	
 }	

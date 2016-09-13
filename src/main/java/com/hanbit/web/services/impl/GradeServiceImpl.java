@@ -59,25 +59,21 @@ public class GradeServiceImpl implements GradeService {
 
 	@Override
 	public Map<?, ?> map() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void score(String[] arr) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public List<?> findBy(String keyword) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int count() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 }

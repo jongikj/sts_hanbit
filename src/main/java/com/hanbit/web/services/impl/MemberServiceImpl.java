@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hanbit.web.domains.MemberDTO;
+import com.hanbit.web.mappers.GradeMapper;
 import com.hanbit.web.mappers.MemberMapper;
 import com.hanbit.web.services.MemberService;
 
@@ -98,7 +99,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberDTO login(MemberDTO member) {
-		logger.info("MemberService login =  {}", member.toString());
+		logger.info("MemberService login =  {}", member.getId());
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		MemberDTO mem = mapper.findById(member.getId());
 		if(mem.getPw().equals(member.getPw())){
