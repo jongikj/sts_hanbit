@@ -5,6 +5,7 @@ package com.hanbit.web.services;
 
 import java.util.List;
 
+import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
 import com.hanbit.web.util.CommonService;
 
@@ -18,7 +19,7 @@ public interface MemberService extends CommonService{
 	public String regist(MemberDTO member);
 	public void update(MemberDTO member);
 	public void delete(MemberDTO member);
-	public MemberDTO findById(String id);
+	public MemberDTO findOne(Command command);
 	public List<MemberDTO> findByName(String findName);
 	public boolean existId(String id);
 	public MemberDTO findBy();

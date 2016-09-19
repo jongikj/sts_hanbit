@@ -6,7 +6,7 @@
 	<select id="list" resultType="com.hanbit.web.domains.MemberDTO">
 		select * from member
 	</select>
-	<select id="findById" parameterType="string" resultType="com.hanbit.web.domains.MemberDTO">
+	<select id="findOne" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
 		select 
 			mem_id as id, 
 			pw as pw, 
@@ -19,7 +19,7 @@
 			role as role,
 			major_seq as majorSeq,
 			gender as gender
-		from member where mem_id = #{id}
+		from member where ${option} = #{keyword}
 	</select>
 	<select id="findByName" parameterType="string" resultType="com.hanbit.web.domains.MemberDTO">
 		select * from member where name = #{name}

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
-import com.hanbit.web.mappers.GradeMapper;
 import com.hanbit.web.mappers.MemberMapper;
 import com.hanbit.web.services.MemberService;
 
@@ -61,9 +61,9 @@ public class MemberServiceImpl implements MemberService{
 		return 0;
 	}
 
-	public MemberDTO findById(String findID) {
+	public MemberDTO findOne(Command command) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		return mapper.findById(findID);
+		return mapper.findOne(command); 
 	}
 
 	public List<MemberDTO> list() {
