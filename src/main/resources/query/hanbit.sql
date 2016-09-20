@@ -2,11 +2,6 @@
 === META PROCEDURE ===
 */	
 SELECT OBJECT_NAME FROM USER_PROCEDURES ORDER BY OBJECT_NAME ASC;
-DROP PROCEDURE HANBIT.SELECT_MAJOR;
-DROP PROCEDURE HANBIT.SELECT_COUNT_MAJOR;
-DROP PROCEDURE HANBIT.FIND_MAJOR;
-DROP PROCEDURE HANBIT.FIND_MEMBER;
-DROP PROCEDURE HANBIT.FIND_BY_MAJOR;
 /*
 =========== MAJOR ===========
 @AUTHOR : plus4912@gmail.com
@@ -15,7 +10,32 @@ DROP PROCEDURE HANBIT.FIND_BY_MAJOR;
 @DESC : 전공
 =============================
 */
---- DEF_INSERT_MAJOR
+DROP TABLE Major CASCADE CONSTRAINT;
+CREATE SEQUENCE major_seq START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE;
+-- TABLE 생성 순서 1
+CREATE TABLE Major(
+	major_seq INT PRIMARY KEY,
+	title VARCHAR2(20) NOT NULL
+);
+-- MAJOR_VIEW
+CREATE OR REPLACE VIEW Major_view 
+AS 
+SELECT 
+	m.major_seq as majorSeq,
+	m.title AS majorTitle,
+	u.mem_id AS id,
+	u.pw AS pw,
+	u.name AS name,
+	u.gender AS gender,
+	u.reg_date AS regDate,
+	u.ssn AS ssn,
+	u.email AS email,
+	u.profile_img AS profileImg,
+	u.role AS role,
+	u.phone AS phone
+FROM Major m, Member u 
+WHERE m.major_seq = u.major_seq; 
+--- SP_INSERT_MAJOR
 CREATE OR REPLACE PROCEDURE insert_major(sp_title IN Major.title%TYPE) AS
 BEGIN
 	INSERT INTO Major(major_seq,title) VALUES(major_seq.nextval,sp_title);
@@ -23,14 +43,14 @@ BEGIN
 END insert_major;
 -- EXE_INSERT_MAJOR
 EXEC HANBIT.INSERT_MAJOR('컴퓨터공학');
--- DEF_COUNT_MAJOR
+-- SP_COUNT_MAJOR
 CREATE OR REPLACE PROCEDURE count_major(
 	sp_count OUT NUMBER
 ) AS 
 BEGIN
 	SELECT COUNT(*) into sp_count FROM Major;
 END count_major;
--- DEF_FIND_BY_MAJOR_SEQ
+-- SP_FIND_BY_MAJOR_SEQ
 CREATE OR REPLACE PROCEDURE find_by_major_seq(
 	sp_major_seq IN OUT Major.major_seq%TYPE,
 	sp_title OUT Major.title%TYPE,
@@ -50,7 +70,7 @@ BEGIN
         sp_result :='전공 과목이 없습니다';
     END IF;
 END find_by_major_seq;
--- DEF_ALL_MAJOR(CLOB VERSION)
+-- SP_ALL_MAJOR(CLOB VERSION)
 CREATE OR REPLACE PROCEDURE HANBIT.all_major(
     sp_result OUT CLOB
 ) AS
@@ -86,7 +106,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(sp_result);
     
 END; 
--- DEF_UPDATE_MAJOR
+-- SP_UPDATE_MAJOR
 CREATE OR REPLACE PROCEDURE update_major(
     sp_major_seq IN Major.major_seq%TYPE,
     sp_title IN Major.title%TYPE
@@ -97,7 +117,7 @@ BEGIN
 END update_major;
 
 BEGIN update_major(1006, '경영학부'); END;
--- DEF_DELETE_MAJOR
+-- SP_DELETE_MAJOR
 CREATE OR REPLACE PROCEDURE delete_major(
     sp_major_seq IN Major.major_seq%TYPE
 )
@@ -106,7 +126,7 @@ BEGIN
     DELETE FROM Major WHERE major_seq = sp_major_seq;
 END delete_major;
 BEGIN delete_major(1006); END;
--- DEF_ALL_MAJOR(CURSOR VERSION)
+-- SP_ALL_MAJOR(CURSOR VERSION)
 CREATE OR REPLACE PROCEDURE HANBIT.all_major(
     major_cur OUT SYS_REFCURSOR
 ) IS
@@ -136,7 +156,25 @@ END;
 @DESC : 교수
 ===================================
 */
--- DEF_INSERT_PROF
+DROP TABLE Member CASCADE CONSTRAINT;
+-- TABLE CREATE ORDER #2
+CREATE TABLE Member(
+	mem_id VARCHAR2(20) PRIMARY KEY,
+	pw VARCHAR2(20) NOT NULL,
+	name VARCHAR2(20) NOT NULL,
+	gender VARCHAR2(10) NOT NULL,
+	reg_date VARCHAR2(20) NOT NULL,
+	ssn VARCHAR2(10) NOT NULL UNIQUE,
+	email VARCHAR2(30),
+	profile_img VARCHAR2(100) SPAULT 'SPault.jpg',
+	role VARCHAR2(10) SPAULT 'STUDENT',
+	phone VARCHAR2(13) NOT NULL UNIQUE,
+	major_seq INT,
+	CONSTRAINT gender_ck CHECK (gender IN ('MALE', 'FEMALE')),
+	CONSTRAINT major_member_fk FOREIGN KEY (major_seq) REFERENCES Major(major_seq) ON DELETE CASCADE
+--				부모_자식_fk				    자식 major_seq			  부모 major_seq	
+);
+-- SP_INSERT_PROF
 CREATE OR REPLACE PROCEDURE insert_prof(
 	sp_mem_id IN Member.mem_id%TYPE,
 	sp_pw IN Member.pw%TYPE,
@@ -154,8 +192,8 @@ BEGIN
 	VALUES(sp_mem_id,sp_pw,sp_name,sp_gender,sp_reg_date,sp_ssn,sp_email,sp_profile_img,sp_role,sp_phone);
 END insert_prof;
 -- EXE_INSERT_PROF
-EXEC HANBIT.INSERT_PROF('profx','1','X맨','MALE','2010-06-01','700101-1','profX@test.com','default.jpg','PROF','010-1234-5678');
--- DEF_COUNT_PROF
+EXEC HANBIT.INSERT_PROF('profx','1','X맨','MALE','2010-06-01','700101-1','profX@test.com','SPault.jpg','PROF','010-1234-5678');
+-- SP_COUNT_PROF
 CREATE OR REPLACE PROCEDURE count_prof(
 	sp_count OUT NUMBER
 ) AS 
@@ -164,7 +202,7 @@ BEGIN
 END count_prof;
 -- EXE_COUNT_PROF
 DECLARE sp_count NUMBER;BEGIN count_prof(sp_count);DBMS_OUTPUT.put_line ('교수 인원 : '||sp_count||' 명');END;
--- DEF_EXIST_MEMBER_ID
+-- SP_EXIST_MEMBER_ID
 CREATE OR REPLACE PROCEDURE exist_member_id(
     sp_mem_id IN Member.mem_id%TYPE,
     sp_count OUT NUMBER
@@ -173,14 +211,14 @@ CREATE OR REPLACE PROCEDURE exist_member_id(
 END exist_member_id;
 -- EXE_EXIST_MEMBER_ID
 DECLARE sp_mem_id VARCHAR2(30) := 'prof_james';sp_count NUMBER;BEGIN exist_member_id(sp_mem_id, sp_count);DBMS_OUTPUT.put_line ('조회결과  : '||sp_count||' 명');END;
--- DEF_FIND_BY_PROF_ID
+-- SP_FIND_BY_PROF_ID
 CREATE OR REPLACE PROCEDURE find_by_prof_id(
 	sp_prof_id IN Member.mem_id%TYPE,
 	sp_prof OUT Member%ROWTYPE
 ) AS BEGIN SELECT * INTO sp_prof from Member where mem_id = sp_prof_id AND role = 'PROF'; END find_by_prof_id;
 -- EXE_EXIST_PROF_ID
 DECLARE sp_prof_id VARCHAR2(100) := 'prof_james'; sp_prof Member%ROWTYPE; BEGIN find_by_prof_id(sp_prof_id, sp_prof); DBMS_OUTPUT.put_line (sp_prof.name);END;
--- DEF_ALL_PROF (CURSOR VERSION)
+-- SP_ALL_PROF (CURSOR VERSION)
 CREATE OR REPLACE PROCEDURE HANBIT.all_prof(
     prof_cur OUT SYS_REFCURSOR
 ) IS
@@ -201,7 +239,7 @@ BEGIN
     END LOOP;
 CLOSE sp_cursor;
 END;
--- DEF_UPDATE_PROF
+-- SP_UPDATE_PROF
 CREATE OR REPLACE PROCEDURE update_prof(
     sp_prof_id IN Member.mem_id%TYPE,
     sp_pw IN Member.pw%TYPE,
@@ -210,7 +248,7 @@ CREATE OR REPLACE PROCEDURE update_prof(
 )AS BEGIN UPDATE Member SET pw = sp_pw, email = sp_email, phone = sp_phone WHERE mem_id = sp_prof_id;END update_prof;
 -- EXE_UPDATE_PROF
 BEGIN update_prof('profx', '1', 'change@test.xom', '010-9999-9999');END;
--- DEF_DELETE_PROF
+-- SP_DELETE_PROF
 CREATE OR REPLACE PROCEDURE delete_prof(sp_prof_id IN Member.mem_id%TYPE)AS
 BEGIN DELETE FROM Member WHERE mem_id =  sp_prof_id; END;
 -- EXE_DELETE_PROF
@@ -223,7 +261,7 @@ BEGIN delete_prof('profx'); END;
 @DESC : 학생
 ======================================
 */
--- DEF_INSERT_STUDENT
+-- SP_INSERT_STUDENT
 CREATE OR REPLACE PROCEDURE insert_student(
 	sp_mem_id IN Member.mem_id%TYPE,
 	sp_pw IN Member.pw%TYPE,
@@ -242,8 +280,8 @@ BEGIN
 	VALUES(sp_mem_id,sp_pw,sp_name,sp_gender,sp_reg_date,sp_ssn,sp_email,sp_profile_img,sp_role,sp_phone,sp_major_seq);
 END insert_student;
 -- EXE_INSERT_STUDENT
-EXEC HANBIT.INSERT_STUDENT('hong','1','홍길동','MALE','2016-06-01','800101-1','hong@test.com','default.jpg','STUDENT','010-1234-5678','1006');
--- DEF_SELECT_STUDENTS
+EXEC HANBIT.INSERT_STUDENT('hong','1','홍길동','MALE','2016-06-01','800101-1','hong@test.com','SPault.jpg','STUDENT','010-1234-5678','1006');
+-- SP_SELECT_STUDENTS
 CREATE OR REPLACE PROCEDURE select_students(
 	mem_id OUT Member.mem_id%TYPE,
 	pw OUT Member.pw%TYPE,
@@ -261,12 +299,12 @@ BEGIN
 	SELECT mem_id,pw,name,gender,reg_date,ssn,email,profile_img,role,phone,major_seq 
 	FROM Member WHERE major_seq IS NOT NULL;
 END select_students;
--- DEF_COUNT_STUDENT 
+-- SP_COUNT_STUDENT 
 CREATE OR REPLACE PROCEDURE count_student(sp_count OUT NUMBER) AS 
 BEGIN SELECT COUNT(*) into sp_count FROM Member WHERE role='STUDENT';COMMIT; END count_student;
 -- EXE_COUNT_STUDENT
 DECLARE sp_count NUMBER;BEGIN count_student(sp_count);DBMS_OUTPUT.put_line ('학생 인원 : '||sp_count||' 명');END;
--- DEF_FIND_BY_STUDENT_ID
+-- SP_FIND_BY_STUDENT_ID
 CREATE OR REPLACE PROCEDURE find_by_student_id(
 	sp_student_id IN Member.mem_id%TYPE,
 	sp_student OUT Member%ROWTYPE
@@ -280,7 +318,7 @@ BEGIN
  find_by_student_id(sp_student_id,sp_student);
   DBMS_OUTPUT.put_line (sp_student.name);
  END;
- -- DEF_ALL_STUDENT(CURSOR VERSION)
+ -- SP_ALL_STUDENT(CURSOR VERSION)
 CREATE OR REPLACE PROCEDURE HANBIT.all_student(
     student_cur OUT SYS_REFCURSOR
 ) IS
@@ -303,53 +341,48 @@ BEGIN
   CLOSE sp_cursor;
 END;
 /*
-=========== MEMBER_SUBJECT ===========
-@AUTHOR : plus4912@gmail.com
-@CREATE DATE : 2016-09-08
-@UPDATE DATE : 2016-09-09
-@DESC :  과목
-======================================
-*/
--- DEF_INSERT_SUBJECT
-CREATE OR REPLACE PROCEDURE insert_subject(
-	sp_subj_name IN Subject.subj_name%TYPE,
-	sp_mem_id IN Subject.mem_id%TYPE
-) AS
-BEGIN
-	INSERT INTO Subject(subj_seq,subj_name,mem_id) 
-	VALUES(subj_seq.NEXTVAL,sp_subj_name,sp_mem_id);
-END insert_subject;
--- EXE_INSERT_SUBJECT
-EXEC HANBIT.INSERT_SUBJECT('java','profx');
-/*
-=========== MEMBER_EXAM ===========
-@AUTHOR : plus4912@gmail.com
-@CREATE DATE : 2016-09-08
-@UPDATE DATE : 2016-09-09
-@DESC :  시험
-===================================
-*/
--- DEF_INSERT_EXAM
-CREATE OR REPLACE PROCEDURE insert_exam(
-	sp_exam_seq IN Exam.exam_seq%TYPE,
-	sp_term IN Exam.term%TYPE,
-	sp_score IN Exam.score%TYPE,
-	sp_subj_seq IN Exam.subj_seq%TYPE,
-	sp_mem_id IN Exam.mem_id%TYPE
-) AS
-BEGIN
-	INSERT INTO Exam(exam_seq,term,score,subj_seq,mem_id) 
-	VALUES(sp_exam_seq,sp_term,sp_score,sp_subj_seq,sp_mem_id);
-END insert_exam;
-/*
-=========== MEMBER_GRADE ===========
+=========== GRADE ===========
 @AUTHOR : plus4912@gmail.com
 @CREATE DATE : 2016-09-08
 @UPDATE DATE : 2016-09-09
 @DESC : 성적
 ====================================
 */
--- DEF_INSERT_GRADE
+DROP TABLE grade CASCADE CONSTRAINT;
+CREATE SEQUENCE grade_seq START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE;
+-- TABLE CREATE ORDER #3
+CREATE TABLE Grade(
+	grade_seq INT PRIMARY KEY,
+	grade VARCHAR2(5) NOT NULL,
+	term VARCHAR2(10) NOT NULL,
+	mem_id VARCHAR2(20) NOT NULL,
+	CONSTRAINT member_grade_fk FOREIGN KEY (mem_id) REFERENCES Member(mem_id) ON DELETE CASCADE
+);
+-- GRADE_VIEW
+CREATE OR REPLACE VIEW Grade_view
+AS
+SELECT 
+	u.mem_id AS id,
+	u.pw AS pw,
+	u.name AS name,
+	u.gender AS gender,
+	u.reg_date AS regDate,
+	u.ssn AS ssn,
+	u.email AS email,
+	u.birth AS birth,
+	u.profile_img AS profileImg,
+	u.role AS role,
+	u.phone AS phone,
+	g.grade_seq AS gradeSeq,
+	g.grade AS grade,
+	g.term AS term,
+	s.subj_seq AS subjSeq,
+	s.subj_name AS subjName,
+	x.exam_seq AS examSeq,
+	x.score AS score
+FROM Member u, Grade g, Subject s, Exam x 
+WHERE u.mem_id = g.mem_id AND u.mem_id = s.mem_id AND u.mem_id = x.mem_id;
+-- SP_INSERT_GRADE
 CREATE OR REPLACE PROCEDURE insert_grade(
 	sp_grade_seq IN Grade.grade_seq%TYPE,
 	sp_grade IN Grade.grade%TYPE,
@@ -368,7 +401,40 @@ END insert_grade;
 @DESC :  QNA
 =================================
 */
--- DEF_INSERT_QNA
+DROP TABLE Board CASCADE CONSTRAINT;
+CREATE SEQUENCE art_seq START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE;
+-- TABLE CREATE ORDER #4
+create table Board(
+	art_seq INT PRIMARY KEY,
+	category VARCHAR2(20) NOT NULL UNIQUE,
+	title VARCHAR2(30) DEFAULT 'NO TITLE',
+	reg_date VARCHAR2(20) NOT NULL,
+	content VARCHAR2(100) DEFAULT 'NO CONTENT',
+	mem_id VARCHAR2(20),
+	CONSTRAINT member_board_fk FOREIGN KEY (mem_id) REFERENCES Member(mem_id) ON DELETE CASCADE
+);
+-- BOARD_VIEW
+CREATE OR REPLACE VIEW Board_view
+AS
+SELECT 
+	u.mem_id AS id,
+	u.pw AS pw,
+	u.name AS name,
+	u.gender AS gender,
+	u.reg_date AS regDate,
+	u.ssn AS ssn,
+	u.email AS email,
+	u.profile_img AS profileImg,
+	u.role AS role,
+	u.phone AS phone,
+	b.title AS title,
+	b.art_seq AS artSeq,
+	b.category AS category,
+	b.reg_date AS writeDate,
+	b.content AS content
+FROM Member u, Board b  
+WHERE u.mem_id = b.mem_id;
+-- SP_INSERT_QNA
 CREATE OR REPLACE PROCEDURE insert_qna(
 	sp_art_seq IN Board.art_seq%TYPE,
 	sp_category IN Board.category%TYPE,
@@ -389,7 +455,7 @@ END insert_qna;
 @DESC :  공지사항
 =================================
 */
--- DEF_INSERT_NOTICE
+-- SP_INSERT_NOTICE
 CREATE OR REPLACE PROCEDURE insert_notice(
 	sp_art_seq IN Board.art_seq%TYPE,
 	sp_category IN Board.category%TYPE,
@@ -401,8 +467,66 @@ BEGIN
 	INSERT INTO Board(art_seq,category,title,reg_date,content) 
 	VALUES(sp_art_seq,sp_category,sp_title,sp_reg_date,sp_content);
 END insert_notice;
-
-
+/*
+=========== SUBJECT ===========
+@AUTHOR : plus4912@gmail.com
+@CREATE DATE : 2016-09-08
+@UPDATE DATE : 2016-09-09
+@DESC :  과목
+======================================
+*/
+DROP TABLE Subject CASCADE CONSTRAINT;
+CREATE SEQUENCE subj_seq START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE;
+-- TABLE CREATE ORDER #5
+create table Subject(
+	subj_seq INT PRIMARY KEY,
+	subj_name VARCHAR2(20) NOT NULL,
+	mem_id VARCHAR2(20) NOT NULL,
+	CONSTRAINT member_subject_fk FOREIGN KEY (mem_id) REFERENCES Member(mem_id) ON DELETE CASCADE
+);
+-- SP_INSERT_SUBJECT
+CREATE OR REPLACE PROCEDURE insert_subject(
+	sp_subj_name IN Subject.subj_name%TYPE,
+	sp_mem_id IN Subject.mem_id%TYPE
+) AS
+BEGIN
+	INSERT INTO Subject(subj_seq,subj_name,mem_id) 
+	VALUES(subj_seq.NEXTVAL,sp_subj_name,sp_mem_id);
+END insert_subject;
+-- EXE_INSERT_SUBJECT
+EXEC HANBIT.INSERT_SUBJECT('java','profx');
+/*
+=========== EXAM ===========
+@AUTHOR : plus4912@gmail.com
+@CREATE DATE : 2016-09-08
+@UPDATE DATE : 2016-09-09
+@DESC :  시험
+===================================
+*/
+DROP TABLE Exam CASCADE CONSTRAINT;
+CREATE SEQUENCE exam_seq START WITH 1000 INCREMENT BY 1 NOCACHE NOCYCLE;
+-- TABLE CREATE ORDER#6
+create table Exam(
+	exam_seq INT PRIMARY KEY,
+	term VARCHAR2(10) NOT NULL,
+	score INT DEFAULT 0,
+	subj_seq INT,
+	mem_id VARCHAR2(20),
+	CONSTRAINT subject_exam_fk FOREIGN KEY (subj_seq) REFERENCES Subject(subj_seq) ON DELETE CASCADE,
+	CONSTRAINT member_exam_fk FOREIGN KEY (mem_id) REFERENCES Member(mem_id) ON DELETE CASCADE
+);
+-- SP_INSERT_EXAM
+CREATE OR REPLACE PROCEDURE insert_exam(
+	sp_exam_seq IN Exam.exam_seq%TYPE,
+	sp_term IN Exam.term%TYPE,
+	sp_score IN Exam.score%TYPE,
+	sp_subj_seq IN Exam.subj_seq%TYPE,
+	sp_mem_id IN Exam.mem_id%TYPE
+) AS
+BEGIN
+	INSERT INTO Exam(exam_seq,term,score,subj_seq,mem_id) 
+	VALUES(sp_exam_seq,sp_term,sp_score,sp_subj_seq,sp_mem_id);
+END insert_exam;
 /*
 READ PROCEDURE
 */

@@ -28,11 +28,12 @@ public class MemberServiceImpl implements MemberService{
 	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	@Autowired private SqlSession sqlSession;
 	@Autowired private MemberDTO member;
-
+	@Autowired Command command;
+	
 	public String regist(MemberDTO mem) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		String msg = "";
-		MemberDTO temp = this.findById(mem.getId());
+		MemberDTO temp = this.findOne(null);
 		if (temp == null) {
 			System.out.println(mem.getId()+"가 존재하지 않음,가입 가능한 ID");
 			int result = mapper.insert(mem);
@@ -104,13 +105,17 @@ public class MemberServiceImpl implements MemberService{
 	public MemberDTO login(MemberDTO member) {
 		logger.info("MemberService login =  {}", member.toString());
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		MemberDTO mem = mapper.findById(member.getId());
+		Command command = new Command();
+		command.setKeyword(member.getId());
+		command.setOption("mem_id");
+		MemberDTO mem = mapper.findOne(command);
 		if(mem.getPw().equals(member.getPw())){
 			logger.info("MemberService LOGIN IS {} ", "SUCCESS");
 			return mem;
+		} else {
+			logger.info("MemberService LOGIN IS {} ", "FAIL");
+			mem.setId("NONE");
+			return mem;
 		}
-		logger.info("MemberService LOGIN IS {} ", "FAIL");
-		mem.setId("NONE");
-		return mem;
 	}
 }

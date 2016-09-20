@@ -8,7 +8,6 @@ var app = (function(){
 		user.init();
 		admin.init();
 		account.init();
-		kaup.init();
 		grade.init();
 	};
 	var context = function(){return session.getContextPath();};
@@ -20,8 +19,8 @@ var app = (function(){
 		$('#header_brand').attr('src', app.img() + '/default/water_moon.jpg').css('width', '80').css('height', '49').addClass('cursor');
 		$('#global_content').addClass('box');
 		$('#global_content a').addClass('cursor');
-		$('#global_content_a_regist').text('SIGN UP').click(function(){controller.move('member', 'regist');});
-		$('#global_content_a_login').text('LOGIN').click(function(){controller.move('member', 'login');});
+		$('#global_content_a_regist').text('SIGN UP').click(function(){member.pub_sign_up();});
+		$('#global_content_a_login').text('LOGIN').click(function(){member.pub_login_form();});
 		$('#global_content_a_admin').text('ADMIN MODE').click(function(){admin.check()});
 	};
 	var onCreate = function() {
@@ -112,7 +111,13 @@ var admin = (function() {
 	    }
 	};
 })();
-
+/*
+========== JS_STUDENT ==========
+@CREATE DATE : 2016-8-1
+@UPDATE DATE : 2016-9-20
+@DESC : 학생
+================================
+*/
 var user = (function() {
 	var key = $('#user_content_subject #major_subject_1 input[type="hidden"]').val();
 	var init = function(){onCreate();};
@@ -161,72 +166,13 @@ var user = (function() {
 		init : init
 	};
 })();
-var account = (function(){
-	var _account_no, _money;
-	var setAccountNo = function(account_no){this._account_no=account_no;};
-	var getAccountNo = function(){return this._account_no;};
-	var setMoney = function(money){this._money=money;};
-	var getMoney = function(){return this._money;};
-	var init = function(){onCreate();};
-	var setContentView = function(){};
-	var onCreate = function(){
-		setContentView()
-		$('#bt_spec_show').click(member.spec());
-		$('#bt_make_account').click(this.spec());
-		$('#bt_deposit').click(this.deposit());
-		$('#bt_withdraw').click(this.withdraw());
-	};
-	return {
-		setAccountNo : setAccountNo,
-		getAccountNo : getAccountNo,
-		setMoney : setMoney,
-		getMoney : getMoney,
-		init : init,
-		spec : function (){ 
-            setAccountNo(Math.floor(Math.random() * 899999) + 100000);
-			setMoney(0);
-			document.querySelector('#result_account').innerHTML = getAccountNo();
-			document.querySelector('#rest_money').innerHTML = getMoney();
-		},
-		deposit : function (){
-			var r_acc = document.querySelector('#result_account').innerText;
-			
-			console.log('계좌번호 : '+r_acc);
-			switch(typeof r_acc){
-				case 'number' : console.log('this is number type');break;
-				case 'string' : console.log('this is string type');break;
-				case 'undefined' : console.log('this is undefined type');break;
-				default : console.log('type check fail !!');
-			}
-			
-			if(!r_acc) { // null 체크
-			    alert('먼저 통장 개설이 되어야 합니다.');
-			} else {
-			    var rest_money = getMoney();
-				var inputMoney = Number(document.querySelector('#money').value);
-				console.log('인풋머니 타입체크 : ' + (typeof inputMoney === 'number'));
-				console.log('잔액  타입체크 : ' + (typeof rest_money === 'number'));
-				setMoney(inputMoney + rest_money);
-			    document.querySelector('#rest_money').innerHTML = getMoney();	
-			}
-		},
-		withdraw : function (){
-			var r_acc = document.querySelector('#result_account').innerText;
-			if(!r_acc) {
-	            alert('먼저 통장 개설이 되어야 합니다.');
-            } else {
-            	var rest_money = getMoney();
-    			var inputMoney = Number(document.querySelector('#money').value);
-    			console.log('인풋머니 타입체크 : ' + (typeof inputMoney === 'number'));
-    			console.log('잔액  타입체크 : ' + (typeof rest_money === 'number'));
-    			setMoney(rest_money - inputMoney);
-    			document.querySelector('#rest_money').innerHTML = getMoney();	
-            }
-		}
-	}; 
-})();
-
-
+/*
+========== JS_PROF ==========
+@CREATE DATE : 2016-8-1
+@UPDATE DATE : 2016-9-20
+@DESC : 교수
+=============================
+*/
 var member = (function() {
 	var _ssn, _name, _gender, _age;
 	var setAge = function(age){this._age=age;}
@@ -334,51 +280,138 @@ var member = (function() {
 		document.querySelector('#result_name').innerHTML = getName();
 		document.querySelector('#result_age').innerHTML = getAge();
 		document.querySelector('#result_gender').innerHTML = getGender();
-		}
-	};
-})();
-
-var kaup = (function() {
-	var init = function(){onCreate();};
-	var setContentView = function(){};
-	var onCreate = function(){
-		setContentView();
-		document.querySelector('#kaup_calc').addEventListener('click', this.calc, false);
-	};
-	return {
-		init : init,
-		go : function() {
-			location.href = getContext() + '/douglas.do?page=kaup';
 		},
-		calc : function() {
-			var name = document.querySelector('#name').value;
-			var height = document.querySelector('#height').value;
-			var weight = document.querySelector('#weight').value;
-			console.log('name : ' + name);
-			console.log('height : ' + height);
-			console.log('weight : ' + weight);
-			var result = '';
-			var kaup = weight / (height / 100) / (height / 100);
-
-			if (kaup < 18.5) {
-				result = "저체중"; 
-			} else if (kaup > 18.5 && kaup < 23) {
-				result = "정상체중"; 
-			} else if (kaup > 23 && kaup < 25) {
-				result = "위험체중"; 
-			} else if (kaup > 25 && kaup < 30) {
-				result = "비만 1단계"; 
-			} else if (kaup > 30 && kaup < 40) {
-				result = "비만 2단계"; 
-			} else if (kaup >= 40) {
-				result = "비만 3단계";
-			}
-			document.querySelector('#result').innerHTML = name + '의 카우프 결과 : ' + result;
-			/*return name + "의 BMI지수는 " + Double.parseDouble(String.format("%.2f", kaup)) + "이고, " + result + "이다";*/
+		pub_login_form : function(){
+			var view = '<div class="box">'
+				+ '<form id="member_login_form" class="form-signin">'
+				+ '<h2 class="form-signin-heading">Please sign in</h2>'
+				+ '<label for="inputEmail" class="sr-only">Email address</label>'
+				+ '<input type="text" id="id" name="id" id="inputEmail" class="form-control" placeholder="User ID" required autofocus>'
+				+ '<label for="inputPassword" class="sr-only">Password</label>'
+				+ '<input type="password" id="pw" name="pw" id="inputPassword" class="form-control" placeholder="Password" required>'
+				+ '<input type="hidden" name="context">'
+				+ '<div class="checkbox"><label>'
+				+ '<input type="checkbox" value="remember-me"> Remember me</label></div>'
+				+ '<input id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in"/></form></div>';
+			$('#pub_article').empty().append(view);
+			$('#login_btn').click(function(e){
+				e.preventDefault();
+			$.ajax({
+				url : app.context() + '/member/login',
+				type : 'POST',
+				data : {'id':$('#id').val(), 'pw':$('#pw').val()},
+				dataType : 'json',
+				success : function(data){
+					if(data.id == 'NONE'){
+						alert('ID나 비번이 일치하지 않습니다.');
+					}else{
+						var view = '<section id="user_content_service" class="box section-padded"><div>'
+							+ '<div class="row text-center title">'
+							+ '<h2>Services</h2>'
+							+ '<h4 class="light muted">Achieve the best results with our wide variety of training options!</h4></div>'
+							+ '<div class="row services">'
+							+ '<div class="col-md-4">'
+							+ '<div id="kaup" class="service">'
+							+ '<div class="icon-holder">'
+							+ '<img src="'+app.img()+'/icons/kaup.jpg" alt="" class="icon"></div>'
+							+ '<h4 class="heading">KAUP INDEX</h4>'
+							+ '<p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p></div></div>'
+							+ '<div class="col-md-4">'
+							+ '<div id="rock_scissor_paper" class="service">'
+							+ '<div class="icon-holder">'
+							+ '<img src="'+app.img()+'/icons/RSP.jpg" alt="" class="icon"></div>'
+							+ '<h4 class="heading">ROCK SCISSOR PAPER</h4>'
+							+ '<p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p></div></div>'
+							+ '<div class="col-md-4">'
+							+ '<div id="lotto" class="service">'
+							+ '<div class="icon-holder">'
+							+ '<img src="'+app.img()+'/icons/lotto.jpg" alt="" class="icon"></div>'
+							+ '<h4 class="heading">LOTTO DRAWING</h4>'
+							+ '<p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p></div></div></div></div>'
+							+ '<div class="cut cut-bottom"></div></section>'
+							+ '<section id="user_content_subject" class="section gray-bg">'
+							+ '<div class="container">'
+							+ '<div class="row title text-center">'
+							+ '<h2 class="margin-top">Major Subject</h2>'
+							+ '<h4 class="light muted">TOP 3</h4></div>'
+							+ '<div class="row">'
+							+ '<div class="col-md-4">'
+							+ '<div id="major_subject_1" class="team text-center">'
+							+ '<div class="cover" style="background:url(' + app.img() + '/team/java-cover.jpg); background-size:cover;">'
+							+ '<div class="overlay text-center">'
+							+ '<h3 class="white">Java </h3>'
+							+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
+							+ '<img src="'+app.img()+'/team/java.jpg" alt="Java Image" class="avatar" style="width: 120px" height="120px">'
+							+ '<div class="title">'
+							+ '<h4>JAVA</h4>'
+							+ '<h5 class="muted regular">Server Program Language</h5></div>'
+							+ '<input type="hidden" name="major_subject_1" value="java"/>'
+							+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div>'
+							+ '<div class="col-md-4">'
+							+ '<div id="major_subject_2" class="team text-center">'
+							+ '<div class="cover" style="background:url(' + app.img() + '/team/javascript-cover.jpg); background-size:cover;">'
+							+ '<div class="overlay text-center">'
+							+ '<h3 class="white">Javascript</h3>'
+							+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
+							+ '<img src="'+app.img()+'/team/javascript.jpg" alt="Javascript Image" class="avatar" style="width: 120px" height="120px">'
+							+ '<div class="title">'
+							+ '<h4>Javascript</h4>'
+							+ '<h5 class="muted regular">UI Program Language</h5></div>'
+							+ '<input type="hidden" name="major_subject_2"/>'
+							+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div>'
+							+ '<div class="col-md-4">'
+							+ '<div id="major_subject_3" class="team text-center">'
+							+ '<div class="cover" style="background:url(' + app.img() + '/team/sql-cover.jpg); background-size:cover;">'
+							+ '<div class="overlay text-center">'
+							+ '<h3 class="white">SQL</h3>'
+							+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
+							+ '<img src="'+app.img()+'/team/sql.jpg" alt="SQL Image" class="avatar" style="width: 120px" height="120px">'
+							+ '<div class="title">'
+							+ '<h4>SQL</h4>'
+							+ '<h5 class="muted regular">Database Management Language</h5></div>'
+							+ '<input type="hidden" name="major_subject_3"/>'
+							+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div></div></div></section>';
+//						$('#pub_header').html(view);
+						$('#pub_article').html(view);
+					}
+				},
+				error : function(xhr, status, msg){
+					alert('로그인 실패 이유 ' + msg);
+					}
+				});
+			});
+		},
+		pub_sign_up : function(){
+			var view = '<section id="member_regist">'
+				+ '<form id="member_regist_form"><div>'
+				+ '<label for="exampleInputEmail1">이름</label> '
+				+ '<div><input type="text" id="username" placeholder="NAME"></div></div>'
+				+ '<div><label for="exampleInputEmail1">ID</label>'
+				+ '<div><input type="text" id="id" placeholder="ID"></div></div>'
+				+ '<div><label for="exampleInputEmail1">비밀번호</label>'
+				+ '<div><input type="password" id="password" placeholder="PASSWORD"></div></div>'
+				+ '<div><label for="exampleInputEmail1">SSN</label><div><input type="text" id="ssn" placeholder="예)800101-1"></div></div>'
+				+ '<div><label for="exampleInputEmail1">E-MAIL</label><div><input type="email" id="email" placeholder="EMAIL"></div></div>'
+				+ '<div><label for="exampleInputEmail1">전화번호</label><div><input type="text" id="phone" placeholder="PHONE"></div></div>'
+				+ '<div id="rd_major"><label for="exampleInputEmail1">전공</label><br/><label class="radio-inline"><input type="radio" name="major" value="computer" checked> 컴퓨터공학과</label><label class="radio-inline"><input type="radio" name="major" value="mgmt"> 경영학과</label><label class="radio-inline"><input type="radio" name="major" value="eng">영문학과</label><label class="radio-inline"><input type="radio" name="major" value="math">수학과</label></div>'
+				+ '<div><label for="exampleInputEmail1">수강과목</label><br/>'
+				+ '<div><div id="ck_subject" class="checkbox">'
+				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="java"> Java</label>'
+				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="sql"> SQL</label>'
+				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="cpp"> C++</label>'
+				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="python"> 파이썬</label>'
+				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="html"> HTML</label>'
+				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="delphi"> 델파이</label></div></div></div>'
+				+ '<input type="hidden" name="action" value="regist" />'
+				+ '<input type="hidden" name="page" value="login" />'
+				+ '<input type="hidden" name="directory" value="member" />'
+				+ '<button id="bt_join" type="submit" value="회원가입">회원가입</button>'
+				+ '<button id="bt_cancel" type="reset" value="취소">취소</button></form>	</section>';
+			$('#pub_article').empty().append(view);
+			member.init();
 		}
 	};
 })();
-
 var grade = (function(){
 	var init = function(){onCreate();};
 	var setContentView = function(){
@@ -427,7 +460,11 @@ var grade = (function(){
 		init : init,
 	};
 })();
+//Board
+var qna = (function(){})();
+var notice = (function(){})();
 
+//META 
 var session = (function() {
 	var init = function(context){
 		sessionStorage.setItem('context', context);

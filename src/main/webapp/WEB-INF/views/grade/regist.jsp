@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <section id="grade_regist">
+<div class="box">
 	<form id="grade_regist_form">
 		<ul class="list-group">
  			<li class="list-group-item">이름 : 홍길동</li>
@@ -28,4 +29,5 @@
 		<input id="bt_send" type="submit" value="등록"/>		
 		<input id="bt_cancel" type="reset" value="취소"/>
 	</form>
+	</div>
 </section>

@@ -22,19 +22,19 @@
   </head>
   <body>
       <header>
-        <div>
+        <div id="adm_header">
           <tiles:insertAttribute name="header" />
         </div>
       </header>
-        <nav>
+        <nav id="adm_nav">
           <tiles:insertAttribute name="menu" />
         </nav>
         <section>
-        <article>
+        <article id="adm_article">
           <tiles:insertAttribute name="body" />
           </article>
         </section>
-      <footer>
+      <footer id="adm_footer">
           <tiles:insertAttribute name="footer" />
       </footer>
   </body>
