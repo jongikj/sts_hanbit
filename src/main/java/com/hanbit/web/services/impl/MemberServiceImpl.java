@@ -87,9 +87,11 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	}
 	
-	public boolean existId(String id) {
+	@Override
+	public int existId(String id) {
+		logger.info("MemberService existId ID is {}", id);
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		return false;
+		return mapper.existId(id);
 	}
 
 	public MemberDTO findBy() {

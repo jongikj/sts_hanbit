@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
+import com.hanbit.web.domains.Retval;
 import com.hanbit.web.services.impl.MemberServiceImpl;
 
 @Controller
@@ -26,6 +28,7 @@ public class MemberController {
 	@Autowired MemberServiceImpl service;
 	@Autowired MemberDTO member;
 	@Autowired Command command;
+	@Autowired Retval retval;
 	
 	@RequestMapping("/search/{option}/{keyword}")
 	public MemberDTO find(@PathVariable("option")String option, @PathVariable("keyword")String keyword, Model model){
@@ -43,25 +46,26 @@ public class MemberController {
 		return model;
 	}
 	
+	@RequestMapping("/logined/header")
+	public String loginedHeader(){
+		logger.info("THIS PATH IS {}", "LOGINED_HEADER");
+		return "user/header.jsp";
+	}
+	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public @ResponseBody MemberDTO login(@RequestParam("id")String id, @RequestParam("pw")String pw, HttpSession session) {
 		logger.info("TO LOGIN ID IS {}", id);
 		logger.info("TO LOGIN PW IS {}", pw);
 		member.setId(id);
 		member.setPw(pw);
-		member = service.login(member);
-		if(member.getId().equals("NONE")){
+		MemberDTO user = service.login(member);
+		if(user.getId().equals("NONE")){
 			logger.info("Controller LOGIN {}", "FAIL");
-			return member;
+			return user;
 		}else{
 			logger.info("Controller LOGIN {}", "SUCCESS");
-			String context = (String) session.getAttribute("context");
-//			model.addAttribute("user", member);
-//			model.addAttribute("context", context);
-//			model.addAttribute("js", context + "/resources/js");
-//			model.addAttribute("css", context + "/resources/css");
-//			model.addAttribute("img", context + "/resources/img");
-			return member;
+			session.setAttribute("user", user);
+			return user;
 		}
 	}
 	
@@ -71,11 +75,26 @@ public class MemberController {
 		return "admin:member/content.tiles";
 	}
 	
-	@RequestMapping("/regist")
-	public String moveRegist() {
-		logger.info("GO TO {}", "regist");
-		return "public:member/regist.tiles";
+	@RequestMapping("/signup")
+	public @ResponseBody Retval signUp() {
+		logger.info("SIGN UP {}", "EXECUTE");
+		return retval;
 	}
+	
+	@RequestMapping("/check_dup/{id}")
+	public @ResponseBody Retval checkDup(@PathVariable String id) {
+		logger.info("CHECK DUP {}", "EXECUTE");
+		if(service.existId(id) == 1){
+			retval.setFlag("TRUE");
+			retval.setMessage("중복되는 ID 입니다.");
+		} else {
+			retval.setFlag("FALSE");
+			retval.setMessage("사용가능한 ID 입니다.");
+		}
+		logger.info("RETVAL FLAG IS {}", retval.getFlag());
+		logger.info("RETVAL MSG IS {}", retval.getMessage());
+		return retval;
+	} 
 
 	@RequestMapping("/detail")
 	public String moveDetail() {
@@ -109,9 +128,11 @@ public class MemberController {
 	}
 
 	@RequestMapping("/logout")
-	public String moveLogout() {
-		logger.info("GO TO {}", "logout");
-		return "member/logout.tiles";
+	public String moveLogout(SessionStatus status) {
+		logger.info("GO TO {}", "LOGOUT");
+		status.setComplete();
+		logger.info("SESSION IS {}", "CLEAR");
+		return "redirect:/";
 	}
 
 	@RequestMapping("/list")

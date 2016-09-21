@@ -204,6 +204,7 @@ var member = (function() {
 		$('#member_regist').addClass('box');
 		$('#member_regist #bt_join').addClass('btn').addClass('btn-primary');
 		$('#member_regist #bt_cancel').addClass('btn').addClass('btn-danger');
+		$('#member_regist #check_dup').addClass('btn').addClass('btn-primary');
 		$('#member_regist_form').addClass('form-horizontal');
 		$('#member_regist_form > div').addClass('form-group').addClass('form-group-lg');
 		$('#member_regist_form > div > label').addClass('col-sm-2').addClass('control-label');
@@ -315,19 +316,19 @@ var member = (function() {
 							+ '<div class="icon-holder">'
 							+ '<img src="'+app.img()+'/icons/kaup.jpg" alt="" class="icon"></div>'
 							+ '<h4 class="heading">KAUP INDEX</h4>'
-							+ '<p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p></div></div>'
+							+ '<p class="description">카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프.</p></div></div>'
 							+ '<div class="col-md-4">'
 							+ '<div id="rock_scissor_paper" class="service">'
 							+ '<div class="icon-holder">'
 							+ '<img src="'+app.img()+'/icons/RSP.jpg" alt="" class="icon"></div>'
 							+ '<h4 class="heading">ROCK SCISSOR PAPER</h4>'
-							+ '<p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p></div></div>'
+							+ '<p class="description">가위바위보 가위바위보 가위바위보 가위바위보 가위바위보 가위바위보.</p></div></div>'
 							+ '<div class="col-md-4">'
 							+ '<div id="lotto" class="service">'
 							+ '<div class="icon-holder">'
 							+ '<img src="'+app.img()+'/icons/lotto.jpg" alt="" class="icon"></div>'
 							+ '<h4 class="heading">LOTTO DRAWING</h4>'
-							+ '<p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p></div></div></div></div>'
+							+ '<p class="description">로또 로또 로또 로또로또로또로또로또로또로또로또로또 로또.</p></div></div></div></div>'
 							+ '<div class="cut cut-bottom"></div></section>'
 							+ '<section id="user_content_subject" class="section gray-bg">'
 							+ '<div class="container">'
@@ -371,8 +372,9 @@ var member = (function() {
 							+ '<h5 class="muted regular">Database Management Language</h5></div>'
 							+ '<input type="hidden" name="major_subject_3"/>'
 							+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div></div></div></section>';
-//						$('#pub_header').html(view);
+						$('#pub_header').empty().load(app.context() + '/member/logined/header');
 						$('#pub_article').html(view);
+						
 					}
 				},
 				error : function(xhr, status, msg){
@@ -387,7 +389,7 @@ var member = (function() {
 				+ '<label for="exampleInputEmail1">이름</label> '
 				+ '<div><input type="text" id="username" placeholder="NAME"></div></div>'
 				+ '<div><label for="exampleInputEmail1">ID</label>'
-				+ '<div><input type="text" id="id" placeholder="ID"></div></div>'
+				+ '<div id="id_box"><input type="text" id="id" placeholder="ID"><input type="button" id="check_dup" name="check_dup" value="중복 체크"></div></div>'
 				+ '<div><label for="exampleInputEmail1">비밀번호</label>'
 				+ '<div><input type="password" id="password" placeholder="PASSWORD"></div></div>'
 				+ '<div><label for="exampleInputEmail1">SSN</label><div><input type="text" id="ssn" placeholder="예)800101-1"></div></div>'
@@ -402,13 +404,39 @@ var member = (function() {
 				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="python"> 파이썬</label>'
 				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="html"> HTML</label>'
 				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="delphi"> 델파이</label></div></div></div>'
-				+ '<input type="hidden" name="action" value="regist" />'
-				+ '<input type="hidden" name="page" value="login" />'
-				+ '<input type="hidden" name="directory" value="member" />'
-				+ '<button id="bt_join" type="submit" value="회원가입">회원가입</button>'
-				+ '<button id="bt_cancel" type="reset" value="취소">취소</button></form>	</section>';
+				+ '<input id="bt_join" type="submit" value="회원가입"/>'
+				+ '<input id="bt_cancel" type="reset" value="취소"/></form>	</section>';
 			$('#pub_article').empty().append(view);
 			member.init();
+			$('#bt_join').click(function(){
+				$.ajax({
+					url : app.context() + '/member/signup',
+					type : 'post',
+					data : {},
+					dataType : '',
+					success : function(data){},
+					error : function(x, s, m){
+						alert('회원가입시 에러발생 : ' + m);
+					}
+				});
+			});
+			$('#check_dup').click(function(){
+				$.ajax({
+					url : app.context() + '/member/check_dup/' + $('#id').val(),
+					success : function(data){
+						if(data.flag === "TRUE"){
+							$('#id_box').html('<input type="text" id="id" placeholder="'+data.message+'"><input type="button" id="check_dup" name="check_dup" value="다시 체크">');
+							member.init();
+						}else{
+							$('#id_box').html('<input type="text" id="id" placeholder="'+data.message+'"><input type="button" id="check_dup" name="check_dup" value="사용하기">');
+							member.init();
+						}
+					},
+					error : function(x, s, m){
+						alert('id 중복 체크시 에러 발생 : ' + e);
+					}
+				});
+			});
 		}
 	};
 })();
