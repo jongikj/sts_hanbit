@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +54,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public @ResponseBody MemberDTO login(@RequestParam("id")String id, @RequestParam("pw")String pw, HttpSession session) {
+	public @ResponseBody MemberDTO login(@RequestParam("id")String id, @RequestParam("pw")String pw, Model model) {
 		logger.info("TO LOGIN ID IS {}", id);
 		logger.info("TO LOGIN PW IS {}", pw);
 		member.setId(id);
@@ -64,7 +65,7 @@ public class MemberController {
 			return user;
 		}else{
 			logger.info("Controller LOGIN {}", "SUCCESS");
-			session.setAttribute("user", user);
+			model.addAttribute("user", user);
 			return user;
 		}
 	}
@@ -75,9 +76,17 @@ public class MemberController {
 		return "admin:member/content.tiles";
 	}
 	
-	@RequestMapping("/signup")
-	public @ResponseBody Retval signUp() {
+	@RequestMapping(value="/signup", method=RequestMethod.POST)
+	public @ResponseBody Retval signUp(@RequestBody MemberDTO param) {
 		logger.info("SIGN UP {}", "EXECUTE");
+		logger.info("SIGN UP ID = {}", param.getId());
+		logger.info("SIGN UP PW = {}", param.getPw());
+		logger.info("SIGN UP NAME = {}", param.getName());
+		logger.info("SIGN UP SSN = {}", param.getSsn());
+		logger.info("SIGN UP EMAIL = {}", param.getEmail());
+		logger.info("SIGN UP PHONE = {}", param.getPhone());
+//		retval.setMessage(service.regist(param));
+		retval.setMessage("success");
 		return retval;
 	}
 	
@@ -90,6 +99,7 @@ public class MemberController {
 		} else {
 			retval.setFlag("FALSE");
 			retval.setMessage("사용가능한 ID 입니다.");
+			retval.setTemp(id);
 		}
 		logger.info("RETVAL FLAG IS {}", retval.getFlag());
 		logger.info("RETVAL MSG IS {}", retval.getMessage());
@@ -97,9 +107,9 @@ public class MemberController {
 	} 
 
 	@RequestMapping("/detail")
-	public String moveDetail() {
+	public @ResponseBody MemberDTO moveDetail(HttpSession session) {
 		logger.info("GO TO {}", "detail");
-		return "user:member/detail.tiles";
+		return (MemberDTO) session.getAttribute("user");
 	}
 	
 	@RequestMapping("/a_detail")

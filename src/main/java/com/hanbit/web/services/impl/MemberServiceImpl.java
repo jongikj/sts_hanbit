@@ -33,20 +33,8 @@ public class MemberServiceImpl implements MemberService{
 	public String regist(MemberDTO mem) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		String msg = "";
-		MemberDTO temp = this.findOne(null);
-		if (temp == null) {
-			System.out.println(mem.getId()+"가 존재하지 않음,가입 가능한 ID");
-			int result = mapper.insert(mem);
-			if (result==1) {
-				msg = "success";
-			} else {
-				msg = "fail";
-			}
-		} else {
-			System.out.println(mem.getId()+"가 존재함,가입 불가능한 ID");
-			msg = "fail";
-		}
-		return msg;
+		int result = mapper.insert(member);
+		return (sqlSession.getMapper(MemberMapper.class).insert(member)==1) ? "success" : "fail";
 	}
 
 	public void update(MemberDTO bean) {

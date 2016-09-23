@@ -3,11 +3,11 @@ var app = (function(){
 	var init = function(context) {
 		session.init(context);
 		onCreate();
-		nav.init();
-		member.init();
 		user.init();
 		admin.init();
 		account.init();
+		member.init();
+		nav.init();
 		grade.init();
 	};
 	var context = function(){return session.getContextPath();};
@@ -118,6 +118,7 @@ var admin = (function() {
 @DESC : 학생
 ================================
 */
+
 var user = (function() {
 	var key = $('#user_content_subject #major_subject_1 input[type="hidden"]').val();
 	var init = function(){onCreate();};
@@ -167,12 +168,13 @@ var user = (function() {
 	};
 })();
 /*
-========== JS_PROF ==========
+========== member ==========
 @CREATE DATE : 2016-8-1
 @UPDATE DATE : 2016-9-20
-@DESC : 교수
+@DESC : 멤버
 =============================
 */
+
 var member = (function() {
 	var _ssn, _name, _gender, _age;
 	var setAge = function(age){this._age=age;}
@@ -283,18 +285,7 @@ var member = (function() {
 		document.querySelector('#result_gender').innerHTML = getGender();
 		},
 		pub_login_form : function(){
-			var view = '<div class="box">'
-				+ '<form id="member_login_form" class="form-signin">'
-				+ '<h2 class="form-signin-heading">Please sign in</h2>'
-				+ '<label for="inputEmail" class="sr-only">Email address</label>'
-				+ '<input type="text" id="id" name="id" id="inputEmail" class="form-control" placeholder="User ID" required autofocus>'
-				+ '<label for="inputPassword" class="sr-only">Password</label>'
-				+ '<input type="password" id="pw" name="pw" id="inputPassword" class="form-control" placeholder="Password" required>'
-				+ '<input type="hidden" name="context">'
-				+ '<div class="checkbox"><label>'
-				+ '<input type="checkbox" value="remember-me"> Remember me</label></div>'
-				+ '<input id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in"/></form></div>';
-			$('#pub_article').empty().append(view);
+			$('#pub_article').html(LOGIN_FORM);
 			$('#login_btn').click(function(e){
 				e.preventDefault();
 			$.ajax({
@@ -306,74 +297,8 @@ var member = (function() {
 					if(data.id == 'NONE'){
 						alert('ID나 비번이 일치하지 않습니다.');
 					}else{
-						var view = '<section id="user_content_service" class="box section-padded"><div>'
-							+ '<div class="row text-center title">'
-							+ '<h2>Services</h2>'
-							+ '<h4 class="light muted">Achieve the best results with our wide variety of training options!</h4></div>'
-							+ '<div class="row services">'
-							+ '<div class="col-md-4">'
-							+ '<div id="kaup" class="service">'
-							+ '<div class="icon-holder">'
-							+ '<img src="'+app.img()+'/icons/kaup.jpg" alt="" class="icon"></div>'
-							+ '<h4 class="heading">KAUP INDEX</h4>'
-							+ '<p class="description">카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프.</p></div></div>'
-							+ '<div class="col-md-4">'
-							+ '<div id="rock_scissor_paper" class="service">'
-							+ '<div class="icon-holder">'
-							+ '<img src="'+app.img()+'/icons/RSP.jpg" alt="" class="icon"></div>'
-							+ '<h4 class="heading">ROCK SCISSOR PAPER</h4>'
-							+ '<p class="description">가위바위보 가위바위보 가위바위보 가위바위보 가위바위보 가위바위보.</p></div></div>'
-							+ '<div class="col-md-4">'
-							+ '<div id="lotto" class="service">'
-							+ '<div class="icon-holder">'
-							+ '<img src="'+app.img()+'/icons/lotto.jpg" alt="" class="icon"></div>'
-							+ '<h4 class="heading">LOTTO DRAWING</h4>'
-							+ '<p class="description">로또 로또 로또 로또로또로또로또로또로또로또로또로또 로또.</p></div></div></div></div>'
-							+ '<div class="cut cut-bottom"></div></section>'
-							+ '<section id="user_content_subject" class="section gray-bg">'
-							+ '<div class="container">'
-							+ '<div class="row title text-center">'
-							+ '<h2 class="margin-top">Major Subject</h2>'
-							+ '<h4 class="light muted">TOP 3</h4></div>'
-							+ '<div class="row">'
-							+ '<div class="col-md-4">'
-							+ '<div id="major_subject_1" class="team text-center">'
-							+ '<div class="cover" style="background:url(' + app.img() + '/team/java-cover.jpg); background-size:cover;">'
-							+ '<div class="overlay text-center">'
-							+ '<h3 class="white">Java </h3>'
-							+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
-							+ '<img src="'+app.img()+'/team/java.jpg" alt="Java Image" class="avatar" style="width: 120px" height="120px">'
-							+ '<div class="title">'
-							+ '<h4>JAVA</h4>'
-							+ '<h5 class="muted regular">Server Program Language</h5></div>'
-							+ '<input type="hidden" name="major_subject_1" value="java"/>'
-							+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div>'
-							+ '<div class="col-md-4">'
-							+ '<div id="major_subject_2" class="team text-center">'
-							+ '<div class="cover" style="background:url(' + app.img() + '/team/javascript-cover.jpg); background-size:cover;">'
-							+ '<div class="overlay text-center">'
-							+ '<h3 class="white">Javascript</h3>'
-							+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
-							+ '<img src="'+app.img()+'/team/javascript.jpg" alt="Javascript Image" class="avatar" style="width: 120px" height="120px">'
-							+ '<div class="title">'
-							+ '<h4>Javascript</h4>'
-							+ '<h5 class="muted regular">UI Program Language</h5></div>'
-							+ '<input type="hidden" name="major_subject_2"/>'
-							+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div>'
-							+ '<div class="col-md-4">'
-							+ '<div id="major_subject_3" class="team text-center">'
-							+ '<div class="cover" style="background:url(' + app.img() + '/team/sql-cover.jpg); background-size:cover;">'
-							+ '<div class="overlay text-center">'
-							+ '<h3 class="white">SQL</h3>'
-							+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
-							+ '<img src="'+app.img()+'/team/sql.jpg" alt="SQL Image" class="avatar" style="width: 120px" height="120px">'
-							+ '<div class="title">'
-							+ '<h4>SQL</h4>'
-							+ '<h5 class="muted regular">Database Management Language</h5></div>'
-							+ '<input type="hidden" name="major_subject_3"/>'
-							+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div></div></div></section>';
 						$('#pub_header').empty().load(app.context() + '/member/logined/header');
-						$('#pub_article').html(view);
+						$('#pub_article').html(STUDENT_MAIN);
 						
 					}
 				},
@@ -384,58 +309,92 @@ var member = (function() {
 			});
 		},
 		pub_sign_up : function(){
-			var view = '<section id="member_regist">'
-				+ '<form id="member_regist_form"><div>'
-				+ '<label for="exampleInputEmail1">이름</label> '
-				+ '<div><input type="text" id="username" placeholder="NAME"></div></div>'
-				+ '<div><label for="exampleInputEmail1">ID</label>'
-				+ '<div id="id_box"><input type="text" id="id" placeholder="ID"><input type="button" id="check_dup" name="check_dup" value="중복 체크"></div></div>'
-				+ '<div><label for="exampleInputEmail1">비밀번호</label>'
-				+ '<div><input type="password" id="password" placeholder="PASSWORD"></div></div>'
-				+ '<div><label for="exampleInputEmail1">SSN</label><div><input type="text" id="ssn" placeholder="예)800101-1"></div></div>'
-				+ '<div><label for="exampleInputEmail1">E-MAIL</label><div><input type="email" id="email" placeholder="EMAIL"></div></div>'
-				+ '<div><label for="exampleInputEmail1">전화번호</label><div><input type="text" id="phone" placeholder="PHONE"></div></div>'
-				+ '<div id="rd_major"><label for="exampleInputEmail1">전공</label><br/><label class="radio-inline"><input type="radio" name="major" value="computer" checked> 컴퓨터공학과</label><label class="radio-inline"><input type="radio" name="major" value="mgmt"> 경영학과</label><label class="radio-inline"><input type="radio" name="major" value="eng">영문학과</label><label class="radio-inline"><input type="radio" name="major" value="math">수학과</label></div>'
-				+ '<div><label for="exampleInputEmail1">수강과목</label><br/>'
-				+ '<div><div id="ck_subject" class="checkbox">'
-				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="java"> Java</label>'
-				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="sql"> SQL</label>'
-				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="cpp"> C++</label>'
-				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="python"> 파이썬</label>'
-				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="html"> HTML</label>'
-				+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="delphi"> 델파이</label></div></div></div>'
-				+ '<input id="bt_join" type="submit" value="회원가입"/>'
-				+ '<input id="bt_cancel" type="reset" value="취소"/></form>	</section>';
-			$('#pub_article').empty().append(view);
+			$('#pub_article').html(SIGN_UP_FORM);
 			member.init();
-			$('#bt_join').click(function(){
-				$.ajax({
-					url : app.context() + '/member/signup',
-					type : 'post',
-					data : {},
-					dataType : '',
-					success : function(data){},
-					error : function(x, s, m){
-						alert('회원가입시 에러발생 : ' + m);
-					}
-				});
-			});
 			$('#check_dup').click(function(){
-				$.ajax({
-					url : app.context() + '/member/check_dup/' + $('#id').val(),
-					success : function(data){
-						if(data.flag === "TRUE"){
-							$('#id_box').html('<input type="text" id="id" placeholder="'+data.message+'"><input type="button" id="check_dup" name="check_dup" value="다시 체크">');
-							member.init();
-						}else{
-							$('#id_box').html('<input type="text" id="id" placeholder="'+data.message+'"><input type="button" id="check_dup" name="check_dup" value="사용하기">');
-							member.init();
+				if(util.pwChecker($('#id').val()) === 'yes'){
+					$.ajax({
+						url : app.context() + '/member/check_dup/' + $('#id').val(),
+						success : function(data){
+							if(data.flag === "TRUE"){
+								$('#id_box').html('<input type="text" id="id" placeholder="'+data.message+'"><input type="button" id="re_check" name="re_check" value="다시체크">');
+								member.init();
+							}else{
+								$('#id_box').html('<input type="text" id="id" value="'+data.temp+'"><input type="button" id="use_input_id" name="use_input_id" value="사용하기">');
+								member.init();
+								$('#use_input_id').click(function(){alert('그대로 사용');});
+								var use_id = data.temp;
+								var password = $('#password').val();
+								$('#bt_join').click(function(){
+									var join_info = {
+										'name' : $('#username').val(),
+										'id' : $('#id').val(),
+										'pw' : $('#password').val(),
+										'ssn' : $('#ssn').val(),
+										'email' : $('#email').val(),
+										'phone' : $('#phone').val()
+									};
+//									$('#rd_major').val()
+//									$('#ck_subject').val()
+									$.ajax({
+										url : app.context() + '/member/signup',
+										type : 'post',
+										contentType : 'application/json',
+										data : JSON.stringify(join_info),
+										dataType : 'json',
+										success : function(data){
+										if(data.message === 'success'){
+											member.pub_login_form();
+										} else {
+											alert('회원가입시 알 수 없는 에러가 발생했습니다.');
+											}
+										},
+										error : function(x, s, m){
+											alert('회원가입시 에러발생 ' + m);
+										}
+									});
+								});
+							}
+						},
+						error : function(x, s, m){
+							alert('id 중복체크시 에러 발생 : ' + m);
 						}
+					});
+				} else {
+					alert('정규식에 맞지 않음');
+					$('#id').val('').focus();
+				} 
+			});
+			$('#password_check').blur(function(){
+				if($('#password').val() !== $('#password_check').val()){
+					$('#password_check').val('').attr('placeholder', '비밀번호가 일치하지 않습니다.');
+				}
+			});
+		},
+		detail : function(){
+			$('#pub_header').empty().load(app.context() + '/member/logined/header');
+			$('#pub_article').html(DETAIL_FORM);
+			$('#test').click(function(){
+				$.ajax({
+					url : app.context() + '/member/detail',
+					dataType : 'json',
+					async : false,
+					success : function(data){
+						$('#member_detail #img').attr('src', app.img() + '/member/' + data.profileImg);
+						$('#member_detail #id').text(data.id);
+						$('#member_detail #name').text(data.name);
+						$('#member_detail #gender').text(data.gender);
+						$('#member_detail #email').text(data.email);
+						$('#member_detail #major').text('major');
+						$('#member_detail #subject').text('subject');
+						$('#member_detail #ssn').text(data.ssn);
+						$('#member_detail #reg_date').text(data.regDate);
 					},
 					error : function(x, s, m){
-						alert('id 중복 체크시 에러 발생 : ' + e);
+						alert('내정보보기시 에러 발생' + m);
 					}
 				});
+				
 			});
 		}
 	};
@@ -517,10 +476,167 @@ var util = (function(){
 	return {
 		isNumber : function(value){
 			return typeof value === 'number' && isFinite(value);
-		}		
+		},
+		pwChecker : function(value) {
+			var pw_regex = /^.*(?=.{4,10})(?=.*[a-zA-Z0-9]).*$/; 
+			return pw_regex.test(value) ? "yes" : "no";
+		}
 	};
 })();
-
+var LOGIN_FORM = '<div class="box">'
+	+ '<form id="member_login_form" class="form-signin">'
+	+ '<h2 class="form-signin-heading">Please sign in</h2>'
+	+ '<label for="inputEmail" class="sr-only">Email address</label>'
+	+ '<input type="text" id="id" name="id" id="inputEmail" class="form-control" placeholder="User ID" required autofocus>'
+	+ '<label for="inputPassword" class="sr-only">Password</label>'
+	+ '<input type="password" id="pw" name="pw" id="inputPassword" class="form-control" placeholder="Password" required>'
+	+ '<input type="hidden" name="context">'
+	+ '<div class="checkbox"><label>'
+	+ '<input type="checkbox" value="remember-me"> Remember me</label></div>'
+	+ '<input id="login_btn" class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in"/></form></div>';
+var SIGN_UP_FORM = '<section id="member_regist">'
+	+ '<form id="member_regist_form"><div>'
+	+ '<label for="exampleInputEmail1">이름</label> '
+	+ '<div><input type="text" id="username" placeholder="NAME"></div></div>'
+	+ '<div><label for="exampleInputEmail1">ID</label>'
+	+ '<div id="id_box"><input type="text" id="id" placeholder="문자 혹은 숫자로 4~10자 입력가능"><input type="button" id="check_dup" name="check_dup" value="중복 체크"></div></div>'
+	+ '<div><label for="exampleInputEmail1">비밀번호</label>'
+	+ '<div><input type="password" id="password" placeholder="PASSWORD"></div></div>'
+	+ '<div><label for="exampleInputEmail1">비밀번호 확인</label>'
+	+ '<div id="password_check_box"><input type="password" id="password_check" placeholder="PASSWORD CHECK"></div></div>'
+	+ '<div><label for="exampleInputEmail1">SSN</label><div><input type="text" id="ssn" placeholder="예)800101-1"></div></div>'
+	+ '<div><label for="exampleInputEmail1">E-MAIL</label><div><input type="email" id="email" placeholder="EMAIL"></div></div>'
+	+ '<div><label for="exampleInputEmail1">전화번호</label><div><input type="text" id="phone" placeholder="PHONE"></div></div>'
+	+ '<div id="rd_major"><label for="exampleInputEmail1">전공</label><br/><label class="radio-inline"><input type="radio" name="major" value="computer" checked> 컴퓨터공학과</label><label class="radio-inline"><input type="radio" name="major" value="mgmt"> 경영학과</label><label class="radio-inline"><input type="radio" name="major" value="eng">영문학과</label><label class="radio-inline"><input type="radio" name="major" value="math">수학과</label></div>'
+	+ '<div><label for="exampleInputEmail1">수강과목</label><br/>'
+	+ '<div><div id="ck_subject" class="checkbox">'
+	+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="java"> Java</label>'
+	+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="sql"> SQL</label>'
+	+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="cpp"> C++</label>'
+	+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="python"> 파이썬</label>'
+	+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="html"> HTML</label>'
+	+ '<label class="checkbox-inline"><input type="checkbox" name="subject" value="delphi"> 델파이</label></div></div></div>'
+	+ '<input id="bt_join" type="submit" value="회원가입"/>'
+	+ '<input id="bt_cancel" type="reset" value="취소"/></form>	</section>';
+var STUDENT_MAIN = '<section id="user_content_service" class="box section-padded"><div>'
+	+ '<div class="row text-center title">'
+	+ '<h2>Services</h2>'
+	+ '<h4 class="light muted">Achieve the best results with our wide variety of training options!</h4></div>'
+	+ '<div class="row services">'
+	+ '<div class="col-md-4">'
+	+ '<div id="kaup" class="service">'
+	+ '<div class="icon-holder">'
+	+ '<img src="'+app.img()+'/icons/kaup.jpg" alt="" class="icon"></div>'
+	+ '<h4 class="heading">KAUP INDEX</h4>'
+	+ '<p class="description">카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프 카우프</p></div></div>'
+	+ '<div class="col-md-4">'
+	+ '<div id="rock_scissor_paper" class="service">'
+	+ '<div class="icon-holder">'
+	+ '<img src="'+app.img()+'/icons/RSP.jpg" alt="" class="icon"></div>'
+	+ '<h4 class="heading">ROCK SCISSOR PAPER</h4>'
+	+ '<p class="description">가위바위보 가위바위보 가위바위보 가위바위보 가위바위보 가위바위보.</p></div></div>'
+	+ '<div class="col-md-4">'
+	+ '<div id="lotto" class="service">'
+	+ '<div class="icon-holder">'
+	+ '<img src="'+app.img()+'/icons/lotto.jpg" alt="" class="icon"></div>'
+	+ '<h4 class="heading">LOTTO DRAWING</h4>'
+	+ '<p class="description">로또 로또 로또 로또로또로또로또로또로또로또로또로또 로또.</p></div></div></div></div>'
+	+ '<div class="cut cut-bottom"></div></section>'
+	+ '<section id="user_content_subject" class="section gray-bg">'
+	+ '<div class="container">'
+	+ '<div class="row title text-center">'
+	+ '<h2 class="margin-top">Major Subject</h2>'
+	+ '<h4 class="light muted">TOP 3</h4></div>'
+	+ '<div class="row">'
+	+ '<div class="col-md-4">'
+	+ '<div id="major_subject_1" class="team text-center">'
+	+ '<div class="cover" style="background:url(' + app.img() + '/team/java-cover.jpg); background-size:cover;">'
+	+ '<div class="overlay text-center">'
+	+ '<h3 class="white">Java </h3>'
+	+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
+	+ '<img src="'+app.img()+'/team/java.jpg" alt="Java Image" class="avatar" style="width: 120px" height="120px">'
+	+ '<div class="title">'
+	+ '<h4>JAVA</h4>'
+	+ '<h5 class="muted regular">Server Program Language</h5></div>'
+	+ '<input type="hidden" name="major_subject_1" value="java"/>'
+	+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div>'
+	+ '<div class="col-md-4">'
+	+ '<div id="major_subject_2" class="team text-center">'
+	+ '<div class="cover" style="background:url(' + app.img() + '/team/javascript-cover.jpg); background-size:cover;">'
+	+ '<div class="overlay text-center">'
+	+ '<h3 class="white">Javascript</h3>'
+	+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
+	+ '<img src="'+app.img()+'/team/javascript.jpg" alt="Javascript Image" class="avatar" style="width: 120px" height="120px">'
+	+ '<div class="title">'
+	+ '<h4>Javascript</h4>'
+	+ '<h5 class="muted regular">UI Program Language</h5></div>'
+	+ '<input type="hidden" name="major_subject_2"/>'
+	+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div>'
+	+ '<div class="col-md-4">'
+	+ '<div id="major_subject_3" class="team text-center">'
+	+ '<div class="cover" style="background:url(' + app.img() + '/team/sql-cover.jpg); background-size:cover;">'
+	+ '<div class="overlay text-center">'
+	+ '<h3 class="white">SQL</h3>'
+	+ '<h5 class="light light-white">1 - 5 sessions / month</h5></div></div>'
+	+ '<img src="'+app.img()+'/team/sql.jpg" alt="SQL Image" class="avatar" style="width: 120px" height="120px">'
+	+ '<div class="title">'
+	+ '<h4>SQL</h4>'
+	+ '<h5 class="muted regular">Database Management Language</h5></div>'
+	+ '<input type="hidden" name="major_subject_3"/>'
+	+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div></div></div></section>';
+var DETAIL_FORM = 
+	 '<div class ="box">'
+	+'<table id="member_detail" class="table">'
+	+'	<tr>'
+	+'		<td rowspan="5" width="30%"><img id="img" src="" alt="Profile Image" width="104" height="142"><br/></td>'
+	+'		<td style="width: 20%" class="font_bold">ID</td>'
+	+'		<td id="id" style="width: 40%"></td>'
+	+'	</tr>'
+	+'	<tr>'
+	+'		<td class="font_bold">이름</td>'
+	+'		<td id="name"></td>'
+	+'	</tr>'
+	+'	<tr>'
+	+'		<td class="font_bold">성별</td>'
+	+'		<td id="gender"></td>'
+	+'	</tr>'
+	+'	<tr>'
+	+'		<td class="font_bold">이메일</td>'
+	+'		<td id="email"></td>'
+	+'	</tr>'
+	+'	<tr>'
+	+'		<td id="major" class="font_bold">전공과목</td>'
+	+'		<td></td>'
+	+'	</tr>'
+	+'	<tr>'
+	+'		<td id="subject" class="font_bold">수강과목</td>'
+	+'		<td colspan="2"></td>'
+	+'	</tr>'
+	+'	<tr>'
+	+'		<td class="font_bold">SSN</td>'
+	+'		<td id="ssn" colspan="2"></td>'
+	+'	</tr>'
+	+'	<tr>'
+	+'		<td class="font_bold">등록일</td>'
+	+'		<td id="reg_date" colspan="2"></td>'
+	+'	</tr>'
+	+'	</table>'
+	+'<input type="button" value="내정보 보기" id="test">'
+	+'</div>';
+var UPDATE_FROM = 
+	 '<div class ="box"><form>'
+	+'<table id="member_update" class="table"><tr>'
+	+'<td rowspan="5" width="30%"><img src="${img}/member/${user.img}" alt="W3Schools.com" width="104" height="142"><br/></td>'
+	+'<td style="width: 20%" class="font_bold">ID</td><td style="width: 40%">${user.id}</td></tr>'
+	+'<tr><td class="font_bold">이름</td><td>${user.name}</td></tr>'
+	+'<tr><td class="font_bold">비밀번호</td><td><input type="password" name="pw" value=""/></td></tr>'
+	+'<tr><td class="font_bold">성별</td><td><%-- ${user.gender} --%></td></tr>'
+	+'<tr><td class="font_bold">이메일</td><td><input type="text" name="email" value="${user.email}"/></td></tr>'
+	+'<tr><td class="font_bold">생년월일</td><td colspan="2">${user.ssn}</td></tr>'
+	+'<tr><td class="font_bold">등록일</td><td colspan="2">${user.reg}</td></tr></table>'
+	+'<div style="margin: 0 auto">'
+	+'<input type="submit" value="수정" />' 
+	+'<input type="reset" value="취소"/></div></form></div>';
 var controller = (function() {
 	var _page, _directory, _key;
 	var setPage = function(page){this._page=page;};
@@ -568,4 +684,3 @@ var nav = (function(){
 		init : init
 	};
 })();
-
