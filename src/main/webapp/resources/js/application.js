@@ -96,6 +96,9 @@ var admin = (function() {
 		getPass : getPass,
 	    setPass : setPass,
 	    check : function(){
+	    	controller.move('admin', 'main');
+	    },
+	    check2 : function(){
 	    	setPass(1);
 	    	var isAdmin = confirm('관리자입니까?');
 	    	if (!isAdmin){
@@ -330,6 +333,9 @@ var member = (function() {
 										'name' : $('#username').val(),
 										'id' : $('#id').val(),
 										'pw' : $('#password').val(),
+										'gender' : "", 
+										'regDate' : "",
+										'profileImg' : "",
 										'ssn' : $('#ssn').val(),
 										'email' : $('#email').val(),
 										'phone' : $('#phone').val()
@@ -372,14 +378,8 @@ var member = (function() {
 			});
 		},
 		detail : function(){
-			$('#pub_header').empty().load(app.context() + '/member/logined/header');
 			$('#pub_article').html(DETAIL_FORM);
-			$('#test').click(function(){
-				$.ajax({
-					url : app.context() + '/member/detail',
-					dataType : 'json',
-					async : false,
-					success : function(data){
+					$.getJSON(app.context() + '/member/detail', function(data){
 						$('#member_detail #img').attr('src', app.img() + '/member/' + data.profileImg);
 						$('#member_detail #id').text(data.id);
 						$('#member_detail #name').text(data.name);
@@ -389,13 +389,43 @@ var member = (function() {
 						$('#member_detail #subject').text('subject');
 						$('#member_detail #ssn').text(data.ssn);
 						$('#member_detail #reg_date').text(data.regDate);
-					},
-					error : function(x, s, m){
-						alert('내정보보기시 에러 발생' + m);
-					}
-				});
-				
-			});
+						$('#test').click(function(){
+							$('#pub_article').html(UPDATE_FORM);
+							$('#member_update #img').attr('src', app.img() + '/member/' + data.profileImg);
+							$('#member_update #id').text(data.id);
+							$('#member_update #name').text(data.name);
+							$('#member_update #gender').text(data.gender);
+							$('#member_update #email').attr('value', data.email);
+							$('#member_update #major').text('major');
+							$('#member_update #subject').text('subject');
+							$('#member_update #ssn').text(data.ssn);
+							$('#member_update #reg_date').text(data.regDate);
+							$('#update').click(function(){
+								var update_info = {
+										'id' : data.id,
+										'pw' : $('#pw').val(),
+										'email' : $('#email').val()};
+								$.ajax({
+									url : app.context() + "/member/update",
+									type : 'POST',
+									data : JSON.stringify(update_info),
+									dataType : 'json',
+									contentType : "application/json",
+									async : false,
+									success : function(data){
+										if(data.message === "success"){
+											member.detail();
+										} else {
+											alert("서버 다녀왔는데 실패함");
+										}
+									},
+									error : function(x, s, m){
+										alert("UPDATE중 에러 발생 " + m);
+									}
+								});
+							});
+						});
+					});
 		}
 	};
 })();
@@ -478,7 +508,7 @@ var util = (function(){
 			return typeof value === 'number' && isFinite(value);
 		},
 		pwChecker : function(value) {
-			var pw_regex = /^.*(?=.{4,10})(?=.*[a-zA-Z0-9]).*$/; 
+			var pw_regex = /^.*(?=.{3,10})(?=.*[a-zA-Z0-9]).*$/; 
 			return pw_regex.test(value) ? "yes" : "no";
 		}
 	};
@@ -605,12 +635,12 @@ var DETAIL_FORM =
 	+'		<td id="email"></td>'
 	+'	</tr>'
 	+'	<tr>'
-	+'		<td id="major" class="font_bold">전공과목</td>'
-	+'		<td></td>'
+	+'		<td class="font_bold">전공과목</td>'
+	+'		<td id="major"></td>'
 	+'	</tr>'
 	+'	<tr>'
-	+'		<td id="subject" class="font_bold">수강과목</td>'
-	+'		<td colspan="2"></td>'
+	+'		<td class="font_bold">수강과목</td>'
+	+'		<td id="subject" colspan="2"></td>'
 	+'	</tr>'
 	+'	<tr>'
 	+'		<td class="font_bold">SSN</td>'
@@ -621,21 +651,21 @@ var DETAIL_FORM =
 	+'		<td id="reg_date" colspan="2"></td>'
 	+'	</tr>'
 	+'	</table>'
-	+'<input type="button" value="내정보 보기" id="test">'
+	+'<input type="button" value="내정보 수정" id="test">'
 	+'</div>';
-var UPDATE_FROM = 
+var UPDATE_FORM = 
 	 '<div class ="box"><form>'
 	+'<table id="member_update" class="table"><tr>'
-	+'<td rowspan="5" width="30%"><img src="${img}/member/${user.img}" alt="W3Schools.com" width="104" height="142"><br/></td>'
-	+'<td style="width: 20%" class="font_bold">ID</td><td style="width: 40%">${user.id}</td></tr>'
-	+'<tr><td class="font_bold">이름</td><td>${user.name}</td></tr>'
-	+'<tr><td class="font_bold">비밀번호</td><td><input type="password" name="pw" value=""/></td></tr>'
-	+'<tr><td class="font_bold">성별</td><td><%-- ${user.gender} --%></td></tr>'
-	+'<tr><td class="font_bold">이메일</td><td><input type="text" name="email" value="${user.email}"/></td></tr>'
-	+'<tr><td class="font_bold">생년월일</td><td colspan="2">${user.ssn}</td></tr>'
-	+'<tr><td class="font_bold">등록일</td><td colspan="2">${user.reg}</td></tr></table>'
+	+'<td rowspan="5" width="30%"><img id="img" src="" alt="W3Schools.com" width="104" height="142"><br/></td>'
+	+'<td style="width: 20%" class="font_bold">ID</td><td id="id" style="width: 40%"></td></tr>'
+	+'<tr><td class="font_bold">이름</td><td id="name"></td></tr>'
+	+'<tr><td class="font_bold">비밀번호</td><td><input id="pw" type="password" name="pw" value=""/></td></tr>'
+	+'<tr><td class="font_bold">성별</td><td id="gender"></td></tr>'
+	+'<tr><td class="font_bold">이메일</td><td><input id="email" type="text" name="email" value=""/></td></tr>'
+	+'<tr><td class="font_bold">SSN</td><td colspan="2" id="ssn"></td></tr>'
+	+'<tr><td class="font_bold">등록일</td><td colspan="2" id="reg_date"></td></tr></table>'
 	+'<div style="margin: 0 auto">'
-	+'<input type="submit" value="수정" />' 
+	+'<input id="update" type="submit" value="수정" />' 
 	+'<input type="reset" value="취소"/></div></form></div>';
 var controller = (function() {
 	var _page, _directory, _key;

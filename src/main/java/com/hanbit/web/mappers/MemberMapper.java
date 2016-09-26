@@ -15,4 +15,5 @@ public interface MemberMapper {
 	public int count();
 	public boolean login(MemberDTO param);
 	public int existId(String id);
+	public List<MemberDTO> list(Command command); 
 }

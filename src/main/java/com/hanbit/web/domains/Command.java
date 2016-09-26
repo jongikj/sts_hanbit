@@ -10,4 +10,5 @@ import lombok.Setter;
 @Data
 public class Command {
 	@Getter @Setter private String option, keyword;
+	@Getter @Setter private int start, end;
 }

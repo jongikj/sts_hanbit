@@ -31,14 +31,11 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired Command command;
 	
 	public String regist(MemberDTO mem) {
-		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		String msg = "";
-		int result = mapper.insert(member);
-		return (sqlSession.getMapper(MemberMapper.class).insert(member)==1) ? "success" : "fail";
+		return (sqlSession.getMapper(MemberMapper.class).insert(mem)==1) ? "success" : "fail";
 	}
 
-	public void update(MemberDTO bean) {
-		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+	public String update(MemberDTO bean) {
+		return (sqlSession.getMapper(MemberMapper.class).update(bean) == 1) ? "success" : "fail";
 	}
 
 	public void delete(MemberDTO bean) {
@@ -55,14 +52,9 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.findOne(command); 
 	}
 
-	public List<MemberDTO> list() {
-		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		return null;
-	}
-
 	public List<MemberDTO> findByName(String findName) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		return null;
+		return mapper.list(command);
 	}
 
 	public List<?> findBy(String keyword) {
@@ -107,5 +99,10 @@ public class MemberServiceImpl implements MemberService{
 			mem.setId("NONE");
 			return mem;
 		}
+	}
+
+	public List<?> list(Command command) {
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		return null;
 	}
 }

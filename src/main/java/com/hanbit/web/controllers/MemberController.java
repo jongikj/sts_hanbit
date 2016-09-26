@@ -1,5 +1,8 @@
 package com.hanbit.web.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -26,6 +29,7 @@ import com.hanbit.web.services.impl.MemberServiceImpl;
 @RequestMapping("/member")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	public static int PG_SIZE = 5;
 	@Autowired MemberServiceImpl service;
 	@Autowired MemberDTO member;
 	@Autowired Command command;
@@ -85,8 +89,8 @@ public class MemberController {
 		logger.info("SIGN UP SSN = {}", param.getSsn());
 		logger.info("SIGN UP EMAIL = {}", param.getEmail());
 		logger.info("SIGN UP PHONE = {}", param.getPhone());
-//		retval.setMessage(service.regist(param));
-		retval.setMessage("success");
+		retval.setMessage(service.regist(param));
+		logger.info("SIGN UP RETBAL = {} ", retval.getMessage());
 		return retval;
 	}
 	
@@ -105,11 +109,54 @@ public class MemberController {
 		logger.info("RETVAL MSG IS {}", retval.getMessage());
 		return retval;
 	} 
-
+	
+	@RequestMapping("/list/{pgNum}")
+	public String list(@PathVariable String strPgNum, Model model){
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+		int pgNum = Integer.parseInt(strPgNum);
+		int totCount = service.count();
+		int startRow = 0;
+		int endRow = 0;
+		int pgCount = totCount/PG_SIZE;
+		if((totCount % PG_SIZE) == 0){
+			startRow = 0;
+			endRow = 0;
+		} else {
+			startRow = 0;
+			endRow = 0;
+		}
+		command.setStart(startRow);
+		command.setEnd(endRow);
+		model.addAttribute("list", service.list(command));
+		return "admin:member/list.tiles";
+	}
+	
+	@RequestMapping("/search")
+	public String search(
+			@RequestParam(value="keyField") String keyField, 
+			@RequestParam(value="keyword") String keyword, 
+			@RequestParam(value="pgNum") String pgNum, 
+			Model model){
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+//		service.list();
+		model.addAttribute("list", list);
+		return "admin:member/list.tiles";
+	}
+	
 	@RequestMapping("/detail")
 	public @ResponseBody MemberDTO moveDetail(HttpSession session) {
 		logger.info("GO TO {}", "detail");
 		return (MemberDTO) session.getAttribute("user");
+	}
+	
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public @ResponseBody Retval update(@RequestBody MemberDTO param, HttpSession session) {
+		logger.info("GO TO {}", "update");
+		MemberDTO temp = (MemberDTO) session.getAttribute("user");
+		temp.setPw(param.getPw());
+		temp.setEmail(param.getEmail());
+		retval.setMessage(service.update(temp));
+		return retval;
 	}
 	
 	@RequestMapping("/a_detail")
@@ -119,17 +166,17 @@ public class MemberController {
 		return "admin:member/a_detail.tiles";
 	}
 
-	@RequestMapping("/update")
+	/*@RequestMapping("/update")
 	public String moveUpdate() {
 		logger.info("GO TO {}", "update");
 		return "user:member/update.tiles";
-	}
+	}*/
 
-	@RequestMapping("/delete")
+	/*@RequestMapping("/delete")
 	public String moveDelete() {
 		logger.info("GO TO {}", "delete");
 		return "user:member/delete.tiles";
-	}
+	}*/
 
 	@RequestMapping("/login")
 	public String login() {

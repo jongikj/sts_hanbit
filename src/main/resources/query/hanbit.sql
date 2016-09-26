@@ -1,3 +1,5 @@
+select * from member;
+
 /*
 === META PROCEDURE ===
 */	
@@ -166,7 +168,7 @@ CREATE TABLE Member(
 	reg_date VARCHAR2(20) NOT NULL,
 	ssn VARCHAR2(10) NOT NULL UNIQUE,
 	email VARCHAR2(30),
-	profile_img VARCHAR2(100) SPAULT 'SPault.jpg',
+	profile_img VARCHAR2(100) DEFAULT 'default.jpg',
 	role VARCHAR2(10) SPAULT 'STUDENT',
 	phone VARCHAR2(13) NOT NULL UNIQUE,
 	major_seq INT,
@@ -280,7 +282,9 @@ BEGIN
 	VALUES(sp_mem_id,sp_pw,sp_name,sp_gender,sp_reg_date,sp_ssn,sp_email,sp_profile_img,sp_role,sp_phone,sp_major_seq);
 END insert_student;
 -- EXE_INSERT_STUDENT
-EXEC HANBIT.INSERT_STUDENT('hong','1','홍길동','MALE','2016-06-01','800101-1','hong@test.com','SPault.jpg','STUDENT','010-1234-5678','1006');
+EXEC HANBIT.INSERT_STUDENT('hong','1','홍길동','MALE','2016-06-01','800101-1','hong@test.com','default.png','STUDENT','010-1234-5678','1006');
+EXEC HANBIT.INSERT_STUDENT('hong2','1','홍길동','MALE','2016-07-01','801201-1','hong2@test.com','default.png','STUDENT','010-0000-1111','1007');
+EXEC HANBIT.INSERT_STUDENT('hong11','1','홍길동','MALE','2016-09-07','800309-1','hong11@test.com','default.png','STUDENT','010-0001-0011','1015');
 -- SP_SELECT_STUDENTS
 CREATE OR REPLACE PROCEDURE select_students(
 	mem_id OUT Member.mem_id%TYPE,
@@ -545,3 +549,20 @@ BEGIN
  find_by_major(sp_major_seq,sp_title,sp_result);
   DBMS_OUTPUT.put_line (sp_result);
  END;
+
+ -----------------------------------------------------------
+ select t2.* from(
+ select rownum seq,t.* from(
+ select 
+ 	m.mem_id id,
+ 	m.name name,
+ 	m.gender gender,
+ 	m.reg_date regDate,
+ 	m.ssn ssn,
+ 	m.email email,
+ 	m.profile_img profileImg,
+ 	m.role role,
+ 	m.phone phone,
+ 	m.major_seq majorSeq
+ 	from Member m order by reg_date desc) t)t2
+ 	where t2.seq between 1 and 10 order by t2.seq asc;
