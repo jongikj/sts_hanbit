@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
+import com.hanbit.web.domains.Retval;
 import com.hanbit.web.util.CommonService;
 
 /**
@@ -22,8 +23,9 @@ public interface MemberService {
 	public MemberDTO findOne(Command command);
 	public List<MemberDTO> findByName(String findName);
 	public int existId(String id);
-	public MemberDTO findBy();
+	public List<?> find(Command command);
 	public void logout(MemberDTO member);
 	public MemberDTO login(MemberDTO member);
 	public List<?> list(Command command);
+	public Retval count();
 }

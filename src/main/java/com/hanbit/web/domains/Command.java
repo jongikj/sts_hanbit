@@ -9,6 +9,6 @@ import lombok.Setter;
 @Component
 @Data
 public class Command {
-	@Getter @Setter private String option, keyword;
+	@Getter @Setter private String keyField, keyword;
 	@Getter @Setter private int start, end;
 }

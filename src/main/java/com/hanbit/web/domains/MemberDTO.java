@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @date   :2016. 6. 16.
@@ -13,6 +14,7 @@ import lombok.Setter;
  * @story  :
 */
 @Component
+@ToString
 @Data
 public class MemberDTO {
 	@Getter @Setter private String id;

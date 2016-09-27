@@ -62,7 +62,7 @@ var admin = (function() {
 	};
 	var onCreate = function(){
 		setContentView();
-		$('#admin_nav #member_mgmt #list').click(function(){controller.move('member', 'list');});
+		$('#admin_nav #member_mgmt #list').click(function(){user.student_list();});
 		$('#admin_nav #member_mgmt #find_by').click(function(){controller.move('member', 'find_by');});
 		$('#admin_nav #member_mgmt #count').click(function(){controller.move('member', 'count');});
 		$('#admin_nav #account_mgmt #list').click(function(){controller.move('account', 'list');});
@@ -111,6 +111,9 @@ var admin = (function() {
 	    			alert('관리자 비번이 틀립니다.');
 	    		}
 	    	}
+	    },
+	    member_list : function(){
+	    	location.href = app.context() + '/member/list/1';
 	    }
 	};
 })();
@@ -167,7 +170,10 @@ var user = (function() {
 		$('#logined_header_brand').click(function(){controller.move('member', 'content');});
 	};
 	return{
-		init : init
+		init : init,
+		student_list : function(){
+			$('#adm_article').html(STUDENT_LIST_TH);
+		}
 	};
 })();
 /*
@@ -614,6 +620,82 @@ var STUDENT_MAIN = '<section id="user_content_service" class="box section-padded
 	+ '<h5 class="muted regular">Database Management Language</h5></div>'
 	+ '<input type="hidden" name="major_subject_3"/>'
 	+ '<input type="button" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill" value="과목 정보"/></div></div></div></div></section>';
+var STUDENT_LIST_TH = 
+	'<div class ="box" style="padding-top: 0; width: 90%">'
+	+'	<section style="height: 150px">'
+	+'		<ul class="list-group">'
+	+'  			<li class="list-group-item">총 학생수 : ${totCount}</li>'
+	+'		</ul>'
+	+'	<div class="panel panel-success">'
+	+'	<div class="panel-heading" style="font-size: 25px;color: black">학생 목록</div>'
+	+'		<table id="member_list_table">'
+	+'		  <tr>'
+	+'			<th>ID</th>'
+	+'			<th>이 름</th>'
+	+'			<th>등록일</th>'
+	+'			<th>SSN</th>'
+	+'			<th>이메일</th>'
+	+'			<th>전화번호</th>'
+	+'			<th>성적</th>'
+	+'		  </tr>'
+	+'		  <tbody>';
+var STUDENT_LIST_ROW = 
+	/*+'		  <c:forEach items="${list}" var="member">'*/
+	 '		  <tr>'
+	+'		  	<td>${member.id}</td>'
+	+'		  	<td><a class="name">${member.name}</a></td>'
+	+'		  	<td>${member.regDate}</td>'
+	+'		  	<td>${member.ssn}</td>'
+	+'		  	<td>${member.email}</td>'
+	+'		  	<td>${member.phone}</td>'
+	+'		  	<td><a class="regist">등록</a> / <a class="update">수정</a></td>'
+	+'		  </tr>';
+	/*+'		  </c:forEach>'*/
+var STUDENT_LIST_END = 
+	 '		  </tbody>'
+	+'		</table>';
+var aaaaa = 
+	'		<nav aria-label="Page navigation">'
+	+' 			<ul class="pagination">'
+	+' 			<c:if test="${startPg - pgSize gt 0}">'
+	+' 				<li>'
+	+' 					<a href="${context}/member/list/${startPg-pgSize}" aria-label="Previous">'
+	+' 						<span aria-hidden="true">&laquo;</span>'
+	+' 					</a>'
+	+' 				</li>'
+	+' 			</c:if>'
+	+' 			<c:forEach begin="${startPg}" end="${lastPg}" step="1" varStatus="i">'
+	+' 				<c:choose>'
+	+'					<c:when test="${i.index == pgNum}">'
+	+'						<font color="red">${i.index}</font>'
+	+'					</c:when>' 					
+	+'					<c:otherwise>'
+	+'						<a href="${context}/member/list/${i.index}">${i.index}</a>'
+	+'					</c:otherwise>'
+	+' 				</c:choose>'
+	+' 			</c:forEach>'
+	+' 			<c:if test="${startPg + pgSize le totPg}">'
+	+' 				<li>'
+	+' 					<a href="${context}/member/list/${startPg-pgSize}" aria-label="Next">'
+	+' 						<span aria-hidden="true">&raquo;</span>'
+	+'					</a>'
+	+'				</li>'
+	+'			</c:if>'
+	+'			</ul>'
+	+'		</nav>'
+	+'		<div align="center">'
+	+'			<form action="${context}/member/search" method="post">'
+	+'				<select name="keyField" id="">'
+	+'					<option value="name" selected>이름</option>'
+	+'					<option value="mem_id">ID</option>'
+	+'				</select>'
+	+'				<input type="text" name="keyword"/>'
+	+'				<input type="submit" name="검색"/>'
+	+'			</form>'
+	+'		</div>'
+	+'		</div>'
+	+'	</section>'
+	+'</div>';
 var DETAIL_FORM = 
 	 '<div class ="box">'
 	+'<table id="member_detail" class="table">'

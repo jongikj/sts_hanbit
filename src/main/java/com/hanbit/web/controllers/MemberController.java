@@ -19,28 +19,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.fasterxml.jackson.annotation.JsonFormat.Value;
+import com.hanbit.web.constants.Values;
 import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
 import com.hanbit.web.domains.Retval;
 import com.hanbit.web.services.impl.MemberServiceImpl;
+import com.hanbit.web.util.Pagination;
 
 @Controller
 @SessionAttributes({"user", "context", "css", "img", "js"})
 @RequestMapping("/member")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	public static int PG_SIZE = 5;
 	@Autowired MemberServiceImpl service;
 	@Autowired MemberDTO member;
 	@Autowired Command command;
 	@Autowired Retval retval;
 	
-	@RequestMapping("/search/{option}/{keyword}")
-	public MemberDTO find(@PathVariable("option")String option, @PathVariable("keyword")String keyword, Model model){
+	@RequestMapping("/search/{Field}/{keyword}")
+	public MemberDTO find(@PathVariable("keyField")String keyField, @PathVariable("keyword")String keyword, Model model){
 		logger.info("TO SEARCH KEYWORD IS {}", keyword);
-		logger.info("TO SEARCH OPTION IS {}", option);
+		logger.info("TO SEARCH KEYFIELD IS {}", keyField);
 		command.setKeyword(keyword);
-		command.setOption(option);
+		command.setKeyField(keyField);
 		return service.findOne(command);
 	}
 	
@@ -111,35 +113,50 @@ public class MemberController {
 	} 
 	
 	@RequestMapping("/list/{pgNum}")
-	public String list(@PathVariable String strPgNum, Model model){
-		List<MemberDTO> list = new ArrayList<MemberDTO>();
-		int pgNum = Integer.parseInt(strPgNum);
-		int totCount = service.count();
-		int startRow = 0;
-		int endRow = 0;
-		int pgCount = totCount/PG_SIZE;
-		if((totCount % PG_SIZE) == 0){
-			startRow = 0;
-			endRow = 0;
-		} else {
-			startRow = 0;
-			endRow = 0;
-		}
-		command.setStart(startRow);
-		command.setEnd(endRow);
+	public String list(@PathVariable String pgNum, Model model){
+		logger.info("LIST pgNum {}", pgNum);
+		int[] rows = new int[2];
+		int[] pages = new int[3];
+		Retval r = service.count();
+		int totCount = r.getCount();
+		logger.info("LIST totCount {}", totCount);
+		rows = Pagination.getRows(totCount, Integer.parseInt(pgNum), Values.PG_SIZE);
+		pages = Pagination.getPages(totCount, Integer.parseInt(pgNum));
+		command.setStart(rows[0]);
+		command.setEnd(rows[1]);
 		model.addAttribute("list", service.list(command));
+		model.addAttribute("pgSize", Values.PG_SIZE);
+		model.addAttribute("totCount", totCount);
+		model.addAttribute("totPg", pages[2]);
+		model.addAttribute("pgNum", Integer.parseInt(pgNum));
+		model.addAttribute("startPg", pages[0]);
+		model.addAttribute("lastPg", pages[1]);
 		return "admin:member/list.tiles";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/search")
 	public String search(
 			@RequestParam(value="keyField") String keyField, 
 			@RequestParam(value="keyword") String keyword, 
-			@RequestParam(value="pgNum") String pgNum, 
 			Model model){
-		List<MemberDTO> list = new ArrayList<MemberDTO>();
-//		service.list();
+		logger.info("SEARCH keyField {}", keyField);
+		logger.info("SEARCH keyword {}", keyword);
+		command.setKeyField(keyField);
+		command.setKeyword(keyword);
+		List<MemberDTO> list = (List<MemberDTO>) service.find(command);
+		int[] pages = Pagination.getPages(list.size(), 1);
+		int[] rows = Pagination.getRows(list.size(), 1, Values.PG_SIZE);
+		model.addAttribute("pgSize", Values.PG_SIZE);
+		model.addAttribute("totCount", list.size());
+		model.addAttribute("totPg", pages[2]);
+		model.addAttribute("pgNum", 1);
+		model.addAttribute("startPg", pages[0]);
+		model.addAttribute("lastPg", pages[1]);
 		model.addAttribute("list", list);
+		System.out.println(list);
+		
+		model.addAttribute("list", service.find(command));
 		return "admin:member/list.tiles";
 	}
 	

@@ -101,7 +101,7 @@ BEGIN
     
 END all_major;
 
-DECLARE
+SET serveroutput ON DECLARE
      sp_result CLOB;
 BEGIN
     all_major(sp_result);
@@ -136,7 +136,7 @@ BEGIN
     OPEN major_cur FOR SELECT major_seq, title FROM major;
 END all_major;
 -- EXE_ALL_MAJOR(CUSRSOR VERSION)
-DECLARE
+SET serveroutput ON DECLARE
     sp_cursor SYS_REFCURSOR;
     sp_major_seq Major.major_seq%TYPE;
     sp_title MAJOR.title%TYPE;
@@ -203,7 +203,7 @@ BEGIN
 	SELECT COUNT(*) into sp_count FROM Member WHERE role = 'PROF';
 END count_prof;
 -- EXE_COUNT_PROF
-DECLARE sp_count NUMBER;BEGIN count_prof(sp_count);DBMS_OUTPUT.put_line ('교수 인원 : '||sp_count||' 명');END;
+SET serveroutput ON DECLARE sp_count NUMBER;BEGIN count_prof(sp_count);DBMS_OUTPUT.put_line ('교수 인원 : '||sp_count||' 명');END;
 -- SP_EXIST_MEMBER_ID
 CREATE OR REPLACE PROCEDURE exist_member_id(
     sp_mem_id IN Member.mem_id%TYPE,
@@ -212,14 +212,14 @@ CREATE OR REPLACE PROCEDURE exist_member_id(
     SELECT COUNT(*) INTO sp_count FROM Member WHERE mem_id = sp_mem_id;
 END exist_member_id;
 -- EXE_EXIST_MEMBER_ID
-DECLARE sp_mem_id VARCHAR2(30) := 'prof_james';sp_count NUMBER;BEGIN exist_member_id(sp_mem_id, sp_count);DBMS_OUTPUT.put_line ('조회결과  : '||sp_count||' 명');END;
+SET serveroutput ON DECLARE sp_mem_id VARCHAR2(30) := 'prof_james';sp_count NUMBER;BEGIN exist_member_id(sp_mem_id, sp_count);DBMS_OUTPUT.put_line ('조회결과  : '||sp_count||' 명');END;
 -- SP_FIND_BY_PROF_ID
 CREATE OR REPLACE PROCEDURE find_by_prof_id(
 	sp_prof_id IN Member.mem_id%TYPE,
 	sp_prof OUT Member%ROWTYPE
 ) AS BEGIN SELECT * INTO sp_prof from Member where mem_id = sp_prof_id AND role = 'PROF'; END find_by_prof_id;
 -- EXE_EXIST_PROF_ID
-DECLARE sp_prof_id VARCHAR2(100) := 'prof_james'; sp_prof Member%ROWTYPE; BEGIN find_by_prof_id(sp_prof_id, sp_prof); DBMS_OUTPUT.put_line (sp_prof.name);END;
+SET serveroutput ON DECLARE sp_prof_id VARCHAR2(100) := 'prof_james'; sp_prof Member%ROWTYPE; BEGIN find_by_prof_id(sp_prof_id, sp_prof); DBMS_OUTPUT.put_line (sp_prof.name);END;
 -- SP_ALL_PROF (CURSOR VERSION)
 CREATE OR REPLACE PROCEDURE HANBIT.all_prof(
     prof_cur OUT SYS_REFCURSOR
@@ -228,7 +228,7 @@ BEGIN
     OPEN prof_cur FOR SELECT * FROM Member WHERE role = 'PROF';
 END all_prof;
 -- EXE_ALL_PROF (CURSOR VERSION)
-DECLARE
+SET serveroutput ON DECLARE
     sp_cursor SYS_REFCURSOR;
     sp_prof Member%ROWTYPE;
 BEGIN
@@ -284,7 +284,7 @@ END insert_student;
 -- EXE_INSERT_STUDENT
 EXEC HANBIT.INSERT_STUDENT('hong','1','홍길동','MALE','2016-06-01','800101-1','hong@test.com','default.png','STUDENT','010-1234-5678','1006');
 EXEC HANBIT.INSERT_STUDENT('hong2','1','홍길동','MALE','2016-07-01','801201-1','hong2@test.com','default.png','STUDENT','010-0000-1111','1007');
-EXEC HANBIT.INSERT_STUDENT('hong11','1','홍길동','MALE','2016-09-07','800309-1','hong11@test.com','default.png','STUDENT','010-0001-0011','1015');
+EXEC HANBIT.INSERT_STUDENT('park2','1','박지슝','FEMALE','2016-08-07','860102-2','park2@test.com','default.png','STUDENT','010-0011-1211','');
 -- SP_SELECT_STUDENTS
 CREATE OR REPLACE PROCEDURE select_students(
 	mem_id OUT Member.mem_id%TYPE,
@@ -307,7 +307,7 @@ END select_students;
 CREATE OR REPLACE PROCEDURE count_student(sp_count OUT NUMBER) AS 
 BEGIN SELECT COUNT(*) into sp_count FROM Member WHERE role='STUDENT';COMMIT; END count_student;
 -- EXE_COUNT_STUDENT
-DECLARE sp_count NUMBER;BEGIN count_student(sp_count);DBMS_OUTPUT.put_line ('학생 인원 : '||sp_count||' 명');END;
+SET serveroutput ON DECLARE sp_count NUMBER;BEGIN count_student(sp_count);DBMS_OUTPUT.put_line ('학생 인원 : '||sp_count||' 명');END;
 -- SP_FIND_BY_STUDENT_ID
 CREATE OR REPLACE PROCEDURE find_by_student_id(
 	sp_student_id IN Member.mem_id%TYPE,
@@ -315,7 +315,7 @@ CREATE OR REPLACE PROCEDURE find_by_student_id(
 ) AS BEGIN SELECT * INTO sp_student FROM Member 
     WHERE mem_id = sp_student_id AND role='STUDENT';COMMIT; END find_by_student_id;
 -- EXE_FIND_BY_STUDENT_ID
-DECLARE
+SET serveroutput ON DECLARE
  sp_student_id VARCHAR2(100) := 'test';
  sp_student Member%ROWTYPE;
 BEGIN
@@ -330,7 +330,7 @@ BEGIN
     OPEN student_cur FOR SELECT * FROM Member WHERE role = 'STUDENT';
 COMMIT; END all_student;
  -- EXE_ALL_STUDENT(CURSOR VERSION)
-DECLARE
+SET serveroutput ON DECLARE
   sp_cursor  SYS_REFCURSOR;
   sp_student Member%ROWTYPE;
 BEGIN
@@ -344,6 +344,14 @@ BEGIN
   END LOOP;
   CLOSE sp_cursor;
 END;
+-- SP_COUNT_PROF
+CREATE OR REPLACE PROCEDURE count_student(sp_count OUT NUMBER) AS 
+BEGIN SELECT COUNT(*) into sp_count 
+FROM Member WHERE role = 'STUDENT';
+END count_student;
+-- EXE_COUNT_PROF
+SET serveroutput ON 
+DECLARE sp_count NUMBER;BEGIN count_student(sp_count);DBMS_OUTPUT.put_line ('학생 수 : '||sp_count||' 명');END;
 /*
 =========== GRADE ===========
 @AUTHOR : plus4912@gmail.com
@@ -534,14 +542,14 @@ END insert_exam;
 /*
 READ PROCEDURE
 */
-DECLARE
+SET serveroutput ON DECLARE
  sp_count NUMBER;
 BEGIN
  count_major(sp_count);
  DBMS_OUTPUT.put_line ('전공 수량 : '||sp_count);
 END;
 
-DECLARE
+SET serveroutput ON DECLARE
  sp_major_seq NUMBER := 22;
  sp_result VARCHAR2(100);
  sp_title VARCHAR2(100);

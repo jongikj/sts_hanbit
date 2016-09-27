@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hanbit.web.constants.Values;
+
 /**
  * @date   :2016. 6. 30.
  * @author :장종익
@@ -22,11 +24,11 @@ public class JDBCTest {
 		String sql = "select name from member where mem_id = 'prof_james'", result = "";
 		List<String> list  = new ArrayList<String>();
 		try {
-			Class.forName(Constants.ORACLE_DRIVER);
+			Class.forName(Values.ORACLE_DRIVER);
 			con = DriverManager.getConnection(
-					Constants.ORACLE_URL,
-					Constants.USER_ID,
-					Constants.USER_PW);
+					Values.ORACLE_URL,
+					Values.USER_ID,
+					Values.USER_PW);
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
 			

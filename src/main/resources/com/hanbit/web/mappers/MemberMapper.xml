@@ -4,21 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanbit.web.mappers.MemberMapper">
 	<select id="list" resultType="com.hanbit.web.domains.MemberDTO" parameterType="com.hanbit.web.domains.Command">
-		select t2.* from(
-	 select rownum seq,t.* from(
-	 	select
-	      m.mem_id id,
-	      m.name name,
-	      m.gender gender,
-	      m.reg_date regDate,
-	      m.ssn ssn,
-	      m.email email,
-	      m.profile_img profileImg,
-	      m.role role,
-	      m.phone phone,
-	      m.major_seq majorSeq
-   	 	from Member m order by reg_date desc) t)t2
-     where t2.seq between #{start} and #{end} order by t2.seq asc;
+select t2.* from(
+		   select rownum seq,t.* from (
+		     select 
+		    m.mem_id id, 
+		    m.name name,
+		    m.gender gender,
+		    m.reg_date regDate,
+		    m.ssn ssn,
+		    m.email email,
+		    m.profile_img profileImg,
+		    m.role role,
+		    m.phone phone,
+		    m.major_seq majorSeq    
+		   from Member m order by reg_date desc) t)t2
+		   where t2.seq between #{start} and #{end}
+		   order by t2.seq asc
 	</select>
 	<select id="findOne" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
 		select 
@@ -35,11 +36,23 @@
 			gender as gender
 		from member where ${option} = #{keyword}
 	</select>
-	<select id="findByName" parameterType="string" resultType="com.hanbit.web.domains.MemberDTO">
-		select * from member where name = #{name}
+	<select id="find" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
+		select 
+			mem_id as id, 
+			pw as pw, 
+			name as name, 
+			reg_date as regDate, 
+			email as email, 
+			profile_img as profileImg, 
+			ssn as ssn,
+			phone as phone,
+			role as role,
+			major_seq as majorSeq,
+			gender as gender
+		from member where ${keyField} = #{keyword}
 	</select>
-	<select id="count" resultType="int">
-		select count(*) as count from member
+	<select id="count" resultType="com.hanbit.web.domains.Retval">
+	select count(*) as count from member where role = 'STUDENT'
 	</select>
 	<select id="existId" parameterType="string" resultType="int">
 		select count(*) as count from member where mem_id = #{id}
@@ -52,6 +65,6 @@
 		update member set pw = #{pw}, email = #{email} where mem_id = #{id}
 	</update>
 	<delete id="delete" parameterType="com.hanbit.web.domains.MemberDTO">
-		delete from member where id = #{id} and pw = #{pw}
+		delete from member where mem_id = #{id} and pw = #{pw}
 	</delete>
 </mapper>
