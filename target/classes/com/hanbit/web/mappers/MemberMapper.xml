@@ -18,7 +18,7 @@ select t2.* from(
 		    m.phone phone,
 		    m.major_seq majorSeq    
 		   from Member m order by reg_date desc) t)t2
-		   where t2.seq between #{start} and #{end}
+		   where t2.seq between #{start} and #{end} and role = 'STUDENT'
 		   order by t2.seq asc
 	</select>
 	<select id="findOne" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
@@ -34,7 +34,7 @@ select t2.* from(
 			role as role,
 			major_seq as majorSeq,
 			gender as gender
-		from member where ${option} = #{keyword}
+		from member where ${keyField} = #{keyword}
 	</select>
 	<select id="find" parameterType="com.hanbit.web.domains.Command" resultType="com.hanbit.web.domains.MemberDTO">
 		select 

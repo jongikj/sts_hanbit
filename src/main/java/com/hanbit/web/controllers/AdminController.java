@@ -17,9 +17,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/header")
-	public String loginedHeader(){
+	public String adminHeader(){
 		logger.info("THIS PATH IS {}", "ADMIN_HEADER");
 		return "admin/header.jsp";
 	}
 	
+	@RequestMapping("/nav")
+	public String adminNavi(){
+		logger.info("THIS PATH IS {}", "ADMIN_NAV");
+		return "admin/nav.jsp";
+	}
 }

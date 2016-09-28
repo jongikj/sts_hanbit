@@ -1,6 +1,6 @@
 package com.hanbit.web.controllers;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.fasterxml.jackson.annotation.JsonFormat.Value;
 import com.hanbit.web.constants.Values;
 import com.hanbit.web.domains.Command;
 import com.hanbit.web.domains.MemberDTO;
@@ -37,12 +36,12 @@ public class MemberController {
 	@Autowired Command command;
 	@Autowired Retval retval;
 	
-	@RequestMapping("/search/{Field}/{keyword}")
+	@RequestMapping("/search/{keyField}/{keyword}")
 	public MemberDTO find(@PathVariable("keyField")String keyField, @PathVariable("keyword")String keyword, Model model){
-		logger.info("TO SEARCH KEYWORD IS {}", keyword);
 		logger.info("TO SEARCH KEYFIELD IS {}", keyField);
-		command.setKeyword(keyword);
+		logger.info("TO SEARCH KEYWORD IS {}", keyword);
 		command.setKeyField(keyField);
+		command.setKeyword(keyword);
 		return service.findOne(command);
 	}
 	
@@ -113,10 +112,11 @@ public class MemberController {
 	} 
 	
 	@RequestMapping("/list/{pgNum}")
-	public String list(@PathVariable String pgNum, Model model){
+	public @ResponseBody HashMap<String, Object> list(@PathVariable String pgNum, Model model){
 		logger.info("LIST pgNum {}", pgNum);
 		int[] rows = new int[2];
 		int[] pages = new int[3];
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		Retval r = service.count();
 		int totCount = r.getCount();
 		logger.info("LIST totCount {}", totCount);
@@ -124,40 +124,59 @@ public class MemberController {
 		pages = Pagination.getPages(totCount, Integer.parseInt(pgNum));
 		command.setStart(rows[0]);
 		command.setEnd(rows[1]);
-		model.addAttribute("list", service.list(command));
+	/*	model.addAttribute("list", service.list(command));
 		model.addAttribute("pgSize", Values.PG_SIZE);
 		model.addAttribute("totCount", totCount);
 		model.addAttribute("totPg", pages[2]);
 		model.addAttribute("pgNum", Integer.parseInt(pgNum));
 		model.addAttribute("startPg", pages[0]);
-		model.addAttribute("lastPg", pages[1]);
-		return "admin:member/list.tiles";
+		model.addAttribute("lastPg", pages[1]);	*/
+		map.put("list", service.list(command));
+		map.put("pgSize", Values.PG_SIZE);
+		map.put("totCount", totCount);
+		map.put("totPg", pages[2]);
+		map.put("pgNum", Integer.parseInt(pgNum));
+		map.put("startPg", pages[0]);
+		map.put("lastPg", pages[1]);
+		map.put("groupSize", Values.GROUP_SIZE);
+		return map;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/search")
-	public String search(
-			@RequestParam(value="keyField") String keyField, 
-			@RequestParam(value="keyword") String keyword, 
+	public @ResponseBody HashMap<String, Object> search(
+			@RequestParam("keyField") String keyField, 
+			@RequestParam("keyword") String keyword, 
 			Model model){
 		logger.info("SEARCH keyField {}", keyField);
 		logger.info("SEARCH keyword {}", keyword);
 		command.setKeyField(keyField);
 		command.setKeyword(keyword);
 		List<MemberDTO> list = (List<MemberDTO>) service.find(command);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		Retval r = service.count();
+		int totCount = r.getCount();
 		int[] pages = Pagination.getPages(list.size(), 1);
 		int[] rows = Pagination.getRows(list.size(), 1, Values.PG_SIZE);
-		model.addAttribute("pgSize", Values.PG_SIZE);
+		command.setStart(rows[0]);
+		command.setEnd(rows[1]);
+/*		model.addAttribute("pgSize", Values.PG_SIZE);
 		model.addAttribute("totCount", list.size());
 		model.addAttribute("totPg", pages[2]);
 		model.addAttribute("pgNum", 1);
 		model.addAttribute("startPg", pages[0]);
 		model.addAttribute("lastPg", pages[1]);
 		model.addAttribute("list", list);
-		System.out.println(list);
-		
 		model.addAttribute("list", service.find(command));
-		return "admin:member/list.tiles";
+		System.out.println(list);*/
+		map.put("list", list);
+		map.put("pgSize", Values.PG_SIZE);
+		map.put("totCount", totCount);
+		map.put("totPg", pages[2]);
+		map.put("startPg", pages[0]);
+		map.put("lastPg", pages[1]);
+		map.put("groupSize", Values.GROUP_SIZE);
+		return map;
 	}
 	
 	@RequestMapping("/detail")
