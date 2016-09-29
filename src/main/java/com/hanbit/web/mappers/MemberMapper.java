@@ -11,7 +11,7 @@ public interface MemberMapper {
 	public int update(MemberDTO member);
 	public int delete(MemberDTO member);
 	public List<MemberDTO> list();
-	public MemberDTO findOne(Command command);
+//	public MemberDTO findOne(Command command);
 	public List<?> find(Command command);
 	public Retval count();
 	public boolean login(MemberDTO param);

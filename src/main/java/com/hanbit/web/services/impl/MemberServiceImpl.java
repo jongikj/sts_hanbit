@@ -1,5 +1,6 @@
 package com.hanbit.web.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class MemberServiceImpl implements MemberService{
 	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	@Autowired private SqlSession sqlSession;
 	@Autowired private MemberDTO member;
+	@Autowired private Retval retval;
 	@Autowired Command command;
 	
 	public String regist(MemberDTO mem) {
@@ -48,10 +50,10 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.count();
 	}
 
-	public MemberDTO findOne(Command command) {
-		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
-		return mapper.findOne(command); 
-	}
+//	public MemberDTO findOne(Command command) {
+//		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+//		return mapper.findOne(command); 
+//	}
 
 	public List<MemberDTO> findByName(String findName) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
@@ -84,21 +86,23 @@ public class MemberServiceImpl implements MemberService{
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public MemberDTO login(MemberDTO member) {
 		logger.info("MemberService login =  {}", member.toString());
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		Command command = new Command();
 		command.setKeyword(member.getId());
 		command.setKeyField("mem_id");
-		MemberDTO mem = mapper.findOne(command);
-		if(mem.getPw().equals(member.getPw())){
+		list = (List<MemberDTO>) mapper.find(command);
+		String pw = list.get(0).getPw();
+		if(pw.equals(member.getPw())){
 			logger.info("MemberService LOGIN IS {} ", "SUCCESS");
-			return mem;
+			return list.get(0);
 		} else {
 			logger.info("MemberService LOGIN IS {} ", "FAIL");
-			mem.setId("NONE");
-			return mem;
+			return list.get(0);
 		}
 	}
 

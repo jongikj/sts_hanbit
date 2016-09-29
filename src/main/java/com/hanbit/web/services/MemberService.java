@@ -20,7 +20,7 @@ public interface MemberService {
 	public String regist(MemberDTO member);
 	public String update(MemberDTO member);
 	public void delete(MemberDTO member);
-	public MemberDTO findOne(Command command);
+//	public MemberDTO findOne(Command command);
 	public List<MemberDTO> findByName(String findName);
 	public int existId(String id);
 	public List<?> find(Command command);
